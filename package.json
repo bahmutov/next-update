@@ -1,0 +1,28 @@
+{
+  "name": "next-update",
+  "version": "0.0.0",
+  "description": "Tests if module's dependencies can be updated to latest version",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://bahmutov@github.com/bahmutov/next-update.git"
+  },
+  "keywords": [
+    "javascript",
+    "node",
+    "testing",
+    "npm",
+    "update",
+    "version"
+  ],
+  "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "9f23b792b550c69b3f0c7dd7eb47122d264b44c1",
+  "dependencies": {
+    "optimist": "~0.4.0"
+  }
+}
