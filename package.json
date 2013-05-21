@@ -25,6 +25,8 @@
   "gitHead": "9f23b792b550c69b3f0c7dd7eb47122d264b44c1",
   "dependencies": {
     "optimist": "~0.4.0",
-    "lodash": "~1.2.1"
+    "lodash": "~1.2.1",
+    "npm": "~1.2.21",
+    "async": "~0.2.8"
   }
 }
