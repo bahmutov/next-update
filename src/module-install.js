@@ -5,9 +5,13 @@ var q = require('q');
 var NPM_PATH = 'C:\\Program Files\\nodejs\\npm.cmd';
 
 // returns a promise
-function test() {
-    console.log('running npm test command');
-    var npm = spawn(NPM_PATH, ['test']);
+function installModule(name, version) {
+    check.verifyString(name, 'expected module name string');
+    check.verifyString(version, 'expected version string');
+
+    var moduleVersion = name + '@' + version;
+    console.log('installing', moduleVersion);
+    var npm = spawn(NPM_PATH, ['install', moduleVersion]);
     var testOutput = '';
     var testErrors = '';
 
@@ -30,8 +34,8 @@ function test() {
     var deferred = q.defer();
     npm.on('exit', function (code) {
         if (code) {
-            console.error('npm test returned', code);
-            console.error('test errors:\n' + testErrors);
+            console.error('npm returned', code);
+            console.error('errors:\n' + testErrors);
             deferred.reject({
                 code: code,
                 errors: testErrors
@@ -42,4 +46,4 @@ function test() {
     return deferred.promise;
 }
 
-module.exports = test;
+module.exports = installModule;

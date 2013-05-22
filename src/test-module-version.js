@@ -1,5 +1,7 @@
 var check = require('check-types');
 var q = require('q');
+var installModule = require('./module-install');
+var testModule = require('./test');
 
 // expect array of objects, each {name, versions (Array) }
 // returns promise
@@ -11,21 +13,6 @@ function testModulesVersions(available) {
     var checkPromises = available.map(testModuleVersions);
     var checkAllPromise = q.all(checkPromises);
     return checkAllPromise;
-    /*
-    var deferred = q.defer();
-    // async.map(available, checkModuleVersions, function (err, results) {
-        if (err) {
-            deferred.reject(err);
-        } else {
-            console.log('next update:');
-            console.log(results);
-            console.log('all done');
-            deferred.resolve(results);
-        }
-    });
-
-    return deferred.promise;
-    */
 }
 
 // test particular dependency with multiple versions
@@ -39,22 +26,6 @@ function testModuleVersions(nameVersions) {
     var checkPromises = versions.map(testModuleVersion.bind(null, name));
     var checkAllPromise = q.all(checkPromises);
     return checkAllPromise;
-
-    /*
-    async.map(versions, testModuleVersion.bind(null, name), function (err, result) {
-        if (err) {
-            console.error(err);
-            callback(err, null);
-        } else {
-            callback(null, result);
-        }
-    });
-
-    callback(null, {
-        name: name,
-        versions: nameVersions.versions
-    });
-    */
 }
 
 // checks specific module@version
@@ -63,9 +34,18 @@ function testModuleVersion(name, version) {
     check.verifyString(name, 'missing module name');
     check.verifyString(version, 'missing version string');
 
-    console.log('testing', name, '@', version);
+    var nameVersion = name + '@' + version;
+    console.log('testing', nameVersion);
+
     var deferred = q.defer();
-    deferred.resolve(true);
+    var installPromise = installModule(name, version);
+    installPromise.then(testModule).then(function () {
+        console.log(nameVersion, 'test success');
+        deferred.resolve(name, version, true);
+    }, function (error) {
+        console.error(nameVersion, 'test failed :(')
+        deferred.resolve(name, version, false);
+    });
     return deferred.promise;
 }
 
