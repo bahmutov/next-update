@@ -17,5 +17,11 @@ if (process.argv.length === 2) {
 }
 */
 
+/*
 var nextUpdate = require('./src/next-update');
 nextUpdate();
+*/
+var test = require('./src/test');
+test(function (err, result) {
+    console.log('test done', result);
+});

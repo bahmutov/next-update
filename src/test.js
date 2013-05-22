@@ -1,21 +1,28 @@
-var check = require('check-type');
+var check = require('check-types');
 var spawn = require('child_process').spawn;
 
 function test(callback) {
     check.verifyFunction(callback, 'expected callback function');
 
-    var npm = spawn('npm', ['test']);
+    console.log('running npm test command');
+    var npm = spawn('C:\\Program Files\\nodejs\\npm.cmd', ['test']);
     var testOutput = '';
     var testErrors = '';
 
     npm.stdout.setEncoding('utf-8');
+    npm.stderr.setEncoding('utf-8');
+
     npm.stdout.on('data', function (data) {
-        testOutput += data.trim();
+        testOutput += data;
     });
 
-    npm.stderr.setEncoding('utf-8');
     npm.stderr.on('data', function (data) {
-        testErrors += data.trim();
+        testErrors += data;
+    });
+
+    npm.on('error', function (err) {
+        console.error(err);
+        testErrors += err.toString();
     });
 
     npm.on('exit', function (code) {
