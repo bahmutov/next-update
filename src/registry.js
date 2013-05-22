@@ -55,6 +55,29 @@ function fetchVersions(nameVersion) {
     return deferred.promise;
 }
 
+// returns a promise with available new versions
+function nextVersions(nameVersionPairs) {
+    check.verifyArray(nameVersionPairs, 'expected array');
+
+    var deferred = q.defer();
+
+    console.log('fetching dependencies details');
+    var fetchPromises = nameVersionPairs.map(fetchVersions);
+    var fetchAllPromise = q.all(fetchPromises);
+
+    fetchAllPromise.then(function (results) {
+        var available = results.filter(function (nameNewVersions) {
+            return nameNewVersions.versions.length;
+        });
+        console.log('fetched all result', available);
+    }, function (error) {
+        deferred.reject(error);
+    })
+
+    return deferred.promise;
+}
+
 module.exports = {
-    fetchVersions: fetchVersions
+    fetchVersions: fetchVersions,
+    nextVersions: nextVersions
 };

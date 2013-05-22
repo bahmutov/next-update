@@ -17,8 +17,22 @@ if (process.argv.length === 2) {
 }
 */
 
+/*
 var nextUpdate = require('./src/next-update');
 nextUpdate();
+*/
+
+var moduleVersions = [{
+    name: 'lodash',
+    versions: ['1.0.0', '1.0.1']
+}];
+var testVersions = require('./src/test-module-version').testModulesVersions;
+var testPromise = testVersions(moduleVersions);
+testPromise.then(function (results) {
+    console.log('tested, results', results);
+}, function (error) {
+    console.error('failed', error);
+});
 
 /*
 var test = require('./src/test');
