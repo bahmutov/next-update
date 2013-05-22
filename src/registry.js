@@ -56,5 +56,5 @@ function fetchVersions(nameVersion) {
 }
 
 module.exports = {
-    allVersions: fetchVersions
+    fetchVersions: fetchVersions
 };
