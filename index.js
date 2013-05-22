@@ -17,10 +17,10 @@ if (process.argv.length === 2) {
 }
 */
 
-/*
 var nextUpdate = require('./src/next-update');
 nextUpdate();
-*/
+
+/*
 var test = require('./src/test');
 var testedPromise = test();
 
@@ -29,3 +29,4 @@ testedPromise.then(function() {
 }, function (error) {
     console.log('test failed with code', error.code);
 });
+*/
