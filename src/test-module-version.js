@@ -41,10 +41,18 @@ function testModuleVersion(name, version) {
     var installPromise = installModule(name, version);
     installPromise.then(testModule).then(function () {
         console.log(nameVersion, 'test success');
-        deferred.resolve(name, version, true);
+        deferred.resolve({
+            name: name,
+            version: version,
+            works: true
+        });
     }, function (error) {
         console.error(nameVersion, 'test failed :(')
-        deferred.resolve(name, version, false);
+        deferred.resolve({
+            name: name,
+            version: version,
+            works: false
+        });
     });
     return deferred.promise;
 }
