@@ -22,6 +22,10 @@ var nextUpdate = require('./src/next-update');
 nextUpdate();
 */
 var test = require('./src/test');
-test(function (err, result) {
-    console.log('test done', result);
+var testedPromise = test();
+
+testedPromise.then(function() {
+    console.log('test passed');
+}, function (error) {
+    console.log('test failed with code', error.code);
 });

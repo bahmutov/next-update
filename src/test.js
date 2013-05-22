@@ -1,8 +1,10 @@
 var check = require('check-types');
 var spawn = require('child_process').spawn;
+var q = require('q');
 
-function test(callback) {
-    check.verifyFunction(callback, 'expected callback function');
+// returns a promise
+function test(/*callback*/) {
+    // check.verifyFunction(callback, 'expected callback function');
 
     console.log('running npm test command');
     var npm = spawn('C:\\Program Files\\nodejs\\npm.cmd', ['test']);
@@ -25,13 +27,20 @@ function test(callback) {
         testErrors += err.toString();
     });
 
+    var deferred = q.defer();
     npm.on('exit', function (code) {
         if (code) {
             console.error('npm test returned', code);
             console.error('test errors:\n' + testErrors);
+            deferred.reject({
+                code: code,
+                errors: testErrors
+            });
         }
-        callback(null, code);
+        // callback(null, code);
+        deferred.resolve();
     });
+    return deferred.promise;
 }
 
 module.exports = test;
