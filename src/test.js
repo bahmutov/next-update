@@ -3,9 +3,7 @@ var spawn = require('child_process').spawn;
 var q = require('q');
 
 // returns a promise
-function test(/*callback*/) {
-    // check.verifyFunction(callback, 'expected callback function');
-
+function test() {
     console.log('running npm test command');
     var npm = spawn('C:\\Program Files\\nodejs\\npm.cmd', ['test']);
     var testOutput = '';
@@ -37,7 +35,6 @@ function test(/*callback*/) {
                 errors: testErrors
             });
         }
-        // callback(null, code);
         deferred.resolve();
     });
     return deferred.promise;
