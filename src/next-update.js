@@ -22,8 +22,12 @@ function nextUpdate() {
             console.error('ERROR fetching versions ' + err);
             throw err;
         }
-        console.log(results);
-        console.log('all done');
+
+        var available = results.filter(function (nameNewVersions) {
+            return nameNewVersions.versions.length;
+        });
+        console.log('newer version available');
+        console.log(available);
     });
 }
 
