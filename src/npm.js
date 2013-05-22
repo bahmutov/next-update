@@ -6,10 +6,14 @@ var NPM_URL = 'http://registry.npmjs.org/';
 
 // fetching versions inspired by
 // https://github.com/jprichardson/npm-latest
-function fetchVersions(name, callback) {
-    console.log('fetching versions for', name);
+function fetchVersions(nameVersion, callback) {
+    check.verifyArray(nameVersion, 'expected name / version array');
+    var name = nameVersion[0];
+    var version = nameVersion[1];
     check.verifyString(name, 'missing name string');
     check.verifyFunction(callback, 'missing callback function');
+
+    console.log('fetching versions for', name, 'current version', version);
 
     var url = NPM_URL + name;
     request(url, function (err, response, body) {
