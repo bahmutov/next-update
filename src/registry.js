@@ -15,7 +15,6 @@ function fetchVersions(nameVersion) {
     var version = nameVersion[1];
     check.verifyString(name, 'missing name string');
     check.verifyString(version, 'missing version string');
-    // check.verifyFunction(callback, 'missing callback function');
 
     version = version.replace('~', '');
     version = semver.clean(version);
@@ -54,7 +53,6 @@ function nextVersions(nameVersionPairs) {
 
     var deferred = q.defer();
 
-    console.log('fetching dependencies details');
     var fetchPromises = nameVersionPairs.map(fetchVersions);
     var fetchAllPromise = q.all(fetchPromises);
 
@@ -62,7 +60,8 @@ function nextVersions(nameVersionPairs) {
         var available = results.filter(function (nameNewVersions) {
             return nameNewVersions.versions.length;
         });
-        console.log('fetched all result', available);
+        // console.log('fetched all result', available);
+        deferred.resolve(available);
     }, function (error) {
         deferred.reject(error);
     })

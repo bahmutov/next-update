@@ -1,11 +1,11 @@
 var path = require('path');
 var _ = require('lodash');
 var check = require('check-types');
-var q = require('q');
 
 var nextVersions = require('./registry').nextVersions;
 var testVersions = require('./test-module-version').testModulesVersions;
 
+// returns promise
 function nextUpdate() {
     var workingDirectory = process.cwd();
     console.log('working directory', workingDirectory);
@@ -16,10 +16,10 @@ function nextUpdate() {
     _.extend(dependencies, devDependencies);
 
     var nameVersionPairs = _.pairs(dependencies);
-    console.log('all dependencies\n', nameVersionPairs);
+    console.log("module's dependencies\n", nameVersionPairs);
 
     var nextVersionsPromise = nextVersions(nameVersionPairs);
-    return nextVersionsPromise;
+    return nextVersionsPromise.then(testVersions);
 }
 
 module.exports = nextUpdate;

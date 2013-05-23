@@ -17,11 +17,19 @@ if (process.argv.length === 2) {
 }
 */
 
-/*
 var nextUpdate = require('./src/next-update');
-nextUpdate();
-*/
+var nextUpdatePromise = nextUpdate();
 
+nextUpdatePromise.then(function (results) {
+    console.log('next working updates');
+    console.dir(results);
+}, function (error) {
+    console.error('ERROR testing next working updates\n', error);
+    throw new Error(error);
+});
+
+
+/*
 var moduleVersions = [{
     name: 'lodash',
     versions: ['1.0.0', '1.0.1']
@@ -36,3 +44,4 @@ testPromise.then(function (results) {
 }, function (error) {
     console.error('failed', error);
 });
+*/
