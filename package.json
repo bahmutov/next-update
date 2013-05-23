@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "Tests if module's dependencies can be updated to latest version",
   "main": "index.js",
+  "bin": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -31,6 +32,7 @@
     "check-types": "~0.6.3",
     "request": "~2.21.0",
     "semver": "~1.1.4",
-    "q": "~0.9.4"
+    "q": "~0.9.4",
+    "cli-color": "~0.2.2"
   }
 }
