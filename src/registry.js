@@ -30,18 +30,21 @@ function fetchVersions(nameVersion) {
 
         var info = JSON.parse(body);
         if (info.error) {
-            deferred.reject('ERROR in npm info for ' + name + ' reason ' + info.reason);
-        }
-        var versions = Object.keys(info.time);
-        var newerVersions = versions.filter(function (ver) {
-            var later = semver.gt(ver, version);
-            return later;
-        });
+            var str = 'ERROR in npm info for ' + name + ' reason ' + info.reason;
+            console.error(str);
+            deferred.reject(str);
+        } else {
+            var versions = Object.keys(info.time);
+            var newerVersions = versions.filter(function (ver) {
+                var later = semver.gt(ver, version);
+                return later;
+            });
 
-        deferred.resolve({
-            name: name,
-            versions: newerVersions
-        });
+            deferred.resolve({
+                name: name,
+                versions: newerVersions
+            });
+        }
     });
 
     return deferred.promise;
