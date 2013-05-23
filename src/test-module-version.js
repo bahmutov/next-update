@@ -1,7 +1,7 @@
 var check = require('check-types');
 var q = require('q');
 var installModule = require('./module-install');
-var testModule = require('./test');
+var testModule = require('./npm-test');
 
 // expect array of objects, each {name, versions (Array) }
 // returns promise
