@@ -18,4 +18,30 @@ if (process.argv.length === 2) {
 */
 
 var nextUpdate = require('./src/next-update');
-nextUpdate();
+var nextUpdatePromise = nextUpdate();
+
+nextUpdatePromise.then(function (results) {
+    console.log('next working updates');
+    console.dir(results);
+}, function (error) {
+    console.error('ERROR testing next working updates\n', error);
+    throw new Error(error);
+});
+
+
+/*
+var moduleVersions = [{
+    name: 'lodash',
+    versions: ['1.0.0', '1.0.1']
+}, {
+    name: 'async',
+    versions: ['0.1.0', '0.2.0']
+}];
+var testVersions = require('./src/test-module-version').testModulesVersions;
+var testPromise = testVersions(moduleVersions);
+testPromise.then(function (results) {
+    console.log('tested, results', results);
+}, function (error) {
+    console.error('failed', error);
+});
+*/
