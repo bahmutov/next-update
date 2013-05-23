@@ -31,3 +31,25 @@ gt.async('fetch async later versions', function () {
         throw new Error(error);
     }).fin(gt.start);
 }, 30000);
+
+gt.module('registry nextVersions');
+
+var nextVersions = require('../registry').nextVersions;
+
+gt.async('fetch gt, async versions', function () {
+    gt.func(nextVersions);
+    gt.arity(nextVersions, 1);
+    var promise = nextVersions([['gt', '0.5.0'], ['async', '0.2.0']]);
+    gt.func(promise.then, 'return object has then method');
+    promise.then(function (results) {
+        console.dir(results);
+        /*
+        gt.object(results, 'returns an object');
+        gt.equal(results.name, 'gt', 'correct name returned');
+        gt.array(results.versions, 'has versions array');
+        gt.ok(results.versions.length > 5, 'a few versions');
+        */
+    }).fail(function (error) {
+        throw new Error(error);
+    }).fin(gt.start);
+}, 30000);
