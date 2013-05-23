@@ -6,8 +6,6 @@ var q = require('q');
 var nextVersions = require('./registry').nextVersions;
 var testVersions = require('./test-module-version').testModulesVersions;
 
-// var test = require('./test');
-
 function nextUpdate() {
     var workingDirectory = process.cwd();
     console.log('working directory', workingDirectory);

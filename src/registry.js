@@ -26,7 +26,6 @@ function fetchVersions(nameVersion) {
     request(url, function (err, response, body) {
         if (err) {
             console.error("ERROR when fetching info for package", name);
-            // throw new Error(err.message);
             deferred.reject(err.message);
         }
 
@@ -39,13 +38,7 @@ function fetchVersions(nameVersion) {
             var later = semver.gt(ver, version);
             return later;
         });
-        // console.dir(versions);
-        /*
-        callback(null, {
-            name: name,
-            versions: newerVersions
-        });
-        */
+
         deferred.resolve({
             name: name,
             versions: newerVersions

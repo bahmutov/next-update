@@ -25,6 +25,9 @@ nextUpdate();
 var moduleVersions = [{
     name: 'lodash',
     versions: ['1.0.0']
+}, {
+    name: 'async',
+    versions: ['0.1.0']
 }];
 var testVersions = require('./src/test-module-version').testModulesVersions;
 var testPromise = testVersions(moduleVersions);

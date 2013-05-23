@@ -23,36 +23,43 @@ function testModuleVersions(nameVersions) {
     check.verifyString(name, 'expected name string');
     check.verifyArray(versions, 'expected versions array');
 
-    var checkPromises = versions.map(testModuleVersion.bind(null, name));
-    var checkAllPromise = q.all(checkPromises);
+    var deferred = q.defer();
+    var checkPromises = versions.map(function (version) {
+        return testModuleVersion.bind(null, name, version);
+    });
+    var checkAllPromise = checkPromises.reduce(q.when, q());
+
     return checkAllPromise;
 }
 
 // checks specific module@version
 // returns promise
-function testModuleVersion(name, version) {
+function testModuleVersion(name, version, results) {
     check.verifyString(name, 'missing module name');
     check.verifyString(version, 'missing version string');
+    results = results || [];
+    check.verifyArray(results, 'missing previous results array');
 
     var nameVersion = name + '@' + version;
     console.log('testing', nameVersion);
+
+    var result = {
+        name: name,
+        version: version,
+        works: true
+    };
 
     var deferred = q.defer();
     var installPromise = installModule(name, version);
     installPromise.then(testModule).then(function () {
         console.log(nameVersion, 'test success');
-        deferred.resolve({
-            name: name,
-            version: version,
-            works: true
-        });
+        results.push(result);
+        deferred.resolve(results);
     }, function (error) {
-        console.error(nameVersion, 'test failed :(')
-        deferred.resolve({
-            name: name,
-            version: version,
-            works: false
-        });
+        console.error(nameVersion, 'test failed :(');
+        result.works = false;
+        results.push(result);
+        deferred.resolve(results);
     });
     return deferred.promise;
 }
