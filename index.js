@@ -7,15 +7,23 @@ var info = package.name + ' - ' + package.description + '\n' +
     '  version: ' + package.version + '\n' +
     '  author: ' + JSON.stringify(package.author);
 
-/*
 var program = require('optimist')
+    .options('revert', {
+        boolean: true,
+        description: 'install original module versions listed in package.json',
+        default: false
+    })
     .usage(info)
     .argv;
 
+/*
 if (process.argv.length === 2) {
     console.log(info);
     process.exit(0);
 }
+
+console.log(program);
+process.exit(0);
 */
 
 var nextUpdate = require('./src/next-update');
