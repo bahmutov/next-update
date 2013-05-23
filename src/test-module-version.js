@@ -10,26 +10,37 @@ function testModulesVersions(available) {
     console.log('newer version available');
     console.log(available);
 
-    var checkPromises = available.map(testModuleVersions);
-    var checkAllPromise = q.all(checkPromises);
+    var checkPromises = available.map(function (nameVersion) {
+        return testModuleVersions.bind(null, nameVersion);
+    });
+    var checkAllPromise = checkPromises.reduce(q.when, q());
     return checkAllPromise;
 }
 
 // test particular dependency with multiple versions
 // returns promise
-function testModuleVersions(nameVersions) {
+function testModuleVersions(nameVersions, results) {
     var name = nameVersions.name;
     var versions = nameVersions.versions;
     check.verifyString(name, 'expected name string');
     check.verifyArray(versions, 'expected versions array');
+    results = results || [];
+    check.verifyArray(results, 'expected results array');
 
     var deferred = q.defer();
     var checkPromises = versions.map(function (version) {
         return testModuleVersion.bind(null, name, version);
     });
     var checkAllPromise = checkPromises.reduce(q.when, q());
+    checkAllPromise.then(function (result) {
+        results.push(result);
+        deferred.resolve(results);
+    }, function (error) {
+        console.error('could not check', nameVersions, error);
+        deferred.reject(error);
+    });
 
-    return checkAllPromise;
+    return deferred.promise;
 }
 
 // checks specific module@version

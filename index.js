@@ -24,10 +24,10 @@ nextUpdate();
 
 var moduleVersions = [{
     name: 'lodash',
-    versions: ['1.0.0']
+    versions: ['1.0.0', '1.0.1']
 }, {
     name: 'async',
-    versions: ['0.1.0']
+    versions: ['0.1.0', '0.2.0']
 }];
 var testVersions = require('./src/test-module-version').testModulesVersions;
 var testPromise = testVersions(moduleVersions);
@@ -36,14 +36,3 @@ testPromise.then(function (results) {
 }, function (error) {
     console.error('failed', error);
 });
-
-/*
-var test = require('./src/test');
-var testedPromise = test();
-
-testedPromise.then(function() {
-    console.log('test passed');
-}, function (error) {
-    console.log('test failed with code', error.code);
-});
-*/
