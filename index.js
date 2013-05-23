@@ -18,7 +18,6 @@ if (process.argv.length === 2) {
 }
 */
 
-/*
 var nextUpdate = require('./src/next-update');
 var nextUpdatePromise = nextUpdate();
 
@@ -28,7 +27,6 @@ nextUpdatePromise.then(function (results) {
     console.error('ERROR testing next working updates\n', error);
     throw new Error(error);
 });
-*/
 
 /*
 var moduleVersions = [{
@@ -47,6 +45,11 @@ testPromise.then(function (results) {
 });
 */
 
+/*
 var results = [ [ { name: 'lodash', version: '1.2.1', works: true } ],
-  [ { name: 'async', version: '0.2.8', works: true } ] ];
+  [ { name: 'async', version: '0.2.6', works: true },
+  { name: 'async', version: '0.2.7', works: true },
+  { name: 'async', version: '0.2.8', works: true },
+  { name: 'async', version: '0.2.9', works: false } ] ];
 report(results);
+*/
