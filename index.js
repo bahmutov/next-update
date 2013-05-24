@@ -2,6 +2,7 @@
 
 var report = require('./src/report').report;
 var package = require('./package.json');
+var nextUpdate = require('./src/next-update');
 
 var info = package.name + ' - ' + package.description + '\n' +
     '  version: ' + package.version + '\n' +
@@ -32,16 +33,23 @@ console.log(program);
 process.exit(0);
 */
 
-var nextUpdate = require('./src/next-update');
-var nextUpdatePromise = nextUpdate(program.module);
+if (program.revert) {
+    nextUpdate.revert(program.module)
+    .then(function () {
+        console.log('done reverting');
+    }, function (error) {
+        console.error('error while reverting\n', error);
+    })
+} else {
+    var nextUpdatePromise = nextUpdate.check(program.module);
 
-nextUpdatePromise.then(function (results) {
-    report(results);
-}, function (error) {
-    console.error('ERROR testing next working updates\n', error);
-    throw new Error(error);
-});
-
+    nextUpdatePromise.then(function (results) {
+        report(results);
+    }, function (error) {
+        console.error('ERROR testing next working updates\n', error);
+        throw new Error(error);
+    });
+}
 /*
 var moduleVersions = [{
     name: 'lodash',

@@ -1,13 +1,33 @@
 var path = require('path');
 var _ = require('lodash');
 var check = require('check-types');
+var q = require('q');
 
 var registry = require('./registry');
 var nextVersions = registry.nextVersions;
+var cleanVersions = registry.cleanVersions;
 var testVersions = require('./test-module-version').testModulesVersions;
+var installModule = require('./module-install');
 
 // returns promise
 function nextUpdate(moduleName) {
+    var toCheck = getDependenciesToCheck(moduleName);
+    var nextVersionsPromise = nextVersions(toCheck);
+    return nextVersionsPromise.then(testVersions.bind(null, toCheck));
+}
+
+// returns promise
+function revert(moduleName) {
+    var toCheck = getDependenciesToCheck(moduleName);
+    var installPromises = toCheck.map(function (nameVersion) {
+        var name = nameVersion[0];
+        var version = nameVersion[1];
+        return installModule.bind(null, name, version);
+    });
+    return installPromises.reduce(q.when, q());
+}
+
+function getDependenciesToCheck(moduleName) {
     if (moduleName) {
         check.verifyString(moduleName, 'expected module name string ' +
             JSON.stringify(moduleName));
@@ -26,9 +46,7 @@ function nextUpdate(moduleName) {
         });
         console.log('only checking\n', toCheck);
     }
-
-    var nextVersionsPromise = nextVersions(toCheck);
-    return nextVersionsPromise.then(testVersions.bind(null, toCheck));
+    return toCheck;
 }
 
 function getDependencies(packageFilename) {
@@ -40,7 +58,11 @@ function getDependencies(packageFilename) {
     _.extend(dependencies, devDependencies);
 
     var nameVersionPairs = _.pairs(dependencies);
-    return nameVersionPairs;
+    var cleaned = cleanVersions(nameVersionPairs);
+    return cleaned;
 }
 
-module.exports = nextUpdate;
+module.exports = {
+    check: nextUpdate,
+    revert: revert
+};
