@@ -7,7 +7,11 @@ var nextVersions = registry.nextVersions;
 var testVersions = require('./test-module-version').testModulesVersions;
 
 // returns promise
-function nextUpdate() {
+function nextUpdate(moduleName) {
+    if (moduleName) {
+        check.verifyString(moduleName, 'expected module name string ' +
+            JSON.stringify(moduleName));
+    }
     var workingDirectory = process.cwd();
     console.log('working directory', workingDirectory);
 
@@ -15,8 +19,16 @@ function nextUpdate() {
     var nameVersionPairs = getDependencies(packageFilename);
     console.log("module's dependencies\n", nameVersionPairs);
 
-    var nextVersionsPromise = nextVersions(nameVersionPairs);
-    return nextVersionsPromise.then(testVersions.bind(null, nameVersionPairs));
+    var toCheck = nameVersionPairs;
+    if (moduleName) {
+        toCheck = nameVersionPairs.filter(function (nameVersion) {
+            return nameVersion[0] === moduleName;
+        });
+        console.log('only checking\n', toCheck);
+    }
+
+    var nextVersionsPromise = nextVersions(toCheck);
+    return nextVersionsPromise.then(testVersions.bind(null, toCheck));
 }
 
 function getDependencies(packageFilename) {

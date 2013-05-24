@@ -13,21 +13,27 @@ var program = require('optimist')
         description: 'install original module versions listed in package.json',
         default: false
     })
+    .options('module', {
+        string: true,
+        alias: 'm',
+        description: 'check only this module',
+        default: false
+    })
     .usage(info)
     .argv;
 
-/*
-if (process.argv.length === 2) {
+if (program.help) {
     console.log(info);
     process.exit(0);
 }
 
+/*
 console.log(program);
 process.exit(0);
 */
 
 var nextUpdate = require('./src/next-update');
-var nextUpdatePromise = nextUpdate();
+var nextUpdatePromise = nextUpdate(program.module);
 
 nextUpdatePromise.then(function (results) {
     report(results);
