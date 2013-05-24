@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var report = require('./src/report');
+var report = require('./src/report').report;
 var package = require('./package.json');
 
 var info = package.name + ' - ' + package.description + '\n' +

@@ -32,4 +32,24 @@ function reportModule(moduleVersions) {
     }
 }
 
-module.exports = report;
+function reportSuccess(text) {
+    if (colorAvailable) {
+        console.log(colors.greenBright(text));
+    } else {
+        console.log('PASS', text);
+    }
+}
+
+function reportFailure(text) {
+    if (colorAvailable) {
+        console.log(colors.redBright(text));
+    } else {
+        console.log('FAIL', text);
+    }
+}
+
+module.exports = {
+    report: report,
+    reportSuccess: reportSuccess,
+    reportFailure: reportFailure
+};

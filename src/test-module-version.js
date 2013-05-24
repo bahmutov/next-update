@@ -2,6 +2,8 @@ var check = require('check-types');
 var q = require('q');
 var installModule = require('./module-install');
 var testModule = require('./npm-test');
+var reportSuccess = require('./report').reportSuccess;
+var reportFailure = require('./report').reportFailure;
 
 // expect array of objects, each {name, versions (Array) }
 // returns promise
@@ -63,11 +65,11 @@ function testModuleVersion(name, version, results) {
     var deferred = q.defer();
     var installPromise = installModule(name, version);
     installPromise.then(testModule).then(function () {
-        console.log(nameVersion, 'test success');
+        reportSuccess(nameVersion + ' test success');
         results.push(result);
         deferred.resolve(results);
     }, function (error) {
-        console.error(nameVersion, 'test failed :(');
+        reportFailure(nameVersion + ' test failed :(');
         result.works = false;
         results.push(result);
         deferred.resolve(results);
