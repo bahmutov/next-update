@@ -10,9 +10,10 @@ var testVersions = require('./test-module-version').testModulesVersions;
 var installModule = require('./module-install');
 
 // returns promise
-function nextUpdate(moduleName) {
+function allUpdates(moduleName, checkLatestOnly) {
+    checkLatestOnly = !!checkLatestOnly;
     var toCheck = getDependenciesToCheck(moduleName);
-    var nextVersionsPromise = nextVersions(toCheck);
+    var nextVersionsPromise = nextVersions(toCheck, checkLatestOnly);
     return nextVersionsPromise.then(testVersions.bind(null, toCheck));
 }
 
@@ -63,6 +64,6 @@ function getDependencies(packageFilename) {
 }
 
 module.exports = {
-    check: nextUpdate,
+    checkAllUpdates: allUpdates,
     revert: revert
 };

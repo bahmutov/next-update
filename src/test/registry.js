@@ -2,6 +2,10 @@ gt.module('registry fetchVersions');
 
 var fetchVersions = require('../registry').fetchVersions;
 
+function onError(error) {
+    throw new Error(error);
+}
+
 gt.test('basic of fetch', function () {
     gt.func(fetchVersions);
     gt.arity(fetchVersions, 1);
@@ -27,9 +31,7 @@ gt.async('fetch gt later versions', function () {
         gt.equal(results.name, 'gt', 'correct name returned');
         gt.array(results.versions, 'has versions array');
         gt.ok(results.versions.length > 5, 'a few versions');
-    }).fail(function (error) {
-        throw new Error(error);
-    }).fin(gt.start);
+    }).fail(onError).fin(gt.start);
 }, 30000);
 
 gt.async('fetch async later versions', function () {
@@ -42,11 +44,8 @@ gt.async('fetch async later versions', function () {
         gt.equal(results.name, 'async', 'correct name returned');
         gt.array(results.versions, 'has versions array');
         gt.ok(results.versions.length > 5, 'a few versions');
-    }).fail(function (error) {
-        throw new Error(error);
-    }).fin(gt.start);
+    }).fail(onError).fin(gt.start);
 }, 30000);
-
 
 gt.module('registry nextVersions');
 
@@ -54,7 +53,7 @@ var nextVersions = require('../registry').nextVersions;
 
 gt.test('next versions basics', function () {
     gt.func(nextVersions);
-    gt.arity(nextVersions, 1);
+    gt.arity(nextVersions, 2);
 });
 
 gt.async('fetch gt, async versions', function () {
@@ -67,7 +66,19 @@ gt.async('fetch gt, async versions', function () {
         gt.equal(results[1].name, 'async');
         gt.equal(results[0].vesions[0], '0.5.1');
         gt.equal(results[1].vesions[0], '0.2.1');
-    }).fail(function (error) {
-        throw new Error(error);
-    }).fin(gt.start);
+    }).fail(onError).fin(gt.start);
+}, 30000);
+
+gt.async('fetch latest version', function () {
+    var onlyLatest = true;
+    var promise = nextVersions([['gt', '0.5.0'], ['async', '0.2.0']], onlyLatest);
+    gt.func(promise.then, 'return object has then method');
+    promise.then(function (results) {
+        gt.array(results);
+        gt.equal(results.length, 2, 'two modules');
+        gt.equal(results[0].name, 'gt');
+        gt.equal(results[1].name, 'async');
+        gt.equal(results[0].vesions.length, 1);
+        gt.equal(results[1].vesions.length, 1);
+    }).fail(onError).fin(gt.start);
 }, 30000);

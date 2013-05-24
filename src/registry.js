@@ -61,8 +61,9 @@ function fetchVersions(nameVersion) {
 }
 
 // returns a promise with available new versions
-function nextVersions(nameVersionPairs) {
+function nextVersions(nameVersionPairs, checkLatestOnly) {
     check.verifyArray(nameVersionPairs, 'expected array');
+    checkLatestOnly = !!checkLatestOnly;
     nameVersionPairs = cleanVersions(nameVersionPairs);
 
     var deferred = q.defer();
@@ -74,7 +75,15 @@ function nextVersions(nameVersionPairs) {
         var available = results.filter(function (nameNewVersions) {
             return nameNewVersions.versions.length;
         });
-        // console.log('fetched all result', available);
+        if (checkLatestOnly) {
+            available = available.map(function (nameVersions) {
+                if (nameVersions.versions.length > 1) {
+                    nameVersions.versions = nameVersions.versions.slice(-1);
+                }
+                return nameVersions;
+            });
+            console.log('only checking latest versions\n', available);
+        }
         deferred.resolve(available);
     }, function (error) {
         deferred.reject(error);

@@ -20,6 +20,11 @@ var program = require('optimist')
         description: 'check only this module',
         default: false
     })
+    .option('latest', {
+        boolean: true,
+        description: 'only check latest available update',
+        default: false
+    })
     .usage(info)
     .argv;
 
@@ -41,9 +46,9 @@ if (program.revert) {
         console.error('error while reverting\n', error);
     })
 } else {
-    var nextUpdatePromise = nextUpdate.check(program.module);
+    var checkAllPromise = nextUpdate.checkAllUpdates(program.module, program.latest);
 
-    nextUpdatePromise.then(function (results) {
+    checkAllPromise.then(function (results) {
         report(results);
     }, function (error) {
         console.error('ERROR testing next working updates\n', error);
