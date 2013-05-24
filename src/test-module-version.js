@@ -4,10 +4,11 @@ var installModule = require('./module-install');
 var testModule = require('./npm-test');
 var reportSuccess = require('./report').reportSuccess;
 var reportFailure = require('./report').reportFailure;
+var cleanVersions = require('./registry').cleanVersions;
 
 // expect array of objects, each {name, versions (Array) }
 // returns promise
-function testModulesVersions(available) {
+function testModulesVersions(currentNameVersions, available) {
     check.verifyArray(available);
     console.log('newer version available');
     console.log(available);

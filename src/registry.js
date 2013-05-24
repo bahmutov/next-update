@@ -6,6 +6,18 @@ var q = require('q');
 
 var NPM_URL = 'http://registry.npmjs.org/';
 
+function cleanVersions(nameVersionPairs) {
+    check.verifyArray(nameVersionPairs, 'expected array');
+    var cleaned = nameVersionPairs.map(function (nameVersion) {
+        var version = nameVersion[1];
+        version = version.replace('~', '');
+        version = semver.clean(version);
+        nameVersion[1] = version;
+        return nameVersion;
+    });
+    return cleaned;
+}
+
 // fetching versions inspired by
 // https://github.com/jprichardson/npm-latest
 // returns a promise
@@ -16,8 +28,6 @@ function fetchVersions(nameVersion) {
     check.verifyString(name, 'missing name string');
     check.verifyString(version, 'missing version string');
 
-    version = version.replace('~', '');
-    version = semver.clean(version);
     console.log('fetching versions for', name, 'current version', version);
 
     var url = NPM_URL + name;
@@ -53,6 +63,7 @@ function fetchVersions(nameVersion) {
 // returns a promise with available new versions
 function nextVersions(nameVersionPairs) {
     check.verifyArray(nameVersionPairs, 'expected array');
+    nameVersionPairs = cleanVersions(nameVersionPairs);
 
     var deferred = q.defer();
 
@@ -73,6 +84,7 @@ function nextVersions(nameVersionPairs) {
 }
 
 module.exports = {
+    cleanVersions: cleanVersions,
     fetchVersions: fetchVersions,
     nextVersions: nextVersions
 };
