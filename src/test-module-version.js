@@ -1,28 +1,41 @@
 var check = require('check-types');
 var q = require('q');
+var _ = require('lodash');
 var installModule = require('./module-install');
 var testModule = require('./npm-test');
 var reportSuccess = require('./report').reportSuccess;
 var reportFailure = require('./report').reportFailure;
 var cleanVersions = require('./registry').cleanVersions;
+check.verifyFunction(cleanVersions, 'cleanVersions should be a function');
 
 // expect array of objects, each {name, versions (Array) }
 // returns promise
 function testModulesVersions(currentNameVersions, available) {
-    check.verifyArray(available);
+    check.verifyArray(available, 'expected array of available modules');
+
+    var cleaned = cleanVersions(currentNameVersions);
+    var listed = _.zipObject(cleaned);
+
     console.log('newer version available');
     console.log(available);
 
-    var checkPromises = available.map(function (nameVersion) {
-        return testModuleVersions.bind(null, nameVersion);
+    var checkModulesFunctions = available.map(function (nameVersion) {
+        var name = nameVersion.name;
+        var currentVersion = listed[name];
+        check.verifyString(currentVersion, 'cannot find current version for ' + name +
+            ' among current dependencies ' + JSON.stringify(listed));
+
+        var installFunction = installModule.bind(null, name, currentVersion);
+        var checkModuleFunction = testModuleVersions.bind(null, nameVersion, installFunction);
+        return checkModuleFunction;
     });
-    var checkAllPromise = checkPromises.reduce(q.when, q());
+    var checkAllPromise = checkModulesFunctions.reduce(q.when, q());
     return checkAllPromise;
 }
 
 // test particular dependency with multiple versions
 // returns promise
-function testModuleVersions(nameVersions, results) {
+function testModuleVersions(nameVersions, restoreVersionFunc, results) {
     var name = nameVersions.name;
     var versions = nameVersions.versions;
     check.verifyString(name, 'expected name string');
@@ -35,7 +48,9 @@ function testModuleVersions(nameVersions, results) {
         return testModuleVersion.bind(null, name, version);
     });
     var checkAllPromise = checkPromises.reduce(q.when, q());
-    checkAllPromise.then(function (result) {
+    checkAllPromise
+    .then(restoreVersionFunc)
+    .then(function (result) {
         results.push(result);
         deferred.resolve(results);
     }, function (error) {

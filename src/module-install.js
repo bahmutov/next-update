@@ -5,12 +5,12 @@ var q = require('q');
 var NPM_PATH = 'C:\\Program Files\\nodejs\\npm.cmd';
 
 // returns a promise
-function installModule(name, version) {
+function installModule(name, version, results) {
     check.verifyString(name, 'expected module name string');
     check.verifyString(version, 'expected version string');
 
     var moduleVersion = name + '@' + version;
-    console.log('installing', moduleVersion);
+    console.log('  installing', moduleVersion);
     var npm = spawn(NPM_PATH, ['install', moduleVersion]);
     var testOutput = '';
     var testErrors = '';
@@ -40,8 +40,9 @@ function installModule(name, version) {
                 code: code,
                 errors: testErrors
             });
+        } else {
+            deferred.resolve(results);
         }
-        deferred.resolve();
     });
     return deferred.promise;
 }

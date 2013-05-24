@@ -6,7 +6,7 @@ var NPM_PATH = 'C:\\Program Files\\nodejs\\npm.cmd';
 
 // returns a promise
 function test() {
-    console.log('running npm test command');
+    console.log('  npm test');
     var npm = spawn(NPM_PATH, ['test']);
     var testOutput = '';
     var testErrors = '';
