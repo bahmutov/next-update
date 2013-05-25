@@ -14,8 +14,7 @@ Make sure the target module has unit / integration tests,
 and the tests can be run using `npm test` command.
 
 Run `next-update` from the command line in the same folder as
-the target module you are trying to check latest versions for.
-In general this tool does the following:
+the target module. In general this tool does the following:
 
 1. Reads the module's dependencies (including dev) and their versions
 2. Queries npm registry to see if there are newer versions
