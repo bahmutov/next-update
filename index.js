@@ -15,6 +15,12 @@ var program = optimist
         description: 'install original module versions listed in package.json',
         default: false
     })
+    .options('available', {
+        boolean: true,
+        alias: 'a',
+        description: 'only query available later versions, do not test them',
+        default: false
+    })
     .options('module', {
         string: true,
         alias: 'm',
@@ -45,12 +51,9 @@ if (program.help) {
     process.exit(0);
 }
 
-/*
-console.log(program);
-process.exit(0);
-*/
-
-if (program.revert) {
+if (program.available) {
+    nextUpdate.available(program.module);
+} else if (program.revert) {
     nextUpdate.revert(program.module)
     .then(function () {
         console.log('done reverting');

@@ -9,6 +9,17 @@ var cleanVersions = registry.cleanVersions;
 var testVersions = require('./test-module-version').testModulesVersions;
 var installModule = require('./module-install');
 
+function available(moduleName) {
+    var toCheck = getDependenciesToCheck(moduleName);
+    var nextVersionsPromise = nextVersions(toCheck);
+    nextVersionsPromise.then(function (info) {
+        console.log('available versions');
+        console.dir(info);
+    }, function (error) {
+        console.error('Could not fetch available modules\n', error);
+    });
+}
+
 // returns promise
 function allUpdates(moduleName, checkLatestOnly) {
     checkLatestOnly = !!checkLatestOnly;
@@ -71,5 +82,6 @@ function getDependencies(packageFilename) {
 
 module.exports = {
     checkAllUpdates: allUpdates,
-    revert: revert
+    revert: revert,
+    available: available
 };
