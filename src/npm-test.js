@@ -6,7 +6,7 @@ var q = require('q');
 var NPM_PATH = (function () {
     var os = require('os');
     var type = os.type();
-    return /windows/gi.test(type) ? 'npm.cmd' : 'npm';
+    return (/windows/gi).test(type) ? 'npm.cmd' : 'npm';
 }());
 
 // returns a promise

@@ -24,7 +24,7 @@ function reportModule(moduleVersions, useColors) {
     if (useColors) {
         var colorVersions = moduleVersions.map(function (info, index) {
             return (info.works ? colors.greenBright : colors.redBright)(info.version);
-        })
+        });
         var str = colorVersions.join(', ');
         console.log(name + ' ' + str);
     } else {

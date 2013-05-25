@@ -50,7 +50,7 @@ function getDependenciesToCheck(moduleNames) {
     var workingDirectory = process.cwd();
     console.log('working directory', workingDirectory);
 
-    var packageFilename = path.join(workingDirectory, 'package.json')
+    var packageFilename = path.join(workingDirectory, 'package.json');
     var nameVersionPairs = getDependencies(packageFilename);
     console.log("module's dependencies\n", nameVersionPairs);
 

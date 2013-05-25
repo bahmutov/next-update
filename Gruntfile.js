@@ -8,24 +8,10 @@ module.exports = function(grunt) {
     datetime: Date.now(),
     jshint: {
       options: {
-        curly: true,
-        eqeqeq: true,
-        immed: true,
-        latedef: true,
-        newcap: true,
-        noarg: true,
-        sub: true,
-        undef: true,
-        eqnull: true,
-        browser: true,
-        globals: {
-          jQuery: true,
-          $: true,
-          console: true
-        }
+        jshintrc: '.jshintrc',
       },
       'default': {
-        src: [ 'index.js' ] // , 'src/*.js'
+        src: [ 'index.js', 'src/*.js' ]
       }
     }
   });

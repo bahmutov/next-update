@@ -87,7 +87,7 @@ function nextVersions(nameVersionPairs, checkLatestOnly) {
         deferred.resolve(available);
     }, function (error) {
         deferred.reject(error);
-    })
+    });
 
     return deferred.promise;
 }

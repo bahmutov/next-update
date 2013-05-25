@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
 var report = require('./src/report').report;
-var package = require('./package.json');
+var pkg = require('./package.json');
 var nextUpdate = require('./src/next-update');
 
-var info = package.name + ' - ' + package.description + '\n' +
-    '  version: ' + package.version + '\n' +
-    '  author: ' + JSON.stringify(package.author);
+var info = pkg.name + ' - ' + pkg.description + '\n' +
+    '  version: ' + pkg.version + '\n' +
+    '  author: ' + JSON.stringify(pkg.author);
 
 var optimist = require('optimist');
 var program = optimist
@@ -65,7 +65,7 @@ if (program.available) {
         console.log('done reverting');
     }, function (error) {
         console.error('error while reverting\n', error);
-    })
+    });
 } else {
     var checkAllPromise = nextUpdate.checkAllUpdates(program.module, program.latest);
 
