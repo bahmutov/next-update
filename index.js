@@ -32,6 +32,12 @@ var program = optimist
         description: 'only check latest available update',
         default: false
     })
+    .option('color', {
+        boolean: true,
+        alias: 'c',
+        description: 'color terminal output (if available)',
+        default: true
+    })
     .option('version', {
         boolean: true,
         alias: 'v',
@@ -64,7 +70,7 @@ if (program.available) {
     var checkAllPromise = nextUpdate.checkAllUpdates(program.module, program.latest);
 
     checkAllPromise.then(function (results) {
-        report(results);
+        report(results, program.color);
     }, function (error) {
         console.error('ERROR testing next working updates\n', error);
         throw new Error(error);
