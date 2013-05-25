@@ -2,11 +2,17 @@ var check = require('check-types');
 var spawn = require('child_process').spawn;
 var q = require('q');
 
-var NPM_PATH = 'C:\\Program Files\\nodejs\\npm.cmd';
+// hack to find npm bin script reliably
+var NPM_PATH = (function () {
+    var os = require('os');
+    var type = os.type();
+    return /windows/gi.test(type) ? 'npm.cmd' : 'npm';
+}());
 
 // returns a promise
 function test() {
     console.log('  npm test');
+    check.verifyString(NPM_PATH, 'missing npm path string');
     var npm = spawn(NPM_PATH, ['test']);
     var testOutput = '';
     var testErrors = '';
