@@ -8,7 +8,8 @@ var info = package.name + ' - ' + package.description + '\n' +
     '  version: ' + package.version + '\n' +
     '  author: ' + JSON.stringify(package.author);
 
-var program = require('optimist')
+var optimist = require('optimist');
+var program = optimist
     .options('revert', {
         boolean: true,
         description: 'install original module versions listed in package.json',
@@ -17,7 +18,7 @@ var program = require('optimist')
     .options('module', {
         string: true,
         alias: 'm',
-        description: 'check only this module',
+        description: 'checks specific module, could be used multiple times',
         default: false
     })
     .option('latest', {
@@ -25,11 +26,22 @@ var program = require('optimist')
         description: 'only check latest available update',
         default: false
     })
+    .option('version', {
+        boolean: true,
+        alias: 'v',
+        description: 'show version and exit',
+        default: false
+    })
     .usage(info)
     .argv;
 
-if (program.help) {
+if (program.version) {
     console.log(info);
+    process.exit(0);
+}
+
+if (program.help) {
+    optimist.showHelp();
     process.exit(0);
 }
 
