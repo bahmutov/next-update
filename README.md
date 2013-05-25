@@ -3,6 +3,32 @@
 Tests if module's dependencies can be updated to newer / latest versions
 without breaking the tests.
 
+
+## Example
+
+Image your nodejs module *foo* has the following dependencies listed in *package.json*
+
+    "dependencies": {
+        "lodash": "~1.2.0",
+        "async": "~0.2.5"
+    }
+
+You would like to update lodash and async to latest versions, but not sure if
+this would break anything. With *next-update* it is easy: run command `next-update`
+in the folder with module *foo*. Here is the example output:
+
+    next updates:
+    lodash
+        1.2.1 PASS
+    async
+        0.2.6 PASS
+        0.2.7 PASS
+        0.2.8 PASS
+
+
+Both *package.json* file and *node_modules* folder are left unchanged,
+and now you know that you can safely upgrade both libraries to later versions.
+
 ## Install
 
     npm install -g next-update  // installs module globally
