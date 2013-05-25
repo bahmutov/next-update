@@ -35,16 +35,16 @@ function reportModule(moduleVersions, useColors) {
     }
 }
 
-function reportSuccess(text) {
-    if (colorAvailable) {
+function reportSuccess(text, useColors) {
+    if (colorAvailable && useColors) {
         console.log(colors.greenBright(text));
     } else {
         console.log('PASS', text);
     }
 }
 
-function reportFailure(text) {
-    if (colorAvailable) {
+function reportFailure(text, useColors) {
+    if (colorAvailable && useColors) {
         console.log(colors.redBright(text));
     } else {
         console.log('FAIL', text);

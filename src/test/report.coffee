@@ -4,12 +4,12 @@ report = require '../report'
 
 gt.test 'reportSuccess', ->
     rs = report.reportSuccess
-    gt.arity rs, 1
+    gt.arity rs, 2
     rs 'sample values'
 
 gt.test 'reportFailure', ->
     rf = report.reportFailure
-    gt.arity rf, 1
+    gt.arity rf, 2
     rf 'sample values'
 
 gt.test 'report basics', ->
