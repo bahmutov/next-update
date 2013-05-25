@@ -28,10 +28,13 @@ function revert(moduleName) {
     return installPromises.reduce(q.when, q());
 }
 
-function getDependenciesToCheck(moduleName) {
-    if (moduleName) {
-        check.verifyString(moduleName, 'expected module name string ' +
-            JSON.stringify(moduleName));
+function getDependenciesToCheck(moduleNames) {
+    if (moduleNames) {
+        if (check.isString(moduleNames)) {
+            moduleNames = [moduleNames];
+        }
+        check.verifyArray(moduleNames, 'expected module names ' +
+            JSON.stringify(moduleNames));
     }
     var workingDirectory = process.cwd();
     console.log('working directory', workingDirectory);
@@ -41,9 +44,12 @@ function getDependenciesToCheck(moduleName) {
     console.log("module's dependencies\n", nameVersionPairs);
 
     var toCheck = nameVersionPairs;
-    if (moduleName) {
+    if (moduleNames) {
         toCheck = nameVersionPairs.filter(function (nameVersion) {
-            return nameVersion[0] === moduleName;
+            var name = nameVersion[0];
+            return moduleNames.some(function (aModule) {
+                return name === aModule;
+            });
         });
         console.log('only checking\n', toCheck);
     }
