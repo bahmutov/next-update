@@ -26,7 +26,7 @@ the target module. In general this tool does the following:
 
 ### 3<sup>rd</sup> party libraries
 
-* [lo-dash](https://github.com/bestiejs/lodash) is used throught the code to deal with collections. This library was the inspiration for this project, because it has an excellent API documentation.
+* [lo-dash](https://github.com/bestiejs/lodash) is used throught the code to deal with collections.
 * [check-types](https://github.com/philbooth/check-types.js) is used to verify arguments through out the code.
 * [optimist](https://github.com/substack/node-optimist) is used to process command line arguments.
 * [request](https://npmjs.org/package/request) is used to fetch NPM registry information.
