@@ -6,7 +6,7 @@ without breaking the tests.
 
 ## Example
 
-Image your nodejs module *foo* has the following dependencies listed in *package.json*
+Imagine your nodejs module *foo* has the following dependencies listed in *package.json*
 
     "dependencies": {
         "lodash": "~1.2.0",
