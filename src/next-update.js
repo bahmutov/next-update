@@ -52,7 +52,7 @@ function getDependenciesToCheck(moduleNames) {
 
     var packageFilename = path.join(workingDirectory, 'package.json');
     var nameVersionPairs = getDependencies(packageFilename);
-    console.log("module's dependencies\n", nameVersionPairs);
+    console.log('module\'s dependencies\n', nameVersionPairs);
 
     var toCheck = nameVersionPairs;
     if (moduleNames) {

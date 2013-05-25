@@ -1,6 +1,5 @@
 var request = require('request');
 var check = require('check-types');
-var _ = require('lodash');
 var semver = require('semver');
 var q = require('q');
 
@@ -34,7 +33,7 @@ function fetchVersions(nameVersion) {
     var deferred = q.defer();
     request(url, function (err, response, body) {
         if (err) {
-            console.error("ERROR when fetching info for package", name);
+            console.error('ERROR when fetching info for package', name);
             deferred.reject(err.message);
         }
 

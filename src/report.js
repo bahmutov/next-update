@@ -1,6 +1,5 @@
 var colors = require('cli-color');
 var check = require('check-types');
-var _ = require('lodash');
 
 var colorAvailable = process.stdout.isTTY;
 
@@ -22,7 +21,7 @@ function reportModule(moduleVersions, useColors) {
     var name = moduleVersions[0].name;
     check.verifyString(name, 'missing module name from ' + JSON.stringify(moduleVersions));
     if (useColors) {
-        var colorVersions = moduleVersions.map(function (info, index) {
+        var colorVersions = moduleVersions.map(function (info) {
             return (info.works ? colors.greenBright : colors.redBright)(info.version);
         });
         var str = colorVersions.join(', ');

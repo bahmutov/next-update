@@ -86,6 +86,7 @@ function testModuleVersion(name, version, results) {
         deferred.resolve(results);
     }, function (error) {
         reportFailure(nameVersion + ' test failed :(');
+        console.error(error);
         result.works = false;
         results.push(result);
         deferred.resolve(results);
