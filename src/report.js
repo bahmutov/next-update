@@ -4,21 +4,24 @@ var _ = require('lodash');
 
 var colorAvailable = process.stdout.isTTY;
 
-function report(updates) {
+function report(updates, useColors) {
     check.verifyArray(updates, 'expected array of updates');
 
     console.log('next updates:');
-    updates.forEach(reportModule);
+    updates.forEach(function (moduleVersions) {
+        reportModule(moduleVersions, useColors);
+    });
 }
 
-function reportModule(moduleVersions) {
+function reportModule(moduleVersions, useColors) {
     check.verifyArray(moduleVersions, 'expected module / versions array');
     if (!moduleVersions.length) {
         return;
     }
+    useColors = !!useColors && colorAvailable;
     var name = moduleVersions[0].name;
     check.verifyString(name, 'missing module name from ' + JSON.stringify(moduleVersions));
-    if (colorAvailable) {
+    if (useColors) {
         var colorVersions = moduleVersions.map(function (info, index) {
             return (info.works ? colors.greenBright : colors.redBright)(info.version);
         })
