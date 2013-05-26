@@ -3,7 +3,6 @@
 Tests if module's dependencies can be updated to newer / latest versions
 without breaking the tests.
 
-
 ## Example
 
 Imagine your nodejs module *foo* has the following dependencies listed in *package.json*
@@ -28,6 +27,12 @@ in the folder with module *foo*. Here is the example output:
 
 Both *package.json* file and *node_modules* folder are left unchanged,
 and now you know that you can safely upgrade both libraries to later versions.
+
+This might not appear like a big deal for a single module that is using
+popular 3rd party libraries with stable apis only. *next-update* is most useful
+in the larger development context, where multiple modules are being developed
+side by side, often by different teams. In such situations, checking if an upgrade
+is possible could be part of the continuous build pipeline.
 
 ## Install
 
