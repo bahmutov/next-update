@@ -1,6 +1,8 @@
 gt.module('registry fetchVersions');
 
-var fetchVersions = require('../registry').fetchVersions;
+var registry = require('../registry');
+var fetchVersions = registry.fetchVersions;
+var cleanVersions = registry.cleanVersions;
 
 function onError(error) {
     throw new Error(error);
@@ -82,3 +84,34 @@ gt.async('fetch latest version', function () {
         gt.equal(results[1].versions.length, 1);
     }).fail(onError).fin(gt.start);
 }, 30000);
+
+gt.async('fetch latest version two digits', function () {
+    var onlyLatest = true;
+    var promise = nextVersions([['mocha', '~1.8']], onlyLatest);
+    gt.func(promise.then, 'return object has then method');
+    promise.then(function (results) {
+        gt.array(results);
+        gt.equal(results.length, 1, 'single module');
+        gt.equal(results[0].name, 'mocha');
+        gt.equal(results[0].versions.length, 1);
+    }).fail(onError).fin(gt.start);
+}, 30000);
+
+gt.test('clean versions, 2 digits', function () {
+    gt.arity(cleanVersions, 1);
+    var cleaned = cleanVersions([['mocha', '~1.8']]);
+    gt.array(cleaned);
+    gt.equal(cleaned.length, 1);
+    gt.equal(cleaned[0][0], 'mocha', 'correct name');
+    gt.string(cleaned[0][1], 'version is a string');
+});
+
+gt.test('clean two versions', function () {
+    var input = [['gt', '0.5.0'], ['lodash', '1.0.0']];
+    var cleaned = cleanVersions(input);
+    gt.array(cleaned);
+    console.dir(cleaned);
+    gt.equal(cleaned.length, 2);
+    gt.string(cleaned[0][1], 'first module has string version');
+    gt.string(cleaned[1][1], 'second module has string version');
+})

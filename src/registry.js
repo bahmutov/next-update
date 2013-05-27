@@ -10,7 +10,12 @@ function cleanVersions(nameVersionPairs) {
     var cleaned = nameVersionPairs.map(function (nameVersion) {
         var version = nameVersion[1];
         version = version.replace('~', '');
+        var twoDigitVersion = /^\d+\.\d+$/;
+        if (twoDigitVersion.test(version)) {
+            version += '.0';
+        }
         version = semver.clean(version);
+        console.assert(version, 'could not clean version ' + nameVersion[1]);
         nameVersion[1] = version;
         return nameVersion;
     });
