@@ -3,6 +3,11 @@
 Tests if module's dependencies can be updated to newer / latest versions
 without breaking the tests.
 
+    next-update --available
+    // shows new versions available without installing anything
+    next-update --latest
+    // checks if latest versions of 3rd party break any unit tests
+
 ## Example
 
 Imagine your nodejs module *foo* has the following dependencies listed in *package.json*
@@ -73,3 +78,5 @@ Using promises allowed to cut the program's code and the complexity to very mana
 Author: Gleb Bahmutov &copy; 2013
 
 License: MIT - do anything with the code, but don't blame me if it does not work.
+
+Support: if you find any problems with the module, email me directly.
