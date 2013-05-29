@@ -66,7 +66,7 @@ the target module. In general this tool does the following:
 * A good workflow using *next-update*
     * see available new versions `next-update --available`
     * check latest version of each module using `next-update --latest`
-    * install new versions of the desired modules using standard `npm i dependency@version`
+    * install new versions of the desired modules using standard `npm i dependency@version --save`
 * You can use custom test command, for example `next-update -t "grunt test"`
     * `npm test` is used by default.
 
