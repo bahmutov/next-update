@@ -2,18 +2,21 @@ var check = require('check-types');
 var q = require('q');
 var _ = require('lodash');
 var installModule = require('./module-install');
-var testModule = require('./npm-test');
 var reportSuccess = require('./report').reportSuccess;
 var reportFailure = require('./report').reportFailure;
 var cleanVersions = require('./registry').cleanVersions;
 check.verifyFunction(cleanVersions, 'cleanVersions should be a function');
 
+var npmTest = require('./npm-test').test;
+var execTest = require('./exec-test');
+
 // expect array of objects, each {name, versions (Array) }
 // returns promise
-function testModulesVersions(currentNameVersions, available) {
+function testModulesVersions(options, available) {
+    check.verifyObject(options, 'missing options');
     check.verifyArray(available, 'expected array of available modules');
 
-    var cleaned = cleanVersions(currentNameVersions);
+    var cleaned = cleanVersions(options.modules);
     var listed = _.zipObject(cleaned);
 
     console.log('newer version available');
@@ -25,8 +28,12 @@ function testModulesVersions(currentNameVersions, available) {
         check.verifyString(currentVersion, 'cannot find current version for ' + name +
             ' among current dependencies ' + JSON.stringify(listed));
 
-        var installFunction = installModule.bind(null, name, currentVersion);
-        var checkModuleFunction = testModuleVersions.bind(null, nameVersion, installFunction);
+        var revertFunction = installModule.bind(null, name, currentVersion);
+        var checkModuleFunction = testModuleVersions.bind(null, {
+            moduleVersions: nameVersion,
+            revertFunction: revertFunction,
+            command: options.command
+        });
         return checkModuleFunction;
     });
     var checkAllPromise = checkModulesFunctions.reduce(q.when, q());
@@ -35,7 +42,11 @@ function testModulesVersions(currentNameVersions, available) {
 
 // test particular dependency with multiple versions
 // returns promise
-function testModuleVersions(nameVersions, restoreVersionFunc, results) {
+function testModuleVersions(options, results) {
+    check.verifyObject(options, 'missing options');
+    var nameVersions = options.moduleVersions;
+    var restoreVersionFunc = options.revertFunction;
+
     var name = nameVersions.name;
     var versions = nameVersions.versions;
     check.verifyString(name, 'expected name string');
@@ -45,7 +56,11 @@ function testModuleVersions(nameVersions, restoreVersionFunc, results) {
 
     var deferred = q.defer();
     var checkPromises = versions.map(function (version) {
-        return testModuleVersion.bind(null, name, version);
+        return testModuleVersion.bind(null, {
+            name: name,
+            version: version,
+            command: options.command
+        });
     });
     var checkAllPromise = checkPromises.reduce(q.when, q());
     checkAllPromise
@@ -63,24 +78,35 @@ function testModuleVersions(nameVersions, restoreVersionFunc, results) {
 
 // checks specific module@version
 // returns promise
-function testModuleVersion(name, version, results) {
-    check.verifyString(name, 'missing module name');
-    check.verifyString(version, 'missing version string');
+function testModuleVersion(options, results) {
+    check.verifyObject(options, 'missing test module options');
+    check.verifyString(options.name, 'missing module name');
+    check.verifyString(options.version, 'missing version string');
+
+    if (options.command) {
+        check.verifyString(options.command, 'expected command string');
+    }
+
     results = results || [];
     check.verifyArray(results, 'missing previous results array');
 
-    var nameVersion = name + '@' + version;
+    var nameVersion = options.name + '@' + options.version;
     console.log('testing', nameVersion);
 
     var result = {
-        name: name,
-        version: version,
+        name: options.name,
+        version: options.version,
         works: true
     };
 
+    var testFunction = npmTest;
+    if (options.command) {
+        testFunction = execTest.bind(null, options.command);
+    }
+
     var deferred = q.defer();
-    var installPromise = installModule(name, version);
-    installPromise.then(testModule).then(function () {
+    var installPromise = installModule(options.name, options.version);
+    installPromise.then(testFunction).then(function () {
         reportSuccess(nameVersion + ' test success');
         results.push(result);
         deferred.resolve(results);

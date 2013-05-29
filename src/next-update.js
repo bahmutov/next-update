@@ -21,11 +21,18 @@ function available(moduleName) {
 }
 
 // returns promise
-function allUpdates(moduleName, checkLatestOnly) {
+function allUpdates(moduleName, checkLatestOnly, checkCommand) {
     checkLatestOnly = !!checkLatestOnly;
+    if (checkCommand) {
+        check.verifyString(checkCommand, 'expected string test command');
+    }
     var toCheck = getDependenciesToCheck(moduleName);
     var nextVersionsPromise = nextVersions(toCheck, checkLatestOnly);
-    return nextVersionsPromise.then(testVersions.bind(null, toCheck));
+    var testVersionsBound = testVersions.bind(null, {
+        modules: toCheck,
+        command: checkCommand
+    });
+    return nextVersionsPromise.then(testVersionsBound);
 }
 
 // returns promise
