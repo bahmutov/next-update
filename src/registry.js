@@ -54,7 +54,16 @@ function fetchVersions(nameVersion) {
                 deferred.reject(str);
                 return;
             }
-            var versions = Object.keys(info.time);
+            var versions;
+            if (info.time) {
+                versions = Object.keys(info.time);
+            } else if (info.versions) {
+                versions = Object.keys(info.versions);
+            }
+            if (!Array.isArray(versions)) {
+                throw new Error('Could not get versions for ' + name + ' from ' + info);
+            }
+
             var newerVersions = versions.filter(function (ver) {
                 var later = semver.gt(ver, version);
                 return later;
