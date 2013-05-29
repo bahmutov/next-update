@@ -9,8 +9,6 @@ function test(testCommand) {
     var testParts = testCommand.split(' ');
     console.assert(testParts.length > 0, 'missing any test words in ' + testCommand)
     var testExecutable = testParts.shift();
-    console.log('testExecutable', testExecutable);
-    console.dir(testParts);
     var testProcess = spawn(testExecutable, testParts);
     var testOutput = '';
     var testErrors = '';
@@ -28,6 +26,7 @@ function test(testCommand) {
 
     var deferred = q.defer();
     testProcess.on('error', function (err) {
+        console.error('test command: "' + testCommand + '"');
         console.error(err);
         testErrors += err.toString();
         deferred.reject({

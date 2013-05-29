@@ -28,7 +28,10 @@ function allUpdates(moduleName, checkLatestOnly, checkCommand) {
     }
     var toCheck = getDependenciesToCheck(moduleName);
     var nextVersionsPromise = nextVersions(toCheck, checkLatestOnly);
-    var testVersionsBound = testVersions.bind(null, toCheck);
+    var testVersionsBound = testVersions.bind(null, {
+        modules: toCheck,
+        command: checkCommand
+    });
     return nextVersionsPromise.then(testVersionsBound);
 }
 
