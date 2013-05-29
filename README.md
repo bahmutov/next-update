@@ -60,6 +60,14 @@ the target module. In general this tool does the following:
     3. Installs back the current version.
 4. Reports results
 
+### Misc
+
+* When comparing versions, keywords *latest* and *** are both assumed to equal to "0.0.0".
+* A good workflow using *next-update*
+    * see available new versions `next-update --available`
+    * check latest version of each module using `next-update --latest`
+    * install new versions of the desired modules using standard `npm i dependency@version`
+
 ### 3<sup>rd</sup> party libraries
 
 * [lo-dash](https://github.com/bestiejs/lodash) is used throught the code to deal with collections.

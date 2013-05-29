@@ -110,8 +110,24 @@ gt.test('clean two versions', function () {
     var input = [['gt', '0.5.0'], ['lodash', '1.0.0']];
     var cleaned = cleanVersions(input);
     gt.array(cleaned);
-    console.dir(cleaned);
+    // console.dir(cleaned);
     gt.equal(cleaned.length, 2);
     gt.string(cleaned[0][1], 'first module has string version');
     gt.string(cleaned[1][1], 'second module has string version');
-})
+});
+
+gt.test('clean latest versions', function () {
+    var input = [['gt', 'latest']];
+    var cleaned = cleanVersions(input);
+    gt.array(cleaned, 'got back an array');
+    gt.equal(cleaned.length, 1);
+    gt.string(cleaned[0][1], 'module has string version');
+});
+
+gt.test('clean version *', function () {
+    var input = [['gt', '*']];
+    var cleaned = cleanVersions(input);
+    gt.array(cleaned);
+    gt.equal(cleaned.length, 1);
+    gt.string(cleaned[0][1], 'module has string version');
+});

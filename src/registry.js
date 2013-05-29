@@ -14,6 +14,9 @@ function cleanVersions(nameVersionPairs) {
         if (twoDigitVersion.test(version)) {
             version += '.0';
         }
+        if (version === 'latest' || version === '*') {
+            version = '0.0.0';
+        }
         version = semver.clean(version);
         console.assert(version, 'could not clean version ' + nameVersion[1]);
         nameVersion[1] = version;
