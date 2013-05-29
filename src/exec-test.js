@@ -7,7 +7,7 @@ function test(testCommand) {
     check.verifyString(testCommand, 'missing test command string');
 
     var testParts = testCommand.split(' ');
-    console.assert(testParts.length > 0, 'missing any test words in ' + testCommand)
+    console.assert(testParts.length > 0, 'missing any test words in ' + testCommand);
     var testExecutable = testParts.shift();
     var testProcess = spawn(testExecutable, testParts);
     var testOutput = '';
