@@ -8,7 +8,10 @@ function test(testCommand) {
 
     var testParts = testCommand.split(' ');
     console.assert(testParts.length > 0, 'missing any test words in ' + testCommand)
-    var testProcess = spawn(testParts, testParts.shift());
+    var testExecutable = testParts.shift();
+    console.log('testExecutable', testExecutable);
+    console.dir(testParts);
+    var testProcess = spawn(testExecutable, testParts);
     var testOutput = '';
     var testErrors = '';
 
@@ -23,12 +26,16 @@ function test(testCommand) {
         testErrors += data;
     });
 
+    var deferred = q.defer();
     testProcess.on('error', function (err) {
         console.error(err);
         testErrors += err.toString();
+        deferred.reject({
+            code: err.code,
+            errors: testErrors
+        });
     });
 
-    var deferred = q.defer();
     testProcess.on('exit', function (code) {
         if (code) {
             console.error('testProcess test returned', code);

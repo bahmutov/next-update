@@ -7,7 +7,7 @@ var reportFailure = require('./report').reportFailure;
 var cleanVersions = require('./registry').cleanVersions;
 check.verifyFunction(cleanVersions, 'cleanVersions should be a function');
 
-var testModule = require('./npm-test');
+var testModule = require('./npm-test').test;
 
 // expect array of objects, each {name, versions (Array) }
 // returns promise

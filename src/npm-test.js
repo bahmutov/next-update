@@ -3,11 +3,13 @@ var spawn = require('child_process').spawn;
 var q = require('q');
 
 // hack to find npm bin script reliably
-var NPM_PATH = (function () {
+function findNpmPath() {
     var os = require('os');
     var type = os.type();
     return (/windows/gi).test(type) ? 'npm.cmd' : 'npm';
-}());
+}
+
+var NPM_PATH = findNpmPath();
 
 // returns a promise
 function test() {
@@ -48,4 +50,7 @@ function test() {
     return deferred.promise;
 }
 
-module.exports = test;
+module.exports = {
+    test: test,
+    npmPath: findNpmPath()
+};
