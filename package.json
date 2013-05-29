@@ -1,6 +1,6 @@
 {
   "name": "next-update",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Tests if module's dependencies can be updated to latest version",
   "main": "index.js",
   "bin": "index.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://bahmutov@github.com/bahmutov/next-update.git"
+    "url": "https://github.com/bahmutov/next-update.git"
   },
   "keywords": [
     "javascript",
