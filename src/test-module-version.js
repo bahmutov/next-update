@@ -2,11 +2,12 @@ var check = require('check-types');
 var q = require('q');
 var _ = require('lodash');
 var installModule = require('./module-install');
-var testModule = require('./npm-test');
 var reportSuccess = require('./report').reportSuccess;
 var reportFailure = require('./report').reportFailure;
 var cleanVersions = require('./registry').cleanVersions;
 check.verifyFunction(cleanVersions, 'cleanVersions should be a function');
+
+var testModule = require('./npm-test');
 
 // expect array of objects, each {name, versions (Array) }
 // returns promise
