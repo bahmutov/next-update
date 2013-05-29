@@ -43,14 +43,17 @@ function fetchVersions(nameVersion) {
         if (err) {
             console.error('ERROR when fetching info for package', name);
             deferred.reject(err.message);
+            return;
         }
 
-        var info = JSON.parse(body);
-        if (info.error) {
-            var str = 'ERROR in npm info for ' + name + ' reason ' + info.reason;
-            console.error(str);
-            deferred.reject(str);
-        } else {
+        try {
+            var info = JSON.parse(body);
+            if (info.error) {
+                var str = 'ERROR in npm info for ' + name + ' reason ' + info.reason;
+                console.error(str);
+                deferred.reject(str);
+                return;
+            }
             var versions = Object.keys(info.time);
             var newerVersions = versions.filter(function (ver) {
                 var later = semver.gt(ver, version);
@@ -61,6 +64,11 @@ function fetchVersions(nameVersion) {
                 name: name,
                 versions: newerVersions
             });
+            return;
+        } catch (err) {
+            console.error(err);
+            deferred.reject('Could not fetch versions for ' + name);
+            return;
         }
     });
 
