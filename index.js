@@ -44,6 +44,11 @@ var program = optimist
         description: 'show version and exit',
         default: false
     })
+    .option('test', {
+        string: true,
+        alias: 't',
+        description: 'custom test command to run instead of npm test'
+    })
     .usage(info)
     .argv;
 
@@ -67,7 +72,8 @@ if (program.available) {
         console.error('error while reverting\n', error);
     });
 } else {
-    var checkAllPromise = nextUpdate.checkAllUpdates(program.module, program.latest);
+    var checkAllPromise = nextUpdate.checkAllUpdates(program.module,
+        program.latest, program.test);
 
     checkAllPromise.then(function (results) {
         report(results, program.color);
@@ -76,28 +82,3 @@ if (program.available) {
         throw new Error(error);
     });
 }
-/*
-var moduleVersions = [{
-    name: 'lodash',
-    versions: ['1.0.0', '1.0.1']
-}, {
-    name: 'async',
-    versions: ['0.1.0', '0.2.0']
-}];
-var testVersions = require('./src/test-module-version').testModulesVersions;
-var testPromise = testVersions(moduleVersions);
-testPromise.then(function (results) {
-    console.log('tested, results', results);
-}, function (error) {
-    console.error('failed', error);
-});
-*/
-
-/*
-var results = [ [ { name: 'lodash', version: '1.2.1', works: true } ],
-  [ { name: 'async', version: '0.2.6', works: true },
-  { name: 'async', version: '0.2.7', works: true },
-  { name: 'async', version: '0.2.8', works: true },
-  { name: 'async', version: '0.2.9', works: false } ] ];
-report(results);
-*/

@@ -25,8 +25,8 @@ function testModulesVersions(currentNameVersions, available) {
         check.verifyString(currentVersion, 'cannot find current version for ' + name +
             ' among current dependencies ' + JSON.stringify(listed));
 
-        var installFunction = installModule.bind(null, name, currentVersion);
-        var checkModuleFunction = testModuleVersions.bind(null, nameVersion, installFunction);
+        var revertFunction = installModule.bind(null, name, currentVersion);
+        var checkModuleFunction = testModuleVersions.bind(null, nameVersion, revertFunction);
         return checkModuleFunction;
     });
     var checkAllPromise = checkModulesFunctions.reduce(q.when, q());
