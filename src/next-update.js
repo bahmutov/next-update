@@ -3,6 +3,7 @@ var _ = require('lodash');
 var check = require('check-types');
 var q = require('q');
 
+var nameVersionParser = require('./moduleName');
 var registry = require('./registry');
 var nextVersions = registry.nextVersions;
 var cleanVersions = registry.cleanVersions;
@@ -71,7 +72,8 @@ function getDependenciesToCheck(moduleNames) {
         toCheck = nameVersionPairs.filter(function (nameVersion) {
             var name = nameVersion[0];
             return moduleNames.some(function (aModule) {
-                return name === aModule;
+                var moduleName = nameVersionParser(aModule).name;
+                return name === moduleName;
             });
         });
         console.log('only checking\n', toCheck);
