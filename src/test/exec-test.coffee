@@ -29,3 +29,14 @@ gt.async 'using npm test command', ->
     .fin ->
         gt.start()
 , ONE_MINUTE
+
+gt.async 'auto switch to npm test command', ->
+    promise = test 'npm test'
+    gt.object promise
+    promise.then ->
+        gt.ok false, 'there should not be npm test'
+    .fail ->
+        gt.ok true, 'failed as expected'
+    .fin ->
+        gt.start()
+, ONE_MINUTE

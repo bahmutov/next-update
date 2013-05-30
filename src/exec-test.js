@@ -1,6 +1,7 @@
 var check = require('check-types');
 var spawn = require('child_process').spawn;
 var q = require('q');
+var npmPath = require('./npm-test').npmPath;
 
 // returns a promise
 function test(testCommand) {
@@ -9,6 +10,10 @@ function test(testCommand) {
     var testParts = testCommand.split(' ');
     console.assert(testParts.length > 0, 'missing any test words in ' + testCommand);
     var testExecutable = testParts.shift();
+    check.verifyString(testExecutable, 'missing test executable for command ' + testCommand);
+    if (testExecutable === 'npm') {
+        testExecutable = npmPath;
+    }
     var testProcess = spawn(testExecutable, testParts);
     var testOutput = '';
     var testErrors = '';
