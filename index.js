@@ -24,7 +24,7 @@ var program = optimist
     .options('module', {
         string: true,
         alias: 'm',
-        description: 'checks specific module, could be used multiple times',
+        description: 'checks specific module, can include version name@version',
         default: false
     })
     .option('latest', {

@@ -21,12 +21,17 @@ function available(moduleName) {
 }
 
 // returns promise
-function allUpdates(moduleName, checkLatestOnly, checkCommand) {
+function checkAllUpdates(moduleName, checkLatestOnly, checkCommand) {
+    if (check.isString(moduleName)) {
+        moduleName = [moduleName];
+    }
     checkLatestOnly = !!checkLatestOnly;
     if (checkCommand) {
         check.verifyString(checkCommand, 'expected string test command');
     }
     var toCheck = getDependenciesToCheck(moduleName);
+    check.verifyArray(toCheck, 'dependencies to check should be an array');
+
     var nextVersionsPromise = nextVersions(toCheck, checkLatestOnly);
     var testVersionsBound = testVersions.bind(null, {
         modules: toCheck,
@@ -88,7 +93,7 @@ function getDependencies(packageFilename) {
 }
 
 module.exports = {
-    checkAllUpdates: allUpdates,
+    checkAllUpdates: checkAllUpdates,
     revert: revert,
     available: available
 };

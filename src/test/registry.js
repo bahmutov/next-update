@@ -19,7 +19,9 @@ gt.async('fetch non existent module', 2, function () {
     promise.then(function (results) {
         gt.ok(false, 'should not get success, results ' + JSON.stringify(results));
     }).fail(function (error) {
-        gt.ok(/not found/.test(error), 'error message gives a reason');
+        var moduleNotFound = (/not found/).test(error);
+        var cannotConnect = (/ENOTFOUND/).test(error);
+        gt.ok(moduleNotFound || cannotConnect, 'error message gives a good reason,', error);
     }).fin(gt.start);
 }, 30000);
 
