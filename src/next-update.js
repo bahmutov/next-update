@@ -33,12 +33,23 @@ function checkAllUpdates(moduleName, checkLatestOnly, checkCommand) {
     var toCheck = getDependenciesToCheck(moduleName);
     check.verifyArray(toCheck, 'dependencies to check should be an array');
 
-    var nextVersionsPromise = nextVersions(toCheck, checkLatestOnly);
     var testVersionsBound = testVersions.bind(null, {
         modules: toCheck,
         command: checkCommand
     });
-    return nextVersionsPromise.then(testVersionsBound);
+
+    if (moduleName.length === 1 && nameVersionParser(moduleName[0]).version) {
+        var nv = nameVersionParser(moduleName[0]);
+        console.log('checking only specific:', nv.name, nv.version);
+        var list = [{
+            name: nv.name,
+            versions: [nv.version]
+        }];
+        return testVersionsBound(list);
+    } else {
+        var nextVersionsPromise = nextVersions(toCheck, checkLatestOnly);
+        return nextVersionsPromise.then(testVersionsBound);
+    }
 }
 
 // returns promise
