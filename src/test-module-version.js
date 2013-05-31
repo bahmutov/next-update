@@ -22,6 +22,33 @@ function testModulesVersions(options, available) {
     console.log('newer version available');
     console.log(available);
 
+    if (options.all) {
+        return installAll(available);
+    }
+    return installEachTestRevert(listed, available, options.command);
+}
+
+// returns promise, does not revert
+function installAll(available) {
+    check.verifyArray(available, 'expected array');
+
+    var installFunctions = available.map(function (nameVersion) {
+        var name = nameVersion.name;
+        var version = nameVersion.version;
+        check.verifyString(name, 'missing module name');
+        check.verifyString(version, 'missing module version');
+
+        var installFunction = installModule.bind(null, name, version);
+        return installFunction;
+    });
+    var installAllPromise = installFunctions.reduce(q.when, q());
+    return installAllPromise;
+}
+
+function installEachTestRevert(listed, available, command) {
+    check.verifyObject(listed, 'expected listed object');
+    check.verifyArray(available, 'expected array');
+
     var checkModulesFunctions = available.map(function (nameVersion) {
         var name = nameVersion.name;
         var currentVersion = listed[name];
@@ -32,7 +59,7 @@ function testModulesVersions(options, available) {
         var checkModuleFunction = testModuleVersions.bind(null, {
             moduleVersions: nameVersion,
             revertFunction: revertFunction,
-            command: options.command
+            command: command
         });
         return checkModuleFunction;
     });

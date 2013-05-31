@@ -49,6 +49,11 @@ var program = optimist
         alias: 't',
         description: 'custom test command to run instead of npm test'
     })
+    .option('all', {
+        boolean: true,
+        default: false,
+        description: 'install all modules at once before testing'
+    })
     .usage(info)
     .argv;
 

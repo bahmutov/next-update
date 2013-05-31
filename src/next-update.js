@@ -27,6 +27,11 @@ function checkAllUpdates(options) {
     var moduleName = options.names;
     var checkLatestOnly = options.latest;
     var checkCommand = options.testCommand;
+    var all = options.all;
+    if (all) {
+        checkLatestOnly = true;
+        console.log('will check only latest versions because testing all');
+    }
 
     if (check.isString(moduleName)) {
         moduleName = [moduleName];
@@ -40,7 +45,8 @@ function checkAllUpdates(options) {
 
     var testVersionsBound = testVersions.bind(null, {
         modules: toCheck,
-        command: checkCommand
+        command: checkCommand,
+        all: all
     });
 
     if (moduleName.length === 1 && nameVersionParser(moduleName[0]).version) {
