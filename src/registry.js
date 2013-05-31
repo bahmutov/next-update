@@ -2,20 +2,31 @@ var request = require('request');
 var check = require('check-types');
 var semver = require('semver');
 var q = require('q');
+var localVersion = require('./local-module-version');
 
 var NPM_URL = 'http://registry.npmjs.org/';
 
 function cleanVersions(nameVersionPairs) {
     check.verifyArray(nameVersionPairs, 'expected array');
     var cleaned = nameVersionPairs.map(function (nameVersion) {
+        var name = nameVersion[0];
         var version = nameVersion[1];
+        check.verifyString(name, 'could not get module name from ' + nameVersion);
+        check.verifyString(version, 'could not get module version from ' + nameVersion);
+
         version = version.replace('~', '');
         var twoDigitVersion = /^\d+\.\d+$/;
         if (twoDigitVersion.test(version)) {
             version += '.0';
         }
         if (version === 'latest' || version === '*') {
-            version = '0.0.0';
+            console.log('Module', name, 'uses version', version);
+            console.log('It is recommented to list a specific version number');
+            version = localVersion(name);
+            if (!version) {
+                version = '0.0.1';
+            }
+            console.log('module', name, 'local version', version);
         }
         version = semver.clean(version);
         console.assert(version, 'could not clean version ' + nameVersion[1]);
