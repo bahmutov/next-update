@@ -117,7 +117,7 @@ function nextVersions(nameVersionPairs, checkLatestOnly) {
                 }
                 return nameVersions;
             });
-            console.log('only checking latest versions\n', available);
+            console.log('only checking latest versions\n' + available);
         }
         deferred.resolve(available);
     }, function (error) {
