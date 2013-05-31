@@ -30,7 +30,7 @@ var program = optimist
     .option('latest', {
         boolean: true,
         description: 'only check latest available update',
-        default: false
+        default: true
     })
     .option('color', {
         boolean: true,
