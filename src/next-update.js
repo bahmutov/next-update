@@ -22,7 +22,12 @@ function available(moduleName) {
 }
 
 // returns promise
-function checkAllUpdates(moduleName, checkLatestOnly, checkCommand) {
+function checkAllUpdates(options) {
+    options = options || {};
+    var moduleName = options.names;
+    var checkLatestOnly = options.latest;
+    var checkCommand = options.testCommand;
+
     if (check.isString(moduleName)) {
         moduleName = [moduleName];
     }

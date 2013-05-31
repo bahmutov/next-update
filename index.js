@@ -72,8 +72,11 @@ if (program.available) {
         console.error('error while reverting\n', error);
     });
 } else {
-    var checkAllPromise = nextUpdate.checkAllUpdates(program.module,
-        program.latest, program.test);
+    var checkAllPromise = nextUpdate.checkAllUpdates({
+        names: program.module,
+        latest: program.latest,
+        testCommand: program.test
+    });
 
     checkAllPromise.then(function (results) {
         report(results, program.color);
