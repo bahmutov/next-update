@@ -65,6 +65,8 @@ function checkAllUpdates(options) {
 
 // returns promise
 function revert(moduleName) {
+    console.log('should revert', JSON.stringify(moduleName));
+
     var toCheck = getDependenciesToCheck(moduleName);
     var installPromises = toCheck.map(function (nameVersion) {
         var name = nameVersion[0];

@@ -28,6 +28,8 @@ function testModulesVersions(options, available) {
         console.assert(install, 'could not get install all promise');
         var test = testPromise(options.command);
         console.assert(test, 'could not get test promise for command', options.command);
+        console.dir(listed);
+        console.dir(options.modules);
         var revert = revertModules(listed);
         return install.then(test).then(revert);
     }
@@ -38,11 +40,13 @@ function testModulesVersions(options, available) {
 function installAll(available) {
     check.verifyArray(available, 'expected array');
 
-    var installFunctions = available.map(function (nameVersion) {
-        var name = nameVersion.name;
-        var version = nameVersion.version;
-        check.verifyString(name, 'missing module name');
-        check.verifyString(version, 'missing module version');
+    var installFunctions = available.map(function (nameVersions) {
+        var name = nameVersions.name;
+        var version = nameVersions.versions[0];
+        check.verifyString(name, 'missing module name from ' +
+            JSON.stringify(nameVersions));
+        check.verifyString(version, 'missing module version from ' +
+            JSON.stringify(nameVersions));
 
         var installFunction = installModule.bind(null, name, version);
         return installFunction;

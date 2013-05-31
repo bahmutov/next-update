@@ -80,7 +80,8 @@ if (program.available) {
     var checkAllPromise = nextUpdate.checkAllUpdates({
         names: program.module,
         latest: program.latest,
-        testCommand: program.test
+        testCommand: program.test,
+        all: program.all
     });
 
     checkAllPromise.then(function (results) {
