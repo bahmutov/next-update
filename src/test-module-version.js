@@ -6,6 +6,7 @@ var reportSuccess = require('./report').reportSuccess;
 var reportFailure = require('./report').reportFailure;
 var cleanVersions = require('./registry').cleanVersions;
 check.verifyFunction(cleanVersions, 'cleanVersions should be a function');
+var revertModules = require('./next-update').revert;
 
 var npmTest = require('./npm-test').test;
 var execTest = require('./exec-test');
@@ -23,7 +24,12 @@ function testModulesVersions(options, available) {
     console.log(available);
 
     if (options.all) {
-        return installAll(available);
+        var install = installAll(available);
+        console.assert(install, 'could not get install all promise');
+        var test = testPromise(options.command);
+        console.assert(test, 'could not get test promise for command', options.command);
+        var revert = revertModules(listed);
+        return install.then(test).then(revert);
     }
     return installEachTestRevert(listed, available, options.command);
 }
@@ -126,14 +132,12 @@ function testModuleVersion(options, results) {
         works: true
     };
 
-    var testFunction = npmTest;
-    if (options.command) {
-        testFunction = execTest.bind(null, options.command);
-    }
+    var test = testPromise(options.command);
+    console.assert(test, 'could not get test promise for command', options.command);
 
     var deferred = q.defer();
     var installPromise = installModule(options.name, options.version);
-    installPromise.then(testFunction).then(function () {
+    installPromise.then(test).then(function () {
         reportSuccess(nameVersion + ' test success');
         results.push(result);
         deferred.resolve(results);
@@ -145,6 +149,15 @@ function testModuleVersion(options, results) {
         deferred.resolve(results);
     });
     return deferred.promise;
+}
+
+function testPromise(command) {
+    var testFunction = npmTest;
+    if (command) {
+        check.verifyString(command, 'expected string command, not ' + command);
+        testFunction = execTest.bind(null, command);
+    }
+    return testFunction;
 }
 
 module.exports = {
