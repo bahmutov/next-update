@@ -49,7 +49,7 @@ function checkAllUpdates(options) {
         all: all
     });
 
-    if (moduleName.length === 1 && nameVersionParser(moduleName[0]).version) {
+    if (isSingleSpecificVersion(moduleName)) {
         var nv = nameVersionParser(moduleName[0]);
         console.log('checking only specific:', nv.name, nv.version);
         var list = [{
@@ -61,6 +61,26 @@ function checkAllUpdates(options) {
         var nextVersionsPromise = nextVersions(toCheck, checkLatestOnly);
         return nextVersionsPromise.then(testVersionsBound);
     }
+}
+
+function isSingleSpecificVersion(moduleNames) {
+    if (!moduleNames) {
+        return false;
+    }
+    var name = moduleNames;
+    if (Array.isArray(moduleNames)) {
+        if (moduleNames.length !== 1) {
+            return false;
+        }
+        name = moduleNames[0];
+    }
+    check.verifyString(name, 'expected module name string, not ' +
+        JSON.stringify(name));
+    var parsed = nameVersionParser(name);
+    if (check.isObject(parsed)) {
+        return false;
+    }
+    return check.isString(parsed.version);
 }
 
 // returns promise
