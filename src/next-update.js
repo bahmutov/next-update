@@ -1,14 +1,9 @@
-var path = require('path');
-var _ = require('lodash');
 var check = require('check-types');
-var q = require('q');
 
 var nameVersionParser = require('./moduleName');
 var registry = require('./registry');
 var nextVersions = registry.nextVersions;
-var cleanVersions = registry.cleanVersions;
 var testVersions = require('./test-module-version').testModulesVersions;
-var installModule = require('./module-install');
 var getDependenciesToCheck = require('./dependencies');
 
 function available(moduleName) {

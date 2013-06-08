@@ -1,10 +1,9 @@
 var check = require('check-types');
-var q = require('q');
 var path = require('path');
 var _ = require('lodash');
 var registry = require('./registry');
-var nextVersions = registry.nextVersions;
 var cleanVersions = registry.cleanVersions;
+var nameVersionParser = require('./moduleName');
 
 function getDependenciesToCheck(moduleNames) {
     if (moduleNames) {
