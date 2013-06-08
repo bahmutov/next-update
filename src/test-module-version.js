@@ -4,9 +4,13 @@ var _ = require('lodash');
 var installModule = require('./module-install');
 var reportSuccess = require('./report').reportSuccess;
 var reportFailure = require('./report').reportFailure;
+
 var cleanVersions = require('./registry').cleanVersions;
 check.verifyFunction(cleanVersions, 'cleanVersions should be a function');
-var revertModules = require('./next-update').revert;
+
+var revertModules = require('./revert');
+check.verifyFunction(revertModules, 'revert is not a function, but ' +
+    JSON.stringify(revertModules));
 
 var npmTest = require('./npm-test').test;
 var execTest = require('./exec-test');
@@ -31,8 +35,10 @@ function testModulesVersions(options, available) {
         console.dir(listed);
         console.dir(options.modules);
         var revert = revertModules(listed);
+        console.assert(revert, 'could not get revert promise');
         return install.then(test).then(revert);
     }
+
     return installEachTestRevert(listed, available, options.command);
 }
 

@@ -88,6 +88,7 @@ if (program.available) {
         report(results, program.color);
     }, function (error) {
         console.error('ERROR testing next working updates\n', error);
+        console.error(error.stack);
         throw new Error(error);
     });
 }
