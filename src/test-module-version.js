@@ -34,7 +34,7 @@ function testModulesVersions(options, available) {
         console.assert(test, 'could not get test promise for command', options.command);
         console.dir(listed);
         console.dir(options.modules);
-        var revert = revertModules(listed);
+        var revert = revertModules.bind(null, listed);
         console.assert(revert, 'could not get revert promise');
         return install.then(test).then(revert);
     }

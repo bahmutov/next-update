@@ -6,7 +6,11 @@ var nextVersions = registry.nextVersions;
 var testVersions = require('./test-module-version').testModulesVersions;
 var getDependenciesToCheck = require('./dependencies');
 
+// returns a promise
 function available(moduleName) {
+    console.log('checking which versions are available');
+    console.dir(moduleName);
+
     var toCheck = getDependenciesToCheck(moduleName);
     var nextVersionsPromise = nextVersions(toCheck);
     nextVersionsPromise.then(function (info) {

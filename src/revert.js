@@ -4,7 +4,9 @@ var q = require('q');
 
 // returns promise
 function revert(moduleName) {
-    console.log('should revert', JSON.stringify(moduleName));
+    if (moduleName) {
+        console.log('should revert', JSON.stringify(moduleName));
+    }
 
     var toCheck = getDependenciesToCheck(moduleName);
     var installPromises = toCheck.map(function (nameVersion) {

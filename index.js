@@ -3,6 +3,7 @@
 var report = require('./src/report').report;
 var pkg = require('./package.json');
 var nextUpdate = require('./src/next-update');
+var revert = require('./src/revert');
 
 var info = pkg.name + ' - ' + pkg.description + '\n' +
     '  version: ' + pkg.version + '\n' +
@@ -70,7 +71,7 @@ if (program.help) {
 if (program.available) {
     nextUpdate.available(program.module);
 } else if (program.revert) {
-    nextUpdate.revert(program.module)
+    revert(program.module)
     .then(function () {
         console.log('done reverting');
     }, function (error) {

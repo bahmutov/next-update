@@ -7,10 +7,18 @@ var nameVersionParser = require('./moduleName');
 
 function getDependenciesToCheck(moduleNames) {
     if (moduleNames) {
+        console.log('returning dependencies for');
+        console.dir(moduleNames);
         if (check.isString(moduleNames)) {
             moduleNames = [moduleNames];
         }
-        check.verifyArray(moduleNames, 'expected module names ' +
+
+        if (check.isObject(moduleNames)) {
+            var names = Object.keys(moduleNames);
+            moduleNames = names;
+        }
+
+        check.verifyArray(moduleNames, 'expected module names array ' +
             JSON.stringify(moduleNames));
     }
     var workingDirectory = process.cwd();
