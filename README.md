@@ -10,9 +10,6 @@ without breaking the tests.
 
 ## Example
 
-There is an [next-update-example](https://npmjs.org/package/next-update-example)
-module I created just for testing *next-update*.
-
 Imagine your nodejs module *foo* has the following dependencies listed in *package.json*
 
     "dependencies": {
