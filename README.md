@@ -62,6 +62,7 @@ the target module. In general this tool does the following:
 
 ### Misc
 
+* To see what has changed in the latest version of any module, use my companion tool [changed](https://npmjs.org/package/changed) like this `changed foo` (*foo* is package name)
 * When comparing versions, keywords *latest* and *** are both assumed to equal to "0.0.0".
 * A good workflow using *next-update*
     * see available new versions `next-update --available`
