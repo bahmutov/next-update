@@ -1,5 +1,11 @@
 # next-update
 
+[![NPM info][nodei.co]](https://npmjs.org/package/next-update)
+
+![Build status][ci-image]
+[![dependencies][dependencies-image]][dependencies-url]
+[![endorse][endorse-image]][endorse-url]
+
 Tests if module's dependencies can be updated to newer / latest versions
 without breaking the tests.
 
@@ -91,3 +97,10 @@ Author: Gleb Bahmutov &copy; 2013
 License: MIT - do anything with the code, but don't blame me if it does not work.
 
 Support: if you find any problems with the module, email me directly.
+
+[ci-image]: https://www.codeship.io/projects/3887dc60-007b-0131-a7ef-76c3dfc91daa/status
+[nodei.co]: https://nodei.co/npm/next-update.png?downloads=true
+[dependencies-image]: https://david-dm.org/bahmutov/next-update.png
+[dependencies-url]: https://david-dm.org/bahmutov/next-update
+[endorse-image]: https://api.coderwall.com/bahmutov/endorsecount.png
+[endorse-url]: https://coderwall.com/bahmutov
