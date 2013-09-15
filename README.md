@@ -3,6 +3,7 @@
 [![NPM info][nodei.co]](https://npmjs.org/package/next-update)
 
 ![Build status][ci-image]
+
 [![dependencies][dependencies-image]][dependencies-url]
 [![endorse][endorse-image]][endorse-url]
 
