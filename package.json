@@ -5,8 +5,8 @@
   "main": "index.js",
   "bin": "index.js",
   "scripts": {
-    "test": "gt src/test/*.js src/test/*.coffee --output",
-    "e2e": "gt test/e2e.coffee --output"
+    "test": "node ./node_modules/gt src/test/*.js src/test/*.coffee --output",
+    "e2e": "node ./node_modules/gt test/e2e.coffee --output"
   },
   "repository": {
     "type": "git",
@@ -37,6 +37,7 @@
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-jshint": "~0.5.4",
-    "grunt-bump": "0.0.2"
+    "grunt-bump": "0.0.2",
+    "gt": "~0.8.8"
   }
 }
