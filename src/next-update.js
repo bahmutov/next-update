@@ -5,6 +5,7 @@ var registry = require('./registry');
 var nextVersions = registry.nextVersions;
 var testVersions = require('./test-module-version').testModulesVersions;
 var getDependenciesToCheck = require('./dependencies');
+var reportAvailable = require('./report-available');
 
 // returns a promise
 function available(moduleName) {
@@ -14,8 +15,7 @@ function available(moduleName) {
     var toCheck = getDependenciesToCheck(moduleName);
     var nextVersionsPromise = nextVersions(toCheck);
     nextVersionsPromise.then(function (info) {
-        console.log('available versions');
-        console.dir(info);
+        reportAvailable(info);
     }, function (error) {
         console.error('Could not fetch available modules\n', error);
     });
