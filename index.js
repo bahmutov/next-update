@@ -80,6 +80,12 @@ if (program.available) {
 } else {
     console.log(info);
 
+    var updateNotifier = require('update-notifier');
+    var notifier = updateNotifier();
+    if (notifier.update) {
+        notifier.notify();
+    }
+
     var checkAllPromise = nextUpdate.checkAllUpdates({
         names: program.module,
         latest: program.latest,

@@ -32,7 +32,8 @@
     "request": "~2.27.0",
     "semver": "~2.1.0",
     "q": "~0.9.7",
-    "cli-color": "~0.2.3"
+    "cli-color": "~0.2.3",
+    "update-notifier": "~0.1.5"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
