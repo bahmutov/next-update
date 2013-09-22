@@ -46,7 +46,7 @@ function fetchVersions(nameVersion) {
     check.verifyString(name, 'missing name string');
     check.verifyString(version, 'missing version string');
 
-    console.log('fetching versions for', name, 'current version', version);
+    // console.log('fetching versions for', name, 'current version', version);
 
     var url = NPM_URL + name;
     var deferred = q.defer();
@@ -103,6 +103,7 @@ function nextVersions(nameVersionPairs, checkLatestOnly) {
 
     var deferred = q.defer();
 
+    console.log('checking NPM registry');
     var fetchPromises = nameVersionPairs.map(fetchVersions);
     var fetchAllPromise = q.all(fetchPromises);
 
