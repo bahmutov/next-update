@@ -1,6 +1,6 @@
 {
   "name": "next-update",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Tests if module's dependencies can be updated to latest version",
   "main": "index.js",
   "bin": "index.js",
