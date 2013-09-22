@@ -1,5 +1,4 @@
 var check = require('check-types');
-var _ = require('lodash');
 
 function loadPackage() {
     var filename = './package.json';
@@ -17,7 +16,7 @@ function saveOption(type) {
         dependencies: '--save',
         devDependencies: '--save-dev',
         peerDependencies: '--save-peer'
-    }
+    };
     return saveCommands[type];
 }
 
@@ -29,7 +28,7 @@ function splitByType(updates, pkg) {
         dependencies: [],
         devDependencies: [],
         peerDependencies: []
-    }
+    };
 
     updates.forEach(function (moduleList) {
         if (!moduleList.length) {
@@ -69,7 +68,8 @@ function installCommand(updates) {
 
         var depCmd = installCommandType(updatesByDependencyType.dependencies, 'dependencies');
         var devCmd = installCommandType(updatesByDependencyType.devDependencies, 'devDependencies');
-        var peerCmd = installCommandType(updatesByDependencyType.peerDependencies, 'peerDependencies');
+        var peerCmd = installCommandType(updatesByDependencyType.peerDependencies,
+            'peerDependencies');
         if (depCmd) {
             cmd += depCmd + '\n';
         }
@@ -96,7 +96,8 @@ function installCommandType(updates, type) {
     if (!saveCommand) {
         throw new Error('invalid dependency type ' + type);
     }
-    var originalCmd = cmd = 'npm install ' + saveCommand;
+    var originalCmd, cmd;
+    originalCmd = cmd = 'npm install ' + saveCommand;
     updates.forEach(function (moduleVersions) {
         var latestWorkingVersion = getLatestWorkingVersion(moduleVersions);
         if (latestWorkingVersion) {
