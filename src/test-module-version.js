@@ -39,7 +39,7 @@ function testModulesVersions(options, available) {
         return install.then(test).then(revert);
     }
 
-    return installEachTestRevert(listed, available, options.command);
+    return installEachTestRevert(listed, available, options.command, options.color);
 }
 
 // returns promise, does not revert
@@ -61,7 +61,7 @@ function installAll(available) {
     return installAllPromise;
 }
 
-function installEachTestRevert(listed, available, command) {
+function installEachTestRevert(listed, available, command, color) {
     check.verifyObject(listed, 'expected listed object');
     check.verifyArray(available, 'expected array');
 
@@ -75,7 +75,8 @@ function installEachTestRevert(listed, available, command) {
         var checkModuleFunction = testModuleVersions.bind(null, {
             moduleVersions: nameVersion,
             revertFunction: revertFunction,
-            command: command
+            command: command,
+            color: color
         });
         return checkModuleFunction;
     });
@@ -102,7 +103,8 @@ function testModuleVersions(options, results) {
         return testModuleVersion.bind(null, {
             name: name,
             version: version,
-            command: options.command
+            command: options.command,
+            color: options.color
         });
     });
     var checkAllPromise = checkPromises.reduce(q.when, q());
@@ -129,12 +131,13 @@ function testModuleVersion(options, results) {
     if (options.command) {
         check.verifyString(options.command, 'expected command string');
     }
+    // console.log('options', options);
 
     results = results || [];
     check.verifyArray(results, 'missing previous results array');
 
     var nameVersion = options.name + '@' + options.version;
-    console.log('testing', nameVersion);
+    console.log('\ntesting', nameVersion);
 
     var result = {
         name: options.name,
@@ -148,11 +151,11 @@ function testModuleVersion(options, results) {
     var deferred = q.defer();
     var installPromise = installModule(options.name, options.version);
     installPromise.then(test).then(function () {
-        reportSuccess(nameVersion + ' test success');
+        reportSuccess(nameVersion + ' works', options.color);
         results.push(result);
         deferred.resolve(results);
     }, function (error) {
-        reportFailure(nameVersion + ' test failed :(');
+        reportFailure(nameVersion + ' tests failed :(', options.color);
         console.error(error);
         result.works = false;
         results.push(result);

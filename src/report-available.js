@@ -8,7 +8,7 @@ function report(available) {
     return;
   }
 
-  console.log('available versions');
+  console.log('\navailable versions');
 
   available.forEach(function (info) {
     check.verifyString(info.name, 'missing module name ' + info);

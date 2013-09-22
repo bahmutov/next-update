@@ -46,7 +46,8 @@ function checkAllUpdates(options) {
     var testVersionsBound = testVersions.bind(null, {
         modules: toCheck,
         command: checkCommand,
-        all: all
+        all: all,
+        color: options.color
     });
 
     if (isSingleSpecificVersion(moduleName)) {

@@ -7,7 +7,7 @@ var colorAvailable = process.stdout.isTTY;
 function report(updates, useColors) {
     check.verifyArray(updates, 'expected array of updates');
 
-    console.log('next updates:');
+    console.log('\nnext updates:');
     updates.forEach(function (moduleVersions) {
         reportModule(moduleVersions, useColors);
     });

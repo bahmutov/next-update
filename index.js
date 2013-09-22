@@ -82,7 +82,8 @@ if (program.available) {
         names: program.module,
         latest: program.latest,
         testCommand: program.test,
-        all: program.all
+        all: program.all,
+        color: program.color
     });
 
     checkAllPromise.then(function (results) {
