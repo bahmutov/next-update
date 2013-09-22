@@ -24,7 +24,7 @@ Imagine your nodejs module *foo* has the following dependencies listed in *packa
         "async": "~0.2.5"
     }
 
-You would like to update lodash and async to latest versions, but not sure if
+You would like to update lodash and async to latest versions, to not sure if
 this would break anything. With *next-update* it is easy: run command `next-update`
 in the folder with module *foo*. Here is the example output:
 
@@ -45,6 +45,10 @@ popular 3rd party libraries with stable apis only. *next-update* is most useful
 in the larger development context, where multiple modules are being developed
 side by side, often by different teams. In such situations, checking if an upgrade
 is possible could be part of the continuous build pipeline.
+
+You can see if your dependencies are out of date by using
+[david](https://david-dm.org),
+it even has badges you can add to your README files.
 
 ## Install
 
@@ -69,7 +73,9 @@ the target module. In general this tool does the following:
 
 ### Misc
 
-* To see what has changed in the latest version of any module, use my companion tool [changed](https://npmjs.org/package/changed) like this `changed foo` (*foo* is package name)
+* To see what has changed in the latest version of any module,
+use my companion tool [changed](https://npmjs.org/package/changed)
+like this `changed foo` (*foo* is package name)
 * When comparing versions, keywords *latest* and *** are both assumed to equal to "0.0.0".
 * A good workflow using *next-update*
     * see available new versions `next-update --available`
