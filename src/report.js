@@ -1,5 +1,6 @@
 var colors = require('cli-color');
 var check = require('check-types');
+var formInstallCommand = require('./report-install-command');
 
 var colorAvailable = process.stdout.isTTY;
 
@@ -10,6 +11,10 @@ function report(updates, useColors) {
     updates.forEach(function (moduleVersions) {
         reportModule(moduleVersions, useColors);
     });
+
+    var cmd = formInstallCommand(updates);
+    console.log('Use the following command to install working versions');
+    console.log(cmd);
 }
 
 function reportModule(moduleVersions, useColors) {
