@@ -1,6 +1,6 @@
 {
   "name": "next-update",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Tests if module's dependencies can be updated to latest version",
   "main": "index.js",
   "bin": "index.js",
@@ -26,18 +26,18 @@
   "preferGlobal": "true",
   "gitHead": "9f23b792b550c69b3f0c7dd7eb47122d264b44c1",
   "dependencies": {
-    "optimist": "~0.5.0",
-    "lodash": "~1.2.1",
-    "check-types": "~0.6.3",
-    "request": "~2.21.0",
-    "semver": "~1.1.4",
-    "q": "~0.9.4",
-    "cli-color": "~0.2.2"
+    "optimist": "~0.6.0",
+    "lodash": "~2.0.0",
+    "check-types": "~0.6.4",
+    "request": "~2.27.0",
+    "semver": "~2.1.0",
+    "q": "~0.9.7",
+    "cli-color": "~0.2.3"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
-    "grunt-contrib-jshint": "~0.5.4",
-    "grunt-bump": "0.0.2",
-    "gt": "~0.8.8"
+    "grunt-contrib-jshint": "~0.6.4",
+    "grunt-bump": "0.0.11",
+    "gt": "~0.8.10"
   }
 }
