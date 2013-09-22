@@ -118,8 +118,11 @@ function nextVersions(nameVersionPairs, checkLatestOnly) {
                 }
                 return nameVersions;
             });
-            console.log('only checking latest versions');
-            console.dir(available);
+        } else {
+            console.log('checking ALL versions');
+            if (available.length) {
+                console.log(available);
+            }
         }
         deferred.resolve(available);
     }, function (error) {
