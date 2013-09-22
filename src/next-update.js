@@ -9,9 +9,6 @@ var reportAvailable = require('./report-available');
 
 // returns a promise
 function available(moduleName) {
-    console.log('checking which versions are available');
-    console.dir(moduleName);
-
     var toCheck = getDependenciesToCheck(moduleName);
     var nextVersionsPromise = nextVersions(toCheck);
     nextVersionsPromise.then(function (info) {
