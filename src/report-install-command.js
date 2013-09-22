@@ -2,10 +2,14 @@ var check = require('check-types');
 var _ = require('lodash');
 
 function loadPackage() {
+    var filename = './package.json';
     var fs = require('fs');
-    var txt = fs.readFileSync('./package.json', 'utf-8');
-    var pkg = JSON.parse(txt);
-    return pkg;
+    if (fs.existsSync(filename)) {
+        var txt = fs.readFileSync(filename, 'utf-8');
+        if (txt) {
+            return JSON.parse(txt);
+        }
+    }
 }
 
 function saveOption(type) {
@@ -40,7 +44,8 @@ function splitByType(updates, pkg) {
         } else if (pkg.peerDependencies && pkg.peerDependencies[moduleName]) {
             result.peerDependencies.push(moduleList);
         } else {
-            throw new Error('Could not find dependency for ' + moduleName);
+            console.warn('Could not find dependency for', moduleName, 'assuming normal');
+            result.dependencies.push(moduleList);
         }
     });
     return result;
@@ -52,26 +57,28 @@ function installCommand(updates) {
         return;
     }
 
-    var pkg = loadPackage();
-    console.assert(pkg, 'could not load package.json');
-
-    var updatesByDependencyType = splitByType(updates, pkg);
-    console.assert(updatesByDependencyType, 'could not split updates by type');
-    console.log('dep by type');
-    console.log(JSON.stringify(updatesByDependencyType, null, 2));
-
     var cmd = '';
-    var depCmd = installCommandType(updatesByDependencyType.dependencies, 'dependencies');
-    var devCmd = installCommandType(updatesByDependencyType.devDependencies, 'devDependencies');
-    var peerCmd = installCommandType(updatesByDependencyType.peerDependencies, 'peerDependencies');
-    if (depCmd) {
-        cmd += depCmd + '\n';
-    }
-    if (devCmd) {
-        cmd += devCmd + '\n';
-    }
-    if (peerCmd) {
-        cmd += peerCmd + '\n';
+    var pkg = loadPackage();
+    if (!pkg) {
+        // assume all dependencies are normal
+        cmd = installCommandType(updates, 'dependencies');
+    } else {
+
+        var updatesByDependencyType = splitByType(updates, pkg);
+        console.assert(updatesByDependencyType, 'could not split updates by type');
+
+        var depCmd = installCommandType(updatesByDependencyType.dependencies, 'dependencies');
+        var devCmd = installCommandType(updatesByDependencyType.devDependencies, 'devDependencies');
+        var peerCmd = installCommandType(updatesByDependencyType.peerDependencies, 'peerDependencies');
+        if (depCmd) {
+            cmd += depCmd + '\n';
+        }
+        if (devCmd) {
+            cmd += devCmd + '\n';
+        }
+        if (peerCmd) {
+            cmd += peerCmd + '\n';
+        }
     }
     if (cmd) {
         return cmd;

@@ -23,6 +23,7 @@ mockPackageJson = """
 """
 
 fsMock =
+  existsSync: (name) -> name == './package.json'
   readFileSync: (name, encoding) ->
     console.assert name == './package.json', 'invalid name ' + name
     mockPackageJson

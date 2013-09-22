@@ -14,5 +14,6 @@ gt.test 'basics', ->
 
 gt.test 'fetch local version', ->
     version = localVersion 'sample-module'
+    console.log version
     gt.string version, 'got back a string'
     gt.equal version, '1.0.8', 'got back correct value'
