@@ -5,6 +5,14 @@ var registry = require('./registry');
 var cleanVersions = registry.cleanVersions;
 var nameVersionParser = require('./moduleName');
 
+function printCurrentModules(modules) {
+    check.verifyArray(modules, 'expected array of modules');
+    modules.forEach(function (nameVersionArray) {
+        check.verifyArray(nameVersionArray, 'expected name version in ' + modules);
+        console.log(nameVersionArray[0], ':', nameVersionArray[1]);
+    });
+}
+
 function getDependenciesToCheck(moduleNames) {
     if (moduleNames) {
         console.log('returning dependencies for');
@@ -22,11 +30,11 @@ function getDependenciesToCheck(moduleNames) {
             JSON.stringify(moduleNames));
     }
     var workingDirectory = process.cwd();
-    console.log('working directory', workingDirectory);
 
     var packageFilename = path.join(workingDirectory, 'package.json');
     var nameVersionPairs = getDependencies(packageFilename);
-    console.log('module\'s dependencies\n', nameVersionPairs);
+    console.log('module\'s dependencies:');
+    printCurrentModules(nameVersionPairs);
 
     var toCheck = nameVersionPairs;
     if (moduleNames) {
