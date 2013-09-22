@@ -14,6 +14,7 @@ check.verifyFunction(revertModules, 'revert is not a function, but ' +
 
 var npmTest = require('./npm-test').test;
 var execTest = require('./exec-test');
+var report = require('./report-available');
 
 // expect array of objects, each {name, versions (Array) }
 // returns promise
@@ -24,8 +25,7 @@ function testModulesVersions(options, available) {
     var cleaned = cleanVersions(options.modules);
     var listed = _.zipObject(cleaned);
 
-    console.log('newer version available');
-    console.log(available);
+    report(available);
 
     if (options.all) {
         var install = installAll(available);
