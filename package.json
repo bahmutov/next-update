@@ -1,6 +1,6 @@
 {
   "name": "next-update",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Tests if module's dependencies can be updated to latest version",
   "main": "index.js",
   "bin": "index.js",
@@ -27,7 +27,7 @@
   "gitHead": "9f23b792b550c69b3f0c7dd7eb47122d264b44c1",
   "dependencies": {
     "optimist": "~0.6.0",
-    "lodash": "~2.0.0",
+    "lodash": "~2.1.0",
     "check-types": "~0.6.4",
     "request": "~2.27.0",
     "semver": "~2.1.0",
