@@ -1,8 +1,7 @@
 var check = require('check-types');
 var spawn = require('child_process').spawn;
 var q = require('q');
-
-var NPM_PATH = 'C:\\Program Files\\nodejs\\npm.cmd';
+var NPM_PATH = require('npm-utils').path;
 
 // returns a promise
 function installModule(name, version, results) {

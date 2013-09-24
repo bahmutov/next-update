@@ -40,6 +40,11 @@ in the folder with module *foo*. Here is the example output:
 Both *package.json* file and *node_modules* folder are left unchanged,
 and now you know that you can safely upgrade both libraries to later versions.
 
+### It even tells you the install command ;)
+
+    Use the following command to install working versions
+    npm install --save lodash@2.1.0
+
 This might not appear like a big deal for a single module that is using
 popular 3rd party libraries with stable apis only. *next-update* is most useful
 in the larger development context, where multiple modules are being developed
