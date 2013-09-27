@@ -3,8 +3,30 @@ var check = require('check-types');
 var semver = require('semver');
 var q = require('q');
 var localVersion = require('./local-module-version');
+var VerEx = require("verbal-expressions");
+var _ = require('lodash');
 
 var NPM_URL = 'http://registry.npmjs.org/';
+
+var httpTester = VerEx()
+    .startOfLine()
+    .then( "http" )
+    .maybe( "s" )
+    .then( "://" )
+    .anythingBut( " " )
+    .endOfLine();
+
+var gitTester = VerEx()
+    .startOfLine()
+    .then( "git" )
+    .then( "://" )
+    .anythingBut( " " )
+    .endOfLine();
+
+function isUrl(str) {
+    check.verifyString(str, 'expected a string');
+    return httpTester.test(str) || gitTester.test(str);
+}
 
 function cleanVersion(nameVersion) {
     check.verifyArray(nameVersion, 'expected and array');
@@ -14,6 +36,13 @@ function cleanVersion(nameVersion) {
     var version = nameVersion[1];
     check.verifyString(name, 'could not get module name from ' + nameVersion);
     check.verifyString(version, 'could not get module version from ' + nameVersion);
+
+    if (isUrl(version)) {
+        version = version.substr(version.indexOf('#') + 1);
+        // hmm, because we don't have a way to fetch git tags yet
+        // just skip these dependencies
+        return;
+    }
 
     version = version.replace('~', '');
     var twoDigitVersion = /^\d+\.\d+$/;
@@ -37,7 +66,9 @@ function cleanVersion(nameVersion) {
 
 function cleanVersions(nameVersionPairs) {
     check.verifyArray(nameVersionPairs, 'expected array');
-    var cleaned = nameVersionPairs.map(cleanVersion);
+    var cleaned = nameVersionPairs.map(cleanVersion)
+        .filter(_.isArray);
+    console.dir(cleaned);
     return cleaned;
 }
 
@@ -138,6 +169,8 @@ function nextVersions(nameVersionPairs, checkLatestOnly) {
 }
 
 module.exports = {
+    isUrl: isUrl,
+    cleanVersion: cleanVersion,
     cleanVersions: cleanVersions,
     fetchVersions: fetchVersions,
     nextVersions: nextVersions
