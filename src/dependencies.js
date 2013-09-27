@@ -1,10 +1,8 @@
 var check = require('check-types');
 var path = require('path');
-var _ = require('lodash');
 var print = require('./print-modules-table');
-var registry = require('./registry');
-var cleanVersions = registry.cleanVersions;
 var nameVersionParser = require('./moduleName');
+var getKnownDependencies = require('./get-known-dependencies');
 
 function printCurrentModules(infos) {
     check.verifyArray(infos, 'expected array of modules');
@@ -39,8 +37,9 @@ function getDependenciesToCheck(moduleNames) {
     var workingDirectory = process.cwd();
 
     var packageFilename = path.join(workingDirectory, 'package.json');
-    var nameVersionPairs = getDependencies(packageFilename);
-    console.log('module\'s dependencies:');
+    var nameVersionPairs = getKnownDependencies(packageFilename);
+
+    console.log('module\'s known dependencies:');
     printCurrentModules(nameVersionPairs);
 
     var toCheck = nameVersionPairs;
@@ -55,19 +54,6 @@ function getDependenciesToCheck(moduleNames) {
         console.log('only checking\n', toCheck);
     }
     return toCheck;
-}
-
-function getDependencies(packageFilename) {
-    check.verifyString(packageFilename, 'missing package filename string');
-
-    var workingPackage = require(packageFilename);
-    var dependencies = workingPackage.dependencies || {};
-    var devDependencies = workingPackage.devDependencies || {};
-    _.extend(dependencies, devDependencies);
-
-    var nameVersionPairs = _.pairs(dependencies);
-    var cleaned = cleanVersions(nameVersionPairs);
-    return cleaned;
 }
 
 module.exports = getDependenciesToCheck;
