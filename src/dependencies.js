@@ -1,23 +1,23 @@
 var check = require('check-types');
 var path = require('path');
 var _ = require('lodash');
-var Table = require('easy-table');
+var print = require('./print-modules-table');
 var registry = require('./registry');
 var cleanVersions = registry.cleanVersions;
 var nameVersionParser = require('./moduleName');
 
-function printCurrentModules(modules) {
-    check.verifyArray(modules, 'expected array of modules');
+function printCurrentModules(infos) {
+    check.verifyArray(infos, 'expected array of modules');
 
-    var t = new Table();
-    modules.forEach(function (nameVersionArray) {
+    var modules = [];
+    infos.forEach(function (nameVersionArray) {
         check.verifyArray(nameVersionArray, 'expected name version in ' + modules);
-        // console.log(nameVersionArray[0], ':', nameVersionArray[1]);
-        t.cell('package', nameVersionArray[0]);
-        t.cell('version', nameVersionArray[1]);
-        t.newRow();
+        modules.push({
+            name: nameVersionArray[0],
+            version: nameVersionArray[1]
+        });
     });
-    console.log(t.toString());
+    print(modules);
 }
 
 function getDependenciesToCheck(moduleNames) {

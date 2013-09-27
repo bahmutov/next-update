@@ -1,4 +1,5 @@
 var check = require('check-types');
+var print = require('./print-modules-table');
 
 function report(available) {
     check.verifyArray(available, 'expect an array of info objects');
@@ -7,8 +8,7 @@ function report(available) {
         return;
     }
 
-    console.log('\navailable versions');
-
+    var modules = [];
     available.forEach(function (info) {
         check.verifyString(info.name, 'missing module name ' + info);
         check.verifyArray(info.versions, 'missing module versions ' + info);
@@ -16,8 +16,14 @@ function report(available) {
         if (info.versions.length > 5) {
             sep = '\n  ';
         }
-        console.log(info.name, ': ', info.versions.join(sep));
+        var versions = info.versions.join(sep);
+        modules.push({
+            name: info.name,
+            version: versions
+        });
     });
+    console.log('\navailable updates:');
+    print(modules);
 }
 
 module.exports = report;
