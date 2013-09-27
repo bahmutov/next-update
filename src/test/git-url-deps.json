@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "foo": "https://github.com/bahmutov/qunit-promises.git#0.0.7"
+  },
+  "devDependencies": {
+    "bar": "~0.2.2"
+  }
+}

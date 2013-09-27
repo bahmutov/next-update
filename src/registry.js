@@ -6,33 +6,38 @@ var localVersion = require('./local-module-version');
 
 var NPM_URL = 'http://registry.npmjs.org/';
 
+function cleanVersion(nameVersion) {
+    check.verifyArray(nameVersion, 'expected and array');
+    console.assert(nameVersion.length === 2,
+        'expected 2 items, name and version ' + nameVersion);
+    var name = nameVersion[0];
+    var version = nameVersion[1];
+    check.verifyString(name, 'could not get module name from ' + nameVersion);
+    check.verifyString(version, 'could not get module version from ' + nameVersion);
+
+    version = version.replace('~', '');
+    var twoDigitVersion = /^\d+\.\d+$/;
+    if (twoDigitVersion.test(version)) {
+        version += '.0';
+    }
+    if (version === 'latest' || version === '*') {
+        console.log('Module', name, 'uses version', version);
+        console.log('It is recommented to list a specific version number');
+        version = localVersion(name);
+        if (!version) {
+            version = '0.0.1';
+        }
+        console.log('module', name, 'local version', version);
+    }
+    version = semver.clean(version);
+    console.assert(version, 'could not clean version ' + nameVersion[1]);
+    nameVersion[1] = version;
+    return nameVersion;
+}
+
 function cleanVersions(nameVersionPairs) {
     check.verifyArray(nameVersionPairs, 'expected array');
-    var cleaned = nameVersionPairs.map(function (nameVersion) {
-        var name = nameVersion[0];
-        var version = nameVersion[1];
-        check.verifyString(name, 'could not get module name from ' + nameVersion);
-        check.verifyString(version, 'could not get module version from ' + nameVersion);
-
-        version = version.replace('~', '');
-        var twoDigitVersion = /^\d+\.\d+$/;
-        if (twoDigitVersion.test(version)) {
-            version += '.0';
-        }
-        if (version === 'latest' || version === '*') {
-            console.log('Module', name, 'uses version', version);
-            console.log('It is recommented to list a specific version number');
-            version = localVersion(name);
-            if (!version) {
-                version = '0.0.1';
-            }
-            console.log('module', name, 'local version', version);
-        }
-        version = semver.clean(version);
-        console.assert(version, 'could not clean version ' + nameVersion[1]);
-        nameVersion[1] = version;
-        return nameVersion;
-    });
+    var cleaned = nameVersionPairs.map(cleanVersion);
     return cleaned;
 }
 
