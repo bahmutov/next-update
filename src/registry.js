@@ -3,24 +3,24 @@ var check = require('check-types');
 var semver = require('semver');
 var q = require('q');
 var localVersion = require('./local-module-version');
-var VerEx = require("verbal-expressions");
+var VerEx = require('verbal-expressions');
 var _ = require('lodash');
 
 var NPM_URL = 'http://registry.npmjs.org/';
 
-var httpTester = VerEx()
+var httpTester = new VerEx()
     .startOfLine()
-    .then( "http" )
-    .maybe( "s" )
-    .then( "://" )
-    .anythingBut( " " )
+    .then('http')
+    .maybe('s')
+    .then('://')
+    .anythingBut(' ')
     .endOfLine();
 
-var gitTester = VerEx()
+var gitTester = new VerEx()
     .startOfLine()
-    .then( "git" )
-    .then( "://" )
-    .anythingBut( " " )
+    .then('git')
+    .then('://')
+    .anythingBut(' ')
     .endOfLine();
 
 function isUrl(str) {
