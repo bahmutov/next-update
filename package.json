@@ -34,9 +34,8 @@
     "q": "~0.9.7",
     "cli-color": "~0.2.3",
     "update-notifier": "~0.1.5",
-    "npm-utils": "0.0.3",
-    "easy-table": "~0.2.0",
-    "verbal-expressions": "~0.1.0"
+    "npm-utils": "0.0.4",
+    "easy-table": "~0.2.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

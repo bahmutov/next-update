@@ -3,11 +3,12 @@ var check = require('check-types');
 var semver = require('semver');
 var q = require('q');
 var localVersion = require('./local-module-version');
-var VerEx = require('verbal-expressions');
+var isUrl = require('npm-utils').isUrl;
 var _ = require('lodash');
 
 var NPM_URL = 'http://registry.npmjs.org/';
 
+/*
 var httpTester = new VerEx()
     .startOfLine()
     .then('http')
@@ -27,6 +28,7 @@ function isUrl(str) {
     check.verifyString(str, 'expected a string');
     return httpTester.test(str) || gitTester.test(str);
 }
+*/
 
 function cleanVersion(nameVersion) {
     check.verifyArray(nameVersion, 'expected and array');
@@ -38,9 +40,11 @@ function cleanVersion(nameVersion) {
     check.verifyString(version, 'could not get module version from ' + nameVersion);
 
     if (isUrl(version)) {
-        version = version.substr(version.indexOf('#') + 1);
+        // version = version.substr(version.indexOf('#') + 1);
+
         // hmm, because we don't have a way to fetch git tags yet
         // just skip these dependencies
+        console.log('Cannot handle git repos, skipping', name, 'at', version);
         return;
     }
 
