@@ -8,28 +8,6 @@ var _ = require('lodash');
 
 var NPM_URL = 'http://registry.npmjs.org/';
 
-/*
-var httpTester = new VerEx()
-    .startOfLine()
-    .then('http')
-    .maybe('s')
-    .then('://')
-    .anythingBut(' ')
-    .endOfLine();
-
-var gitTester = new VerEx()
-    .startOfLine()
-    .then('git')
-    .then('://')
-    .anythingBut(' ')
-    .endOfLine();
-
-function isUrl(str) {
-    check.verifyString(str, 'expected a string');
-    return httpTester.test(str) || gitTester.test(str);
-}
-*/
-
 function cleanVersion(nameVersion) {
     check.verifyArray(nameVersion, 'expected and array');
     console.assert(nameVersion.length === 2,
@@ -72,7 +50,6 @@ function cleanVersions(nameVersionPairs) {
     check.verifyArray(nameVersionPairs, 'expected array');
     var cleaned = nameVersionPairs.map(cleanVersion)
         .filter(_.isArray);
-    console.dir(cleaned);
     return cleaned;
 }
 
@@ -160,9 +137,6 @@ function nextVersions(nameVersionPairs, checkLatestOnly) {
             });
         } else {
             console.log('checking ALL versions');
-            if (available.length) {
-                console.log(available);
-            }
         }
         deferred.resolve(available);
     }, function (error) {
