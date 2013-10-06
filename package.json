@@ -8,6 +8,7 @@
     "test": "node ./node_modules/gt src/test/*.js src/test/*.coffee --output",
     "e2e": "node ./node_modules/gt test/e2e.coffee --output"
   },
+  "pre-commit": ["grunt jshint"],
   "repository": {
     "type": "git",
     "url": "https://github.com/bahmutov/next-update.git"
@@ -44,6 +45,7 @@
     "gt": "~0.8.12",
     "mockery": "~1.4.0",
     "grunt-deps-ok": "~0.1.3",
-    "matchdep": "~0.1.2"
+    "matchdep": "~0.1.2",
+    "pre-git": "0.0.8"
   }
 }
