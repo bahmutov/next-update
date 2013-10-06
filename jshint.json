@@ -1,0 +1,8 @@
+{
+  "options": {
+    "jshintrc": ".jshintrc"
+  },
+  "default": {
+    "src": [ "index.js", "src/*.js" ]
+  }
+}
