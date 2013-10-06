@@ -2,11 +2,16 @@
 module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    jshint: grunt.file.readJSON('jshint.json')
+    jshint: grunt.file.readJSON('jshint.json'),
+    jsonlint: {
+      all: {
+        src: ['*.json']
+      }
+    }
   });
 
   var plugins = require('matchdep').filterDev('grunt-*');
   plugins.forEach(grunt.loadNpmTasks);
 
-  grunt.registerTask('default', ['deps-ok', 'jshint']);
+  grunt.registerTask('default', ['deps-ok', 'jsonlint', 'jshint']);
 };
