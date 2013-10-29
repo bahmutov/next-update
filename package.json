@@ -33,21 +33,21 @@
     "lodash": "~2.2.1",
     "check-types": "~0.6.5",
     "request": "~2.27.0",
-    "semver": "~2.1.0",
+    "semver": "~2.2.1",
     "q": "~0.9.7",
     "cli-color": "~0.2.3",
-    "update-notifier": "~0.1.6",
-    "npm-utils": "0.0.4",
+    "update-notifier": "~0.1.7",
+    "npm-utils": "0.0.5",
     "easy-table": "~0.2.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
-    "grunt-contrib-jshint": "~0.6.4",
+    "grunt-contrib-jshint": "~0.7.0",
     "grunt-bump": "0.0.11",
-    "gt": "~0.8.12",
+    "gt": "~0.8.15",
     "mockery": "~1.4.0",
-    "grunt-deps-ok": "~0.1.6",
-    "matchdep": "~0.1.2",
+    "grunt-deps-ok": "~0.1.7",
+    "matchdep": "~0.3.0",
     "pre-git": "0.0.11",
     "grunt-jsonlint": "~1.0.1"
   }
