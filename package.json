@@ -31,7 +31,7 @@
   "dependencies": {
     "optimist": "~0.6.0",
     "lodash": "~2.2.1",
-    "check-types": "~0.6.5",
+    "check-types": "~1.1.0",
     "request": "~2.27.0",
     "semver": "~2.2.1",
     "q": "~0.9.7",
