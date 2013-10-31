@@ -48,7 +48,7 @@
     "mockery": "~1.4.0",
     "grunt-deps-ok": "~0.1.7",
     "matchdep": "~0.3.0",
-    "pre-git": "0.0.11",
+    "pre-git": "0.0.13",
     "grunt-jsonlint": "~1.0.1"
   }
 }
