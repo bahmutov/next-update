@@ -1,7 +1,7 @@
 var check = require('check-types');
 
 function moduleName(str) {
-    check.verifyString(str, 'expected string module name');
+    check.verify.string(str, 'expected string module name');
 
     var parts = str.split('@');
     return {

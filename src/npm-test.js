@@ -14,7 +14,7 @@ var NPM_PATH = findNpmPath();
 // returns a promise
 function test() {
     console.log('  npm test');
-    check.verifyString(NPM_PATH, 'missing npm path string');
+    check.verify.string(NPM_PATH, 'missing npm path string');
     var npm = spawn(NPM_PATH, ['test']);
     var testOutput = '';
     var testErrors = '';

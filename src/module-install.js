@@ -5,8 +5,8 @@ var NPM_PATH = require('npm-utils').path;
 
 // returns a promise
 function installModule(name, version, results) {
-    check.verifyString(name, 'expected module name string');
-    check.verifyString(version, 'expected version string');
+    check.verify.string(name, 'expected module name string');
+    check.verify.string(version, 'expected version string');
 
     var moduleVersion = name + '@' + version;
     console.log('  installing', moduleVersion);

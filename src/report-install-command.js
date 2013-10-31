@@ -21,8 +21,8 @@ function saveOption(type) {
 }
 
 function splitByType(updates, pkg) {
-    check.verifyArray(updates, 'expected array of updates');
-    check.verifyObject(pkg, 'expected package object');
+    check.verify.array(updates, 'expected array of updates');
+    check.verify.object(pkg, 'expected package object');
 
     var result = {
         dependencies: [],
@@ -35,7 +35,7 @@ function splitByType(updates, pkg) {
             return;
         }
         var moduleName = moduleList[0].name;
-        check.verifyString(moduleName, 'missing module name');
+        check.verify.string(moduleName, 'missing module name');
         if (pkg.dependencies && pkg.dependencies[moduleName]) {
             result.dependencies.push(moduleList);
         } else if (pkg.devDependencies && pkg.devDependencies[moduleName]) {
@@ -51,7 +51,7 @@ function splitByType(updates, pkg) {
 }
 
 function installCommand(updates) {
-    check.verifyArray(updates, 'expected array of updates');
+    check.verify.array(updates, 'expected array of updates');
     if (!updates.length) {
         return;
     }
@@ -86,11 +86,11 @@ function installCommand(updates) {
 }
 
 function installCommandType(updates, type) {
-    check.verifyArray(updates, 'expected array of updates');
+    check.verify.array(updates, 'expected array of updates');
     if (!updates.length) {
         return;
     }
-    check.verifyString(type, 'missing type');
+    check.verify.string(type, 'missing type');
 
     var saveCommand = saveOption(type);
     if (!saveCommand) {
@@ -113,10 +113,10 @@ function installCommandType(updates, type) {
 }
 
 function getLatestWorkingVersion(versions) {
-    check.verifyArray(versions, 'expected array of versions');
+    check.verify.array(versions, 'expected array of versions');
     var working;
     versions.forEach(function (info) {
-        check.verifyString(info.name, 'missing package name ' + info);
+        check.verify.string(info.name, 'missing package name ' + info);
         if (info.works) {
             working = info;
         }

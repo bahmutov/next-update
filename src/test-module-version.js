@@ -6,10 +6,10 @@ var reportSuccess = require('./report').reportSuccess;
 var reportFailure = require('./report').reportFailure;
 
 var cleanVersions = require('./registry').cleanVersions;
-check.verifyFunction(cleanVersions, 'cleanVersions should be a function');
+check.verify.fn(cleanVersions, 'cleanVersions should be a function');
 
 var revertModules = require('./revert');
-check.verifyFunction(revertModules, 'revert is not a function, but ' +
+check.verify.fn(revertModules, 'revert is not a function, but ' +
     JSON.stringify(revertModules));
 
 var npmTest = require('./npm-test').test;
@@ -19,8 +19,8 @@ var report = require('./report-available');
 // expect array of objects, each {name, versions (Array) }
 // returns promise
 function testModulesVersions(options, available) {
-    check.verifyObject(options, 'missing options');
-    check.verifyArray(available, 'expected array of available modules');
+    check.verify.object(options, 'missing options');
+    check.verify.array(available, 'expected array of available modules');
 
     var cleaned = cleanVersions(options.modules);
     var listed = _.zipObject(cleaned);
@@ -44,14 +44,14 @@ function testModulesVersions(options, available) {
 
 // returns promise, does not revert
 function installAll(available) {
-    check.verifyArray(available, 'expected array');
+    check.verify.array(available, 'expected array');
 
     var installFunctions = available.map(function (nameVersions) {
         var name = nameVersions.name;
         var version = nameVersions.versions[0];
-        check.verifyString(name, 'missing module name from ' +
+        check.verify.string(name, 'missing module name from ' +
             JSON.stringify(nameVersions));
-        check.verifyString(version, 'missing module version from ' +
+        check.verify.string(version, 'missing module version from ' +
             JSON.stringify(nameVersions));
 
         var installFunction = installModule.bind(null, name, version);
@@ -62,13 +62,13 @@ function installAll(available) {
 }
 
 function installEachTestRevert(listed, available, command, color) {
-    check.verifyObject(listed, 'expected listed object');
-    check.verifyArray(available, 'expected array');
+    check.verify.object(listed, 'expected listed object');
+    check.verify.array(available, 'expected array');
 
     var checkModulesFunctions = available.map(function (nameVersion) {
         var name = nameVersion.name;
         var currentVersion = listed[name];
-        check.verifyString(currentVersion, 'cannot find current version for ' + name +
+        check.verify.string(currentVersion, 'cannot find current version for ' + name +
             ' among current dependencies ' + JSON.stringify(listed));
 
         var revertFunction = installModule.bind(null, name, currentVersion);
@@ -87,16 +87,16 @@ function installEachTestRevert(listed, available, command, color) {
 // test particular dependency with multiple versions
 // returns promise
 function testModuleVersions(options, results) {
-    check.verifyObject(options, 'missing options');
+    check.verify.object(options, 'missing options');
     var nameVersions = options.moduleVersions;
     var restoreVersionFunc = options.revertFunction;
 
     var name = nameVersions.name;
     var versions = nameVersions.versions;
-    check.verifyString(name, 'expected name string');
-    check.verifyArray(versions, 'expected versions array');
+    check.verify.string(name, 'expected name string');
+    check.verify.array(versions, 'expected versions array');
     results = results || [];
-    check.verifyArray(results, 'expected results array');
+    check.verify.array(results, 'expected results array');
 
     var deferred = q.defer();
     var checkPromises = versions.map(function (version) {
@@ -124,17 +124,17 @@ function testModuleVersions(options, results) {
 // checks specific module@version
 // returns promise
 function testModuleVersion(options, results) {
-    check.verifyObject(options, 'missing test module options');
-    check.verifyString(options.name, 'missing module name');
-    check.verifyString(options.version, 'missing version string');
+    check.verify.object(options, 'missing test module options');
+    check.verify.string(options.name, 'missing module name');
+    check.verify.string(options.version, 'missing version string');
 
     if (options.command) {
-        check.verifyString(options.command, 'expected command string');
+        check.verify.string(options.command, 'expected command string');
     }
     // console.log('options', options);
 
     results = results || [];
-    check.verifyArray(results, 'missing previous results array');
+    check.verify.array(results, 'missing previous results array');
 
     var nameVersion = options.name + '@' + options.version;
     console.log('\ntesting', nameVersion);
@@ -167,7 +167,7 @@ function testModuleVersion(options, results) {
 function testPromise(command) {
     var testFunction = npmTest;
     if (command) {
-        check.verifyString(command, 'expected string command, not ' + command);
+        check.verify.string(command, 'expected string command, not ' + command);
         testFunction = execTest.bind(null, command);
     }
     return testFunction;

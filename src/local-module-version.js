@@ -4,7 +4,7 @@ var path = require('path');
 
 // sync returns version
 function getLocalModuleVersion(name) {
-    check.verifyString(name, 'missing name string');
+    check.verify.string(name, 'missing name string');
 
     try {
         var filename = path.join('node_modules', name, 'package.json');

@@ -5,11 +5,11 @@ var nameVersionParser = require('./moduleName');
 var getKnownDependencies = require('./get-known-dependencies');
 
 function printCurrentModules(infos) {
-    check.verifyArray(infos, 'expected array of modules');
+    check.verify.array(infos, 'expected array of modules');
 
     var modules = [];
     infos.forEach(function (nameVersionArray) {
-        check.verifyArray(nameVersionArray, 'expected name version in ' + modules);
+        check.verify.array(nameVersionArray, 'expected name version in ' + modules);
         modules.push({
             name: nameVersionArray[0],
             version: nameVersionArray[1]
@@ -31,7 +31,7 @@ function getDependenciesToCheck(moduleNames) {
             moduleNames = names;
         }
 
-        check.verifyArray(moduleNames, 'expected module names array ' +
+        check.verify.array(moduleNames, 'expected module names array ' +
             JSON.stringify(moduleNames));
     }
     var workingDirectory = process.cwd();

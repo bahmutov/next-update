@@ -5,12 +5,12 @@ var npmPath = require('./npm-test').npmPath;
 
 // returns a promise
 function test(testCommand) {
-    check.verifyString(testCommand, 'missing test command string');
+    check.verify.string(testCommand, 'missing test command string');
 
     var testParts = testCommand.split(' ');
     console.assert(testParts.length > 0, 'missing any test words in ' + testCommand);
     var testExecutable = testParts.shift();
-    check.verifyString(testExecutable, 'missing test executable for command ' + testCommand);
+    check.verify.string(testExecutable, 'missing test executable for command ' + testCommand);
     if (testExecutable === 'npm') {
         testExecutable = npmPath;
     }

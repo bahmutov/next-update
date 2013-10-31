@@ -35,10 +35,10 @@ function checkAllUpdates(options) {
     }
     checkLatestOnly = !!checkLatestOnly;
     if (checkCommand) {
-        check.verifyString(checkCommand, 'expected string test command');
+        check.verify.string(checkCommand, 'expected string test command');
     }
     var toCheck = getDependenciesToCheck(moduleName);
-    check.verifyArray(toCheck, 'dependencies to check should be an array');
+    check.verify.array(toCheck, 'dependencies to check should be an array');
 
     var testVersionsBound = testVersions.bind(null, {
         modules: toCheck,
@@ -72,7 +72,7 @@ function isSingleSpecificVersion(moduleNames) {
         }
         name = moduleNames[0];
     }
-    check.verifyString(name, 'expected module name string, not ' +
+    check.verify.string(name, 'expected module name string, not ' +
         JSON.stringify(name));
     var parsed = nameVersionParser(name);
     if (check.isObject(parsed)) {

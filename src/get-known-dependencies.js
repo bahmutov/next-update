@@ -4,7 +4,7 @@ var registry = require('./registry');
 var cleanVersions = registry.cleanVersions;
 
 function getKnownDependencies(packageFilename) {
-    check.verifyString(packageFilename, 'missing package filename string');
+    check.verify.string(packageFilename, 'missing package filename string');
 
     var workingPackage = require(packageFilename);
     var dependencies = workingPackage.dependencies || {};

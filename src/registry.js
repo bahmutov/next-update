@@ -9,13 +9,13 @@ var _ = require('lodash');
 var NPM_URL = 'http://registry.npmjs.org/';
 
 function cleanVersion(nameVersion) {
-    check.verifyArray(nameVersion, 'expected and array');
+    check.verify.array(nameVersion, 'expected and array');
     console.assert(nameVersion.length === 2,
         'expected 2 items, name and version ' + nameVersion);
     var name = nameVersion[0];
     var version = nameVersion[1];
-    check.verifyString(name, 'could not get module name from ' + nameVersion);
-    check.verifyString(version, 'could not get module version from ' + nameVersion);
+    check.verify.string(name, 'could not get module name from ' + nameVersion);
+    check.verify.string(version, 'could not get module version from ' + nameVersion);
 
     if (isUrl(version)) {
         // version = version.substr(version.indexOf('#') + 1);
@@ -47,7 +47,7 @@ function cleanVersion(nameVersion) {
 }
 
 function cleanVersions(nameVersionPairs) {
-    check.verifyArray(nameVersionPairs, 'expected array');
+    check.verify.array(nameVersionPairs, 'expected array');
     var cleaned = nameVersionPairs.map(cleanVersion)
         .filter(_.isArray);
     return cleaned;
@@ -57,11 +57,11 @@ function cleanVersions(nameVersionPairs) {
 // https://github.com/jprichardson/npm-latest
 // returns a promise
 function fetchVersions(nameVersion) {
-    check.verifyArray(nameVersion, 'expected name / version array');
+    check.verify.array(nameVersion, 'expected name / version array');
     var name = nameVersion[0];
     var version = nameVersion[1];
-    check.verifyString(name, 'missing name string');
-    check.verifyString(version, 'missing version string');
+    check.verify.string(name, 'missing name string');
+    check.verify.string(version, 'missing version string');
 
     // console.log('fetching versions for', name, 'current version', version);
 
@@ -114,7 +114,7 @@ function fetchVersions(nameVersion) {
 
 // returns a promise with available new versions
 function nextVersions(nameVersionPairs, checkLatestOnly) {
-    check.verifyArray(nameVersionPairs, 'expected array');
+    check.verify.array(nameVersionPairs, 'expected array');
     checkLatestOnly = !!checkLatestOnly;
     nameVersionPairs = cleanVersions(nameVersionPairs);
 
