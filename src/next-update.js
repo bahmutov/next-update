@@ -30,7 +30,7 @@ function checkAllUpdates(options) {
         console.log('will check only latest versions because testing all');
     }
 
-    if (check.isString(moduleName)) {
+    if (check.string(moduleName)) {
         moduleName = [moduleName];
     }
     checkLatestOnly = !!checkLatestOnly;
@@ -78,7 +78,7 @@ function isSingleSpecificVersion(moduleNames) {
     if (check.isObject(parsed)) {
         return false;
     }
-    return check.isString(parsed.version);
+    return check.string(parsed.version);
 }
 
 module.exports = {

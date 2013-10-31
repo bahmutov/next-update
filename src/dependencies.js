@@ -22,7 +22,7 @@ function getDependenciesToCheck(moduleNames) {
     if (moduleNames) {
         console.log('returning dependencies for');
         console.dir(moduleNames);
-        if (check.isString(moduleNames)) {
+        if (check.string(moduleNames)) {
             moduleNames = [moduleNames];
         }
 
