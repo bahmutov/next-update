@@ -1,6 +1,6 @@
 {
   "name": "next-update",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "Tests if module's dependencies can be updated to latest version",
   "main": "index.js",
   "bin": "index.js",
@@ -26,7 +26,7 @@
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "license": "MIT",
   "readmeFilename": "README.md",
-  "preferGlobal": "true",
+  "preferGlobal": true,
   "gitHead": "9f23b792b550c69b3f0c7dd7eb47122d264b44c1",
   "dependencies": {
     "optimist": "~0.6.0",
@@ -49,6 +49,8 @@
     "grunt-deps-ok": "~0.1.7",
     "matchdep": "~0.3.0",
     "pre-git": "0.0.13",
-    "grunt-jsonlint": "~1.0.2"
+    "grunt-jsonlint": "~1.0.2",
+    "grunt-nice-package": "~0.1.5",
+    "grunt-complexity": "~0.1.3"
   }
 }

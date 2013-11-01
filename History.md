@@ -1,4 +1,10 @@
 
+0.0.15 / 2013-10-31
+==================
+
+  * getting npm registry from config, fixes #2
+  * bumped dependencies
+
 0.0.14 / 2013-10-31
 ==================
 

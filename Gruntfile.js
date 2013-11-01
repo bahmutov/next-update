@@ -7,11 +7,20 @@ module.exports = function(grunt) {
       all: {
         src: ['*.json']
       }
+    },
+    complexity: {
+      default: grunt.file.readJSON('complexity.json')
+    },
+    'nice-package': {
+      all: {
+        options: {}
+      }
     }
   });
 
   var plugins = require('matchdep').filterDev('grunt-*');
   plugins.forEach(grunt.loadNpmTasks);
 
-  grunt.registerTask('default', ['deps-ok', 'jsonlint', 'jshint']);
+  grunt.registerTask('default', ['deps-ok', 'jsonlint', 'jshint',
+    'nice-package', 'complexity']);
 };
