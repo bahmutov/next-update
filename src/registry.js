@@ -6,7 +6,7 @@ var localVersion = require('./local-module-version');
 var isUrl = require('npm-utils').isUrl;
 var _ = require('lodash');
 
-var NPM_URL = 'http://registry.npmjs.org/';
+var registryUrl = require('npm-utils').registryUrl;
 
 function cleanVersion(nameVersion) {
     check.verify.array(nameVersion, 'expected and array');
@@ -65,48 +65,55 @@ function fetchVersions(nameVersion) {
 
     // console.log('fetching versions for', name, 'current version', version);
 
-    var url = NPM_URL + name;
     var deferred = q.defer();
-    request(url, function (err, response, body) {
-        if (err) {
-            console.error('ERROR when fetching info for package', name);
-            deferred.reject(err.message);
-            return;
-        }
 
-        try {
-            var info = JSON.parse(body);
-            if (info.error) {
-                var str = 'ERROR in npm info for ' + name + ' reason ' + info.reason;
-                console.error(str);
-                deferred.reject(str);
+    registryUrl().then(function (npmUrl) {
+        check.verify.webUrl(npmUrl, 'need npm registry url, got ' + npmUrl);
+
+        npmUrl = npmUrl.replace(/^https:/, 'http:').trim();
+        var url = npmUrl + name;
+
+        request.get(url, function (err, response, body) {
+            if (err) {
+                console.error('ERROR when fetching info for package', name);
+                deferred.reject(err.message);
                 return;
             }
-            var versions;
-            if (info.time) {
-                versions = Object.keys(info.time);
-            } else if (info.versions) {
-                versions = Object.keys(info.versions);
-            }
-            if (!Array.isArray(versions)) {
-                throw new Error('Could not get versions for ' + name + ' from ' + info);
-            }
 
-            var newerVersions = versions.filter(function (ver) {
-                var later = semver.gt(ver, version);
-                return later;
-            });
+            try {
+                var info = JSON.parse(body);
+                if (info.error) {
+                    var str = 'ERROR in npm info for ' + name + ' reason ' + info.reason;
+                    console.error(str);
+                    deferred.reject(str);
+                    return;
+                }
+                var versions;
+                if (info.time) {
+                    versions = Object.keys(info.time);
+                } else if (info.versions) {
+                    versions = Object.keys(info.versions);
+                }
+                if (!Array.isArray(versions)) {
+                    throw new Error('Could not get versions for ' + name + ' from ' + info);
+                }
 
-            deferred.resolve({
-                name: name,
-                versions: newerVersions
-            });
-            return;
-        } catch (err) {
-            console.error(err);
-            deferred.reject('Could not fetch versions for ' + name);
-            return;
-        }
+                var newerVersions = versions.filter(function (ver) {
+                    var later = semver.gt(ver, version);
+                    return later;
+                });
+
+                deferred.resolve({
+                    name: name,
+                    versions: newerVersions
+                });
+                return;
+            } catch (err) {
+                console.error(err);
+                deferred.reject('Could not fetch versions for ' + name);
+                return;
+            }
+        });
     });
 
     return deferred.promise;
