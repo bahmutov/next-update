@@ -1,4 +1,9 @@
 
+0.0.16 / 2013-11-05
+==================
+
+  * grabbing npm registry url only once, seems to fix #5
+
 0.0.15 / 2013-10-31
 ==================
 
