@@ -6,7 +6,9 @@ var localVersion = require('./local-module-version');
 var isUrl = require('npm-utils').isUrl;
 var _ = require('lodash');
 
-var registryUrl = require('npm-utils').registryUrl;
+var _registryUrl = require('npm-utils').registryUrl;
+check.verify.fn(_registryUrl, 'expected registry url function');
+var registryUrl = _.once(_registryUrl);
 
 function cleanVersion(nameVersion) {
     check.verify.array(nameVersion, 'expected and array');
