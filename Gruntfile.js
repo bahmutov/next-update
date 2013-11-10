@@ -21,6 +21,7 @@ module.exports = function(grunt) {
   var plugins = require('matchdep').filterDev('grunt-*');
   plugins.forEach(grunt.loadNpmTasks);
 
-  grunt.registerTask('default', ['deps-ok', 'jsonlint', 'jshint',
+  grunt.registerTask('default', ['deps-ok', 'jsonlint',
+    'jshint', 'jshint-solid',
     'nice-package', 'complexity']);
 };
