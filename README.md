@@ -116,3 +116,6 @@ Support: if you find any problems with the module, email me directly.
 [dependencies-url]: https://david-dm.org/bahmutov/next-update
 [endorse-image]: https://api.coderwall.com/bahmutov/endorsecount.png
 [endorse-url]: https://coderwall.com/bahmutov
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/bahmutov/next-update/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
