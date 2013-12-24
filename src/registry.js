@@ -1,5 +1,6 @@
 var request = require('request');
 var check = require('check-types');
+var verify = check.verify;
 var semver = require('semver');
 var q = require('q');
 var localVersion = require('./local-module-version');
@@ -10,14 +11,10 @@ var _registryUrl = require('npm-utils').registryUrl;
 check.verify.fn(_registryUrl, 'expected registry url function');
 var registryUrl = _.once(_registryUrl);
 
-function cleanVersion(nameVersion) {
-    check.verify.array(nameVersion, 'expected and array');
-    console.assert(nameVersion.length === 2,
-        'expected 2 items, name and version ' + nameVersion);
-    var name = nameVersion[0];
-    var version = nameVersion[1];
-    check.verify.string(name, 'could not get module name from ' + nameVersion);
-    check.verify.string(version, 'could not get module version from ' + nameVersion);
+function cleanVersion(version, name) {
+    var originalVersion = version;
+    verify.unemptyString(version, 'missing version string' + version);
+    verify.unemptyString(name, 'missing name string' + name);
 
     if (isUrl(version)) {
         // version = version.substr(version.indexOf('#') + 1);
@@ -43,14 +40,31 @@ function cleanVersion(nameVersion) {
         console.log('module', name, 'local version', version);
     }
     version = semver.clean(version);
-    console.assert(version, 'could not clean version ' + nameVersion[1]);
+    console.assert(version, 'could not clean version ' + originalVersion);
+    return version;
+}
+
+function cleanVersionPair(nameVersion) {
+    check.verify.array(nameVersion, 'expected and array');
+    console.assert(nameVersion.length === 2,
+        'expected 2 items, name and version ' + nameVersion);
+    var name = nameVersion[0];
+    check.verify.string(name, 'could not get module name from ' + nameVersion);
+
+    var version = nameVersion[1];
+    check.verify.string(version, 'could not get module version from ' + nameVersion);
+    version = cleanVersion(version, name);
+    if (!version) {
+        return;
+    }
+
     nameVersion[1] = version;
     return nameVersion;
 }
 
 function cleanVersions(nameVersionPairs) {
     check.verify.array(nameVersionPairs, 'expected array');
-    var cleaned = nameVersionPairs.map(cleanVersion)
+    var cleaned = nameVersionPairs.map(cleanVersionPair)
         .filter(_.isArray);
     return cleaned;
 }
