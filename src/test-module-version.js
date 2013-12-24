@@ -1,6 +1,8 @@
 var check = require('check-types');
+var verify = check.verify;
 var q = require('q');
 var _ = require('lodash');
+var semver = require('semver');
 var installModule = require('./module-install');
 var reportSuccess = require('./report').reportSuccess;
 var reportFailure = require('./report').reportFailure;
@@ -19,8 +21,8 @@ var report = require('./report-available');
 // expect array of objects, each {name, versions (Array) }
 // returns promise
 function testModulesVersions(options, available) {
-    check.verify.object(options, 'missing options');
-    check.verify.array(available, 'expected array of available modules');
+    verify.object(options, 'missing options');
+    verify.array(available, 'expected array of available modules');
 
     var cleaned = cleanVersions(options.modules);
     var listed = _.zipObject(cleaned);
@@ -44,14 +46,14 @@ function testModulesVersions(options, available) {
 
 // returns promise, does not revert
 function installAll(available) {
-    check.verify.array(available, 'expected array');
+    verify.array(available, 'expected array');
 
     var installFunctions = available.map(function (nameVersions) {
         var name = nameVersions.name;
         var version = nameVersions.versions[0];
-        check.verify.string(name, 'missing module name from ' +
+        verify.string(name, 'missing module name from ' +
             JSON.stringify(nameVersions));
-        check.verify.string(version, 'missing module version from ' +
+        verify.string(version, 'missing module version from ' +
             JSON.stringify(nameVersions));
 
         var installFunction = installModule.bind(null, name, version);
@@ -62,13 +64,13 @@ function installAll(available) {
 }
 
 function installEachTestRevert(listed, available, command, color) {
-    check.verify.object(listed, 'expected listed object');
-    check.verify.array(available, 'expected array');
+    verify.object(listed, 'expected listed object');
+    verify.array(available, 'expected array');
 
     var checkModulesFunctions = available.map(function (nameVersion) {
         var name = nameVersion.name;
         var currentVersion = listed[name];
-        check.verify.string(currentVersion, 'cannot find current version for ' + name +
+        verify.string(currentVersion, 'cannot find current version for ' + name +
             ' among current dependencies ' + JSON.stringify(listed));
 
         var revertFunction = installModule.bind(null, name, currentVersion);
@@ -76,7 +78,8 @@ function installEachTestRevert(listed, available, command, color) {
             moduleVersions: nameVersion,
             revertFunction: revertFunction,
             command: command,
-            color: color
+            color: color,
+            currentVersion: currentVersion
         });
         return checkModuleFunction;
     });
@@ -87,16 +90,19 @@ function installEachTestRevert(listed, available, command, color) {
 // test particular dependency with multiple versions
 // returns promise
 function testModuleVersions(options, results) {
-    check.verify.object(options, 'missing options');
+    verify.object(options, 'missing options');
     var nameVersions = options.moduleVersions;
     var restoreVersionFunc = options.revertFunction;
 
     var name = nameVersions.name;
     var versions = nameVersions.versions;
-    check.verify.string(name, 'expected name string');
-    check.verify.array(versions, 'expected versions array');
+    verify.string(name, 'expected name string');
+    verify.array(versions, 'expected versions array');
     results = results || [];
-    check.verify.array(results, 'expected results array');
+    verify.array(results, 'expected results array');
+    if (!semver.valid(options.currentVersion)) {
+        throw new Error('do not have current version for ' + name);
+    }
 
     var deferred = q.defer();
     var checkPromises = versions.map(function (version) {
@@ -104,7 +110,8 @@ function testModuleVersions(options, results) {
             name: name,
             version: version,
             command: options.command,
-            color: options.color
+            color: options.color,
+            currentVersion: options.currentVersion
         });
     });
     var checkAllPromise = checkPromises.reduce(q.when, q());
@@ -124,17 +131,18 @@ function testModuleVersions(options, results) {
 // checks specific module@version
 // returns promise
 function testModuleVersion(options, results) {
-    check.verify.object(options, 'missing test module options');
-    check.verify.string(options.name, 'missing module name');
-    check.verify.string(options.version, 'missing version string');
+    verify.object(options, 'missing test module options');
+    verify.string(options.name, 'missing module name');
+    verify.string(options.version, 'missing version string');
+    verify.unemptyString(options.currentVersion, 'missing current version');
 
     if (options.command) {
-        check.verify.string(options.command, 'expected command string');
+        verify.string(options.command, 'expected command string');
     }
     // console.log('options', options);
 
     results = results || [];
-    check.verify.array(results, 'missing previous results array');
+    verify.array(results, 'missing previous results array');
 
     var nameVersion = options.name + '@' + options.version;
     console.log('\ntesting', nameVersion);
@@ -150,6 +158,7 @@ function testModuleVersion(options, results) {
 
     var deferred = q.defer();
     var installPromise = installModule(options.name, options.version);
+
     installPromise.then(test).then(function () {
         reportSuccess(nameVersion + ' works', options.color);
         results.push(result);
@@ -167,7 +176,7 @@ function testModuleVersion(options, results) {
 function testPromise(command) {
     var testFunction = npmTest;
     if (command) {
-        check.verify.string(command, 'expected string command, not ' + command);
+        verify.string(command, 'expected string command, not ' + command);
         testFunction = execTest.bind(null, command);
     }
     return testFunction;
