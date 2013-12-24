@@ -3,6 +3,7 @@ var verify = check.verify;
 var q = require('q');
 var _ = require('lodash');
 var semver = require('semver');
+var request = require('request');
 var installModule = require('./module-install');
 var reportSuccess = require('./report').reportSuccess;
 var reportFailure = require('./report').reportFailure;
@@ -161,16 +162,45 @@ function testModuleVersion(options, results) {
 
     installPromise.then(test).then(function () {
         reportSuccess(nameVersion + ' works', options.color);
+
+        sendResult({
+            name: options.name,
+            from: options.currentVersion,
+            to: options.version,
+            success: true
+        });
         results.push(result);
         deferred.resolve(results);
     }, function (error) {
         reportFailure(nameVersion + ' tests failed :(', options.color);
+
+        sendResult({
+            name: options.name,
+            from: options.currentVersion,
+            to: options.version,
+            success: false
+        });
         console.error(error);
         result.works = false;
         results.push(result);
         deferred.resolve(results);
     });
     return deferred.promise;
+}
+
+function sendResult(options) {
+    verify.unemptyString(options.name, 'missing name');
+    verify.unemptyString(options.from, 'missing from version');
+    verify.unemptyString(options.to, 'missing to version');
+    if (options.success) {
+        options.success = !!options.success;
+    }
+    var sendOptions = {
+        uri: 'http://next-update.herokuapp.com/update',
+        method: 'POST',
+        json: options
+    };
+    request(sendOptions); // ignore result
 }
 
 function testPromise(command) {

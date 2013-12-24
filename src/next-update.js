@@ -1,3 +1,5 @@
+var Q = require('q');
+Q.longStackSupport = true;
 var check = require('check-types');
 
 var nameVersionParser = require('./moduleName');
@@ -75,7 +77,7 @@ function isSingleSpecificVersion(moduleNames) {
     check.verify.string(name, 'expected module name string, not ' +
         JSON.stringify(name));
     var parsed = nameVersionParser(name);
-    if (check.isObject(parsed)) {
+    if (check.object(parsed)) {
         return false;
     }
     return check.string(parsed.version);

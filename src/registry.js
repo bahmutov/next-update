@@ -100,10 +100,12 @@ function fetchVersions(nameVersion) {
                     throw new Error('Could not get versions for ' + name + ' from ' + info);
                 }
 
-                var newerVersions = versions.filter(function (ver) {
+                var validVersions = versions.filter(semver.valid);
+                var newerVersions = validVersions.filter(function (ver) {
                     var later = semver.gt(ver, version);
                     return later;
                 });
+
 
                 deferred.resolve({
                     name: name,

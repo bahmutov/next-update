@@ -17,11 +17,13 @@ gt.async('fetch non existent module', 2, function () {
     var promise = fetchVersions(['this-module-should-not-exist-at-all', '0.2.0']);
     gt.func(promise.then, 'return object has then method');
     promise.then(function (results) {
-        gt.ok(false, 'should not get success, results ' + JSON.stringify(results));
+        gt.ok(false, 'should not get success, results ' + JSON.stringify(results, null, 2));
     }).fail(function (error) {
         var moduleNotFound = (/not found/).test(error);
         var cannotConnect = (/ENOTFOUND/).test(error);
-        gt.ok(moduleNotFound || cannotConnect, 'error message gives a good reason,', error);
+        var errorInNpm = (/ERROR in npm/).test(error);
+        gt.ok(moduleNotFound || cannotConnect || errorInNpm,
+            'error message gives a good reason,', error);
     }).fin(gt.start);
 }, 30000);
 

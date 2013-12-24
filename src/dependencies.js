@@ -26,7 +26,7 @@ function getDependenciesToCheck(moduleNames) {
             moduleNames = [moduleNames];
         }
 
-        if (check.isObject(moduleNames)) {
+        if (check.object(moduleNames)) {
             var names = Object.keys(moduleNames);
             moduleNames = names;
         }
