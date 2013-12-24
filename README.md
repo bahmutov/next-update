@@ -64,7 +64,7 @@ it even has badges you can add to your README files.
 
 After testing each module A upgrade from version X to Y, *next-update* sends
 anonymous result to [http://next-update.herokuapp.com/](http://next-update.herokuapp.com/).
-The only information transmitted is
+The only information transmitted is:
 
 ```json
 {
@@ -80,6 +80,9 @@ what is the probability module A can be upgraded from X to Y?
 Thus even if you do not have tests covering this particular module,
 you can judge how compatible version X and Y really are over the entire
 internet.
+
+You can inspect function `sendResult` sending the data around
+[line 191](https://github.com/bahmutov/next-update/blob/master/src/test-module-version.js#L191).
 
 ## Use
 
