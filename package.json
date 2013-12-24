@@ -9,7 +9,7 @@
     "e2e": "node ./node_modules/gt test/e2e.coffee --output"
   },
   "pre-commit": [
-    "grunt jsonlint jshint"
+    "grunt", "npm test"
   ],
   "repository": {
     "type": "git",
