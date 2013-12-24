@@ -2,7 +2,15 @@
 module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    jshint: grunt.file.readJSON('jshint.json'),
+    jshint: {
+      options: {
+        jshintrc: '.jshintrc',
+        reporter: require('jshint-stylish')
+      },
+      default: {
+        src: [ "index.js", "src/*.js" ]
+      }
+    },
     jsonlint: {
       all: {
         src: ['*.json']

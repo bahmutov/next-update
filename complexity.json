@@ -1,5 +1,5 @@
 {
-  "src": ["Gruntfile.js", "src/*.js"],
+  "src": ["!Gruntfile.js", "src/*.js"],
   "options": {
     "errorsOnly": false,
     "cyclomatic": 7,
