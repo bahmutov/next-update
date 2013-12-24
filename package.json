@@ -23,6 +23,7 @@
     "update",
     "version"
   ],
+  "next-update-stats": "http://localhost:3000",
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "license": "MIT",
   "readmeFilename": "README.md",

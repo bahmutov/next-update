@@ -19,6 +19,9 @@ var npmTest = require('./npm-test').test;
 var execTest = require('./exec-test');
 var report = require('./report-available');
 
+var nextUpdateStatsUrl = require('../package.json')['next-update-stats'] ||
+    'http://next-update.herokuapp.com';
+
 // expect array of objects, each {name, versions (Array) }
 // returns promise
 function testModulesVersions(options, available) {
@@ -195,8 +198,10 @@ function sendResult(options) {
     if (options.success) {
         options.success = !!options.success;
     }
+
+    verify.webUrl(nextUpdateStatsUrl, 'missing next update stats server url');
     var sendOptions = {
-        uri: 'http://next-update.herokuapp.com/update',
+        uri: nextUpdateStatsUrl + '/update',
         method: 'POST',
         json: options
     };

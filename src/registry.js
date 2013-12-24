@@ -39,7 +39,12 @@ function cleanVersion(version, name) {
         }
         console.log('module', name, 'local version', version);
     }
-    version = semver.clean(version);
+    try {
+        version = semver.clean(version);
+    } catch (err) {
+        console.error('exception when cleaning version', version);
+        return;
+    }
     console.assert(version, 'could not clean version ' + originalVersion);
     return version;
 }
@@ -114,12 +119,14 @@ function fetchVersions(nameVersion) {
                     throw new Error('Could not get versions for ' + name + ' from ' + info);
                 }
 
-                var validVersions = versions.filter(semver.valid);
+
+                var validVersions = versions.filter(function (version) {
+                    return cleanVersion(version, name);
+                });
                 var newerVersions = validVersions.filter(function (ver) {
                     var later = semver.gt(ver, version);
                     return later;
                 });
-
 
                 deferred.resolve({
                     name: name,
