@@ -60,6 +60,27 @@ it even has badges you can add to your README files.
     npm install -g next-update  // installs module globally
     next-update --help          // shows command line options
 
+## Anonymous usage collection
+
+After testing each module A upgrade from version X to Y, *next-update* sends
+anonymous result to [http://next-update.herokuapp.com/](http://next-update.herokuapp.com/).
+The only information transmitted is
+
+```json
+{
+    name: A,
+    from: X,
+    to: Y,
+    success: boolean
+}
+```
+
+This information is used to answer the following questions later:
+what is the probability module A can be upgraded from X to Y?
+Thus even if you do not have tests covering this particular module,
+you can judge how compatible version X and Y really are over the entire
+internet.
+
 ## Use
 
 Make sure the target module has unit / integration tests,
