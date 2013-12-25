@@ -81,8 +81,15 @@ Thus even if you do not have tests covering this particular module,
 you can judge how compatible version X and Y really are over the entire
 internet.
 
-You can inspect function `sendResult` sending the data around
-[line 191](https://github.com/bahmutov/next-update/blob/master/src/test-module-version.js#L191).
+You can inspect data send in
+[stats.js](https://github.com/bahmutov/next-update/blob/master/src/stats.js).
+
+If the dependency module has been upgraded by anyone else, its statistics
+will be displayed with each test
+
+```sh
+stats: deps-ok 0.0.7 -> 0.0.8 success probability 44.44% 8 success(es) 10 failure(s)
+```
 
 ## Use
 

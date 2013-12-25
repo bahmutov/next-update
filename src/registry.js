@@ -45,7 +45,11 @@ function cleanVersion(version, name) {
         console.error('exception when cleaning version', version);
         return;
     }
-    console.assert(version, 'could not clean version ' + originalVersion);
+    if (!version) {
+        console.error(version, 'could not clean version ' + originalVersion + ' for ' + name);
+        return;
+    }
+    console.assert(version, 'missing clean version ' + originalVersion + ' for ' + name);
     return version;
 }
 
@@ -118,7 +122,6 @@ function fetchVersions(nameVersion) {
                 if (!Array.isArray(versions)) {
                     throw new Error('Could not get versions for ' + name + ' from ' + info);
                 }
-
 
                 var validVersions = versions.filter(function (version) {
                     return cleanVersion(version, name);

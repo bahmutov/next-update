@@ -3,10 +3,11 @@ var verify = check.verify;
 var q = require('q');
 var _ = require('lodash');
 var semver = require('semver');
-var request = require('request');
 var installModule = require('./module-install');
 var reportSuccess = require('./report').reportSuccess;
 var reportFailure = require('./report').reportFailure;
+
+var stats = require('./stats');
 
 var cleanVersions = require('./registry').cleanVersions;
 check.verify.fn(cleanVersions, 'cleanVersions should be a function');
@@ -18,9 +19,6 @@ check.verify.fn(revertModules, 'revert is not a function, but ' +
 var npmTest = require('./npm-test').test;
 var execTest = require('./exec-test');
 var report = require('./report-available');
-
-var nextUpdateStatsUrl = require('../package.json')['next-update-stats'] ||
-    'http://next-update.herokuapp.com';
 
 // expect array of objects, each {name, versions (Array) }
 // returns promise
@@ -161,12 +159,25 @@ function testModuleVersion(options, results) {
     console.assert(test, 'could not get test promise for command', options.command);
 
     var deferred = q.defer();
+
+    var getSussess = stats.getSuccessStats({
+        name: options.name,
+        from: options.currentVersion,
+        to: options.version
+    });
     var installPromise = installModule(options.name, options.version);
 
-    installPromise.then(test).then(function () {
+    getSussess
+    .then(stats.printStats.bind(null, options), function () {
+        console.log('could not get update stats', options.name);
+        return;
+    })
+    .then(installPromise)
+    .then(test)
+    .then(function () {
         reportSuccess(nameVersion + ' works', options.color);
 
-        sendResult({
+        stats.sendUpdateResult({
             name: options.name,
             from: options.currentVersion,
             to: options.version,
@@ -177,7 +188,7 @@ function testModuleVersion(options, results) {
     }, function (error) {
         reportFailure(nameVersion + ' tests failed :(', options.color);
 
-        sendResult({
+        stats.sendUpdateResult({
             name: options.name,
             from: options.currentVersion,
             to: options.version,
@@ -189,23 +200,6 @@ function testModuleVersion(options, results) {
         deferred.resolve(results);
     });
     return deferred.promise;
-}
-
-function sendResult(options) {
-    verify.unemptyString(options.name, 'missing name');
-    verify.unemptyString(options.from, 'missing from version');
-    verify.unemptyString(options.to, 'missing to version');
-    if (options.success) {
-        options.success = !!options.success;
-    }
-
-    verify.webUrl(nextUpdateStatsUrl, 'missing next update stats server url');
-    var sendOptions = {
-        uri: nextUpdateStatsUrl + '/update',
-        method: 'POST',
-        json: options
-    };
-    request(sendOptions); // ignore result
 }
 
 function testPromise(command) {
