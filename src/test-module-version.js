@@ -160,19 +160,20 @@ function testModuleVersion(options, results) {
 
     var deferred = q.defer();
 
-    var getSussess = stats.getSuccessStats({
+    var getSuccess = stats.getSuccessStats({
         name: options.name,
         from: options.currentVersion,
         to: options.version
     });
-    var installPromise = installModule(options.name, options.version);
 
-    getSussess
+    getSuccess
     .then(stats.printStats.bind(null, options), function () {
         console.log('could not get update stats', options.name);
         return;
     })
-    .then(installPromise)
+    .then(function () {
+        return installModule(options.name, options.version);
+    })
     .then(test)
     .then(function () {
         reportSuccess(nameVersion + ' works', options.color);
