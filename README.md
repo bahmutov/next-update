@@ -68,10 +68,10 @@ The only information transmitted is:
 
 ```json
 {
-    name: A,
-    from: X,
-    to: Y,
-    success: boolean
+    "name": "A",
+    "from": "x.x.x",
+    "to": "y.y.y",
+    "success": true
 }
 ```
 
