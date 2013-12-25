@@ -1,4 +1,10 @@
 
+0.1.0 / 2013-12-25
+==================
+
+  * added sending and getting global update success statistics
+  * Add a Bitdeli badge to README
+
 0.0.16 / 2013-11-05
 ==================
 
