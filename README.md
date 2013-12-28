@@ -55,6 +55,17 @@ You can see if your dependencies are out of date by using
 [david](https://david-dm.org),
 it even has badges you can add to your README files.
 
+*next-update* reports the probability of success for a given dependency update using
+anonymous global statistics from [next-update](http://next-update.herokuapp.com/) server
+
+```
+available updates:
+package               available  from version  average success %  successful updates  failed updates
+--------------------  ---------  ------------  -----------------  ------------------  --------------
+grunt-contrib-jshint  0.8.0      0.7.2         100%               34                  0
+grunt-bump            0.0.13     0.0.12        100%               4                   0
+```
+
 ## Install
 
     npm install -g next-update  // installs module globally
