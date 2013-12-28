@@ -29,21 +29,22 @@ function testModulesVersions(options, available) {
     var cleaned = cleanVersions(options.modules);
     var listed = _.zipObject(cleaned);
 
-    report(available, listed);
+    return report(available, listed)
+    .then(function () {
+        if (options.all) {
+            var install = installAll(available);
+            console.assert(install, 'could not get install all promise');
+            var test = testPromise(options.command);
+            console.assert(test, 'could not get test promise for command', options.command);
+            console.dir(listed);
+            console.dir(options.modules);
+            var revert = revertModules.bind(null, listed);
+            console.assert(revert, 'could not get revert promise');
+            return install.then(test).then(revert);
+        }
 
-    if (options.all) {
-        var install = installAll(available);
-        console.assert(install, 'could not get install all promise');
-        var test = testPromise(options.command);
-        console.assert(test, 'could not get test promise for command', options.command);
-        console.dir(listed);
-        console.dir(options.modules);
-        var revert = revertModules.bind(null, listed);
-        console.assert(revert, 'could not get revert promise');
-        return install.then(test).then(revert);
-    }
-
-    return installEachTestRevert(listed, available, options.command, options.color);
+        return installEachTestRevert(listed, available, options.command, options.color);
+    });
 }
 
 // returns promise, does not revert

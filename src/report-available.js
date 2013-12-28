@@ -34,7 +34,6 @@ function report(available, currentVersions) {
                         } else {
                             moduleSuccess[info.name] = stats.success / total * 100;
                         }
-                        console.log(moduleSuccess);
                     }).fail(function ignore() {});
                 });
             }
@@ -42,8 +41,6 @@ function report(available, currentVersions) {
     });
 
     return chain.then(function () {
-        console.log('success', moduleSuccess);
-
         var modules = [];
 
         available.forEach(function (info) {
