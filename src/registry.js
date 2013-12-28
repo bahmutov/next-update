@@ -98,7 +98,9 @@ function fetchVersions(nameVersion) {
         npmUrl = npmUrl.replace(/^https:/, 'http:').trim();
         var url = npmUrl + name;
 
-        request.get(url, function (err, response, body) {
+        request.get(url, onNPMversions);
+
+        function onNPMversions(err, response, body) {
             if (err) {
                 console.error('ERROR when fetching info for package', name);
                 deferred.reject(err.message);
@@ -141,7 +143,7 @@ function fetchVersions(nameVersion) {
                 deferred.reject('Could not fetch versions for ' + name);
                 return;
             }
-        });
+        }
     });
 
     return deferred.promise;

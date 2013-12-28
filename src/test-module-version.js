@@ -29,7 +29,7 @@ function testModulesVersions(options, available) {
     var cleaned = cleanVersions(options.modules);
     var listed = _.zipObject(cleaned);
 
-    report(available);
+    report(available, listed);
 
     if (options.all) {
         var install = installAll(available);

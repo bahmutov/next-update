@@ -3,6 +3,7 @@ Q.longStackSupport = true;
 var check = require('check-types');
 var verify = check.verify;
 var depsOk = require('deps-ok');
+var _ = require('lodash');
 
 var nameVersionParser = require('./moduleName');
 var registry = require('./registry');
@@ -17,7 +18,8 @@ function available(moduleName) {
     var toCheck = getDependenciesToCheck(moduleName);
     var nextVersionsPromise = nextVersions(toCheck);
     nextVersionsPromise.then(function (info) {
-        reportAvailable(info);
+        toCheck = _.zipObject(toCheck);
+        return reportAvailable(info, toCheck);
     }, function (error) {
         console.error('Could not fetch available modules\n', error);
     });
