@@ -68,9 +68,9 @@ The only information transmitted is:
 
 ```json
 {
-    "name": "A",
-    "from": "x.x.x",
-    "to": "y.y.y",
+    "name": "lodash",
+    "from": "1.0.0",
+    "to": "2.0.0",
     "success": true
 }
 ```
@@ -85,11 +85,15 @@ You can inspect data send in
 [stats.js](https://github.com/bahmutov/next-update/blob/master/src/stats.js).
 
 If the dependency module has been upgraded by anyone else, its statistics
-will be displayed with each test
+will be displayed with each test.
 
 ```sh
 stats: deps-ok 0.0.7 -> 0.0.8 success probability 44.44% 8 success(es) 10 failure(s)
 ```
+
+A lot of NPM modules [do not have tests](http://npmt.abru.pt/), but
+at least you can judge if someone else has success going from verion X to version Y
+of a dependency.
 
 ## Use
 

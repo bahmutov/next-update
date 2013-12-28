@@ -74,7 +74,7 @@ function printStats(options, stats) {
     stats.success = +stats.success || 0;
     stats.failure = +stats.failure || 0;
     var total = stats.success + stats.failure;
-    var probability = (total > 0 ? stats.success / total * 100: 0).toFixed(2);
+    var probability = (total > 0 ? stats.success / total * 100: 0).toFixed(0);
     var probabilityStr = colorProbability(options, probability);
     console.log('stats:', stats.name, stats.from, '->', stats.to,
         'success probability', probabilityStr,
