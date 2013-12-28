@@ -8,6 +8,7 @@ var nameVersionParser = require('./moduleName');
 var registry = require('./registry');
 var nextVersions = registry.nextVersions;
 var testVersions = require('./test-module-version').testModulesVersions;
+var runTest = require('./test-module-version').testPromise;
 var getDependenciesToCheck = require('./dependencies');
 var reportAvailable = require('./report-available');
 
@@ -22,7 +23,7 @@ function available(moduleName) {
     });
 }
 
-function checkCurrentInstall() {
+function checkDependenciesInstalled() {
     var defer = Q.defer();
     process.nextTick(function () {
         if (depsOk(process.cwd())) {
@@ -33,6 +34,17 @@ function checkCurrentInstall() {
         }
     });
     return defer.promise;
+}
+
+function checkCurrentInstall(options) {
+    console.log('checking if the current state works');
+    return checkDependenciesInstalled()
+    .then(function () {
+        return runTest(options && options.testCommand)();
+    })
+    .then(function () {
+        console.log('current state works');
+    });
 }
 
 // returns promise

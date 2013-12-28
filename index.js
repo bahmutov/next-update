@@ -94,7 +94,7 @@ if (program.available) {
         color: program.color
     };
 
-    nextUpdate.checkCurrentInstall()
+    nextUpdate.checkCurrentInstall(opts)
     .then(nextUpdate.checkAllUpdates.bind(null, opts))
     .then(function (results) {
         report(results, program.color);

@@ -39,7 +39,7 @@ function getDependenciesToCheck(moduleNames) {
     var packageFilename = path.join(workingDirectory, 'package.json');
     var nameVersionPairs = getKnownDependencies(packageFilename);
 
-    console.log('module\'s known dependencies:');
+    console.log('module\'s current dependencies:');
     printCurrentModules(nameVersionPairs);
 
     var toCheck = nameVersionPairs;

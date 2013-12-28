@@ -206,7 +206,7 @@ function testModuleVersion(options, results) {
 function testPromise(command) {
     var testFunction = npmTest;
     if (command) {
-        verify.string(command, 'expected string command, not ' + command);
+        verify.unemptyString(command, 'expected string command, not ' + command);
         testFunction = execTest.bind(null, command);
     }
     return testFunction;
@@ -214,5 +214,6 @@ function testPromise(command) {
 
 module.exports = {
     testModulesVersions: testModulesVersions,
-    testModuleVersion: testModuleVersion
+    testModuleVersion: testModuleVersion,
+    testPromise: testPromise
 };
