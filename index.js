@@ -63,7 +63,7 @@ if (program.version) {
     process.exit(0);
 }
 
-if (program.help) {
+if (program.help || program.h) {
     optimist.showHelp();
     process.exit(0);
 }
