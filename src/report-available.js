@@ -3,7 +3,7 @@ var print = require('./print-modules-table');
 var getSuccess = require('./stats').getSuccessStats;
 var q = require('q');
 
-function report(available, currentVersions) {
+function report(available, currentVersions, options) {
     verify.array(available, 'expect an array of info objects');
     if (!available.length) {
         console.log('nothing new is available');
@@ -53,7 +53,7 @@ function report(available, currentVersions) {
             });
         });
         console.log('\navailable updates:');
-        print(modules);
+        print(modules, options);
     });
 }
 

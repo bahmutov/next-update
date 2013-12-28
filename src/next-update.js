@@ -14,12 +14,12 @@ var getDependenciesToCheck = require('./dependencies');
 var reportAvailable = require('./report-available');
 
 // returns a promise
-function available(moduleName) {
+function available(moduleName, options) {
     var toCheck = getDependenciesToCheck(moduleName);
     var nextVersionsPromise = nextVersions(toCheck);
     nextVersionsPromise.then(function (info) {
         toCheck = _.zipObject(toCheck);
-        return reportAvailable(info, toCheck);
+        return reportAvailable(info, toCheck, options);
     }, function (error) {
         console.error('Could not fetch available modules\n', error);
     });

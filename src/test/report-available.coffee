@@ -3,7 +3,7 @@ gt.module 'report-available'
 report = require '../report-available'
 
 gt.test 'number of arguments', ->
-  gt.arity report, 2
+  gt.arity report, 3
 
 gt.test 'expects an array', ->
   gt.raises ->

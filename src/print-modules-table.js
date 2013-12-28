@@ -1,7 +1,15 @@
 var verify = require('check-types').verify;
 var Table = require('easy-table');
+var colorProbability = require('./stats').colorProbability;
 
-function printModulesTable(modules) {
+function markProbability(val, width) {
+    if (width === null) {
+        return val;
+    }
+    return Table.padLeft(val, width);
+}
+
+function printModulesTable(modules, options) {
     verify.array(modules, 'expect an array of modules');
     var haveStats = modules.some(function (m) {
         return typeof m.stats === 'object';
@@ -20,9 +28,10 @@ function printModulesTable(modules) {
             t.cell('from version', stats.from);
             var total = +stats.success + stats.failure;
             var probability = total ? stats.success / total : 0;
-            t.cell('average success %', probability * 100 + '%');
-            t.cell('successful updates', info.stats.success);
-            t.cell('failed updates', info.stats.failure);
+            var probabilityStr = colorProbability(probability, options);
+            t.cell('success %', probabilityStr, markProbability);
+            t.cell('successful updates', info.stats.success, Table.Number(0));
+            t.cell('failed updates', info.stats.failure, Table.Number(0));
         }
         t.newRow();
     });

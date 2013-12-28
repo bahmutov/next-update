@@ -52,14 +52,17 @@ function getSuccessStats(options) {
     return defer.promise;
 }
 
-function colorProbability(options, probability) {
+function colorProbability(probability, options) {
     options = options || {};
     var useColors = !!options.color && colorAvailable;
-    var probabilityStr = probability + '%';
+    if (probability < 0 || probability > 1) {
+        throw new Error('Expected probability between 0 and 1, not ' + probability);
+    }
+    var probabilityStr = (probability * 100).toFixed(0) + '%';
     if (useColors) {
-        if (probability > 80) {
+        if (probability > 0.8) {
             probabilityStr = colors.greenBright(probabilityStr);
-        } else if (probability > 50) {
+        } else if (probability > 0.5) {
             probabilityStr = colors.yellowBright(probabilityStr);
         } else {
             probabilityStr = colors.redBright(probabilityStr);
@@ -76,8 +79,8 @@ function printStats(options, stats) {
     stats.success = +stats.success || 0;
     stats.failure = +stats.failure || 0;
     var total = stats.success + stats.failure;
-    var probability = (total > 0 ? stats.success / total * 100: 0).toFixed(0);
-    var probabilityStr = colorProbability(options, probability);
+    var probability = (total > 0 ? stats.success / total: 0);
+    var probabilityStr = colorProbability(probability, options);
     console.log('stats:', stats.name, stats.from, '->', stats.to,
         'success probability', probabilityStr,
         stats.success, 'success(es)', stats.failure, 'failure(s)');
@@ -86,5 +89,6 @@ function printStats(options, stats) {
 module.exports = {
     sendUpdateResult: sendUpdateResult,
     getSuccessStats: getSuccessStats,
-    printStats: printStats
+    printStats: printStats,
+    colorProbability: colorProbability
 };

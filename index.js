@@ -69,7 +69,9 @@ if (program.help || program.h) {
 }
 
 if (program.available) {
-    nextUpdate.available(program.module);
+    nextUpdate.available(program.module, {
+        color: program.color
+    });
 } else if (program.revert) {
     revert(program.module)
     .then(function () {
