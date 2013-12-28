@@ -21,7 +21,7 @@ function printModulesTable(modules, options) {
         verify.string(info.version, 'missing module version ' + info);
         t.cell('package', info.name);
         t.cell('available', info.version);
-        if (haveStats) {
+        if (haveStats && info.stats) {
             var stats = info.stats;
             verify.object(stats, 'expected stats object');
 
