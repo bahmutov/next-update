@@ -86,19 +86,22 @@ if (program.available) {
         notifier.notify();
     }
 
-    var checkAllPromise = nextUpdate.checkAllUpdates({
+    var opts = {
         names: program.module,
         latest: program.latest,
         testCommand: program.test,
         all: program.all,
         color: program.color
-    });
+    };
 
-    checkAllPromise.then(function (results) {
+    nextUpdate.checkCurrentInstall()
+    .then(nextUpdate.checkAllUpdates.bind(null, opts))
+    .then(function (results) {
         report(results, program.color);
-    }, function (error) {
-        console.error('ERROR testing next working updates\n', error);
+    })
+    .fail(function (error) {
+        console.error('ERROR testing next working updates');
         console.error(error.stack);
-        throw new Error(error);
+        process.exit(1);
     });
 }

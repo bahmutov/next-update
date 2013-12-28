@@ -1,6 +1,8 @@
 var Q = require('q');
 Q.longStackSupport = true;
 var check = require('check-types');
+var verify = check.verify;
+var depsOk = require('deps-ok');
 
 var nameVersionParser = require('./moduleName');
 var registry = require('./registry');
@@ -20,12 +22,28 @@ function available(moduleName) {
     });
 }
 
+function checkCurrentInstall() {
+    var defer = Q.defer();
+    process.nextTick(function () {
+        if (depsOk(process.cwd())) {
+            defer.resolve();
+        } else {
+            var msg = 'Current installation is invalid, please run NPM install first';
+            defer.reject(new Error(msg));
+        }
+    });
+    return defer.promise;
+}
+
 // returns promise
 function checkAllUpdates(options) {
     options = options || {};
     var moduleName = options.names;
-    var checkLatestOnly = options.latest;
+    var checkLatestOnly = !!options.latest;
     var checkCommand = options.testCommand;
+    if (checkCommand) {
+        verify.unemptyString(checkCommand, 'invalid test command ' + checkCommand);
+    }
     var all = options.all;
     if (all) {
         checkLatestOnly = true;
@@ -84,6 +102,7 @@ function isSingleSpecificVersion(moduleNames) {
 }
 
 module.exports = {
+    checkCurrentInstall: checkCurrentInstall,
     checkAllUpdates: checkAllUpdates,
     available: available
 };

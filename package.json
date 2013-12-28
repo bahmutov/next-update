@@ -9,7 +9,8 @@
     "e2e": "node ./node_modules/gt test/e2e.coffee --output"
   },
   "pre-commit": [
-    "grunt", "npm test"
+    "grunt",
+    "npm test"
   ],
   "repository": {
     "type": "git",
@@ -39,7 +40,8 @@
     "cli-color": "~0.2.3",
     "update-notifier": "~0.1.7",
     "npm-utils": "0.0.6",
-    "easy-table": "~0.2.0"
+    "easy-table": "~0.2.0",
+    "deps-ok": "0.0.8"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
