@@ -1,4 +1,16 @@
 
+0.2.0 / 2013-12-28
+==================
+
+  * using color in table, fixes #16
+  * reporting install success for available modules, fixes #13
+  * printing test command, fixes #15
+  * added -h as alias to --help
+  * running test before starting checking new versions, fixes #10
+  * disabled error messages for 404 stats, fixes #12
+  * running deps-ok first, fixes #9
+  * rounding to percent, added link to http://npmt.abru.pt/
+
 0.1.0 / 2013-12-25
 ==================
 

@@ -1,6 +1,6 @@
 {
   "name": "next-update",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Tests if module's dependencies can be updated to latest version",
   "main": "index.js",
   "bin": "index.js",
@@ -45,8 +45,8 @@
   },
   "devDependencies": {
     "grunt": "~0.4.2",
-    "grunt-contrib-jshint": "~0.7.2",
-    "grunt-bump": "0.0.12",
+    "grunt-contrib-jshint": "~0.8.0",
+    "grunt-bump": "0.0.13",
     "gt": "~0.8.21",
     "mockery": "~1.4.0",
     "grunt-deps-ok": "~0.1.7",
