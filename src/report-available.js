@@ -15,7 +15,7 @@ function report(available, currentVersions) {
     }
 
     var chain = q();
-    var moduleSuccess = {};
+    var updateStats = {};
     available.forEach(function (info) {
         verify.string(info.name, 'missing module name ' + info);
         verify.array(info.versions, 'missing module versions ' + info);
@@ -28,12 +28,7 @@ function report(available, currentVersions) {
                         from: currentVersion,
                         to: info.versions[0]
                     }).then(function (stats) {
-                        var total = +stats.success + stats.failure;
-                        if (total === 0) {
-                            moduleSuccess[info.name] = 0;
-                        } else {
-                            moduleSuccess[info.name] = stats.success / total * 100;
-                        }
+                        updateStats[info.name] = stats;
                     }).fail(function ignore() {});
                 });
             }
@@ -54,7 +49,7 @@ function report(available, currentVersions) {
             modules.push({
                 name: info.name,
                 version: versions,
-                success: moduleSuccess[info.name]
+                stats: updateStats[info.name]
             });
         });
         console.log('\navailable updates:');

@@ -3,8 +3,8 @@ var Table = require('easy-table');
 
 function printModulesTable(modules) {
     verify.array(modules, 'expect an array of modules');
-    var haveSuccessNumbers = modules.some(function (m) {
-        return typeof m.success === 'number';
+    var haveStats = modules.some(function (m) {
+        return typeof m.stats === 'object';
     });
 
     var t = new Table();
@@ -12,9 +12,17 @@ function printModulesTable(modules) {
         verify.string(info.name, 'missing module name ' + info);
         verify.string(info.version, 'missing module version ' + info);
         t.cell('package', info.name);
-        t.cell('version', info.version);
-        if (haveSuccessNumbers) {
-            t.cell('average success %', info.success);
+        t.cell('available', info.version);
+        if (haveStats) {
+            var stats = info.stats;
+            verify.object(stats, 'expected stats object');
+
+            t.cell('from version', stats.from);
+            var total = +stats.success + stats.failure;
+            var probability = total ? stats.success / total : 0;
+            t.cell('average success %', probability * 100 + '%');
+            t.cell('successful updates', info.stats.success);
+            t.cell('failed updates', info.stats.failure);
         }
         t.newRow();
     });
