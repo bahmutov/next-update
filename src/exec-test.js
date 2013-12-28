@@ -1,16 +1,18 @@
 var check = require('check-types');
+var verify = check.verify;
 var spawn = require('child_process').spawn;
 var q = require('q');
 var npmPath = require('./npm-test').npmPath;
 
 // returns a promise
 function test(testCommand) {
-    check.verify.string(testCommand, 'missing test command string');
+    verify.unemptyString(testCommand, 'missing test command string');
+    console.log(' ', testCommand);
 
     var testParts = testCommand.split(' ');
     console.assert(testParts.length > 0, 'missing any test words in ' + testCommand);
     var testExecutable = testParts.shift();
-    check.verify.string(testExecutable, 'missing test executable for command ' + testCommand);
+    verify.unemptyString(testExecutable, 'missing test executable for command ' + testCommand);
     if (testExecutable === 'npm') {
         testExecutable = npmPath;
     }
@@ -44,6 +46,7 @@ function test(testCommand) {
         if (code) {
             console.error('testProcess test returned', code);
             console.error('test errors:\n' + testErrors);
+            console.error(testOutput);
             deferred.reject({
                 code: code,
                 errors: testErrors
