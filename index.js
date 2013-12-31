@@ -99,7 +99,9 @@ if (program.available) {
     nextUpdate.checkCurrentInstall(opts)
     .then(nextUpdate.checkAllUpdates.bind(null, opts))
     .then(function (results) {
-        report(results, program.color);
+        if (Array.isArray(results)) {
+            report(results, program.color);
+        }
     })
     .fail(function (error) {
         console.error('ERROR testing next working updates');
