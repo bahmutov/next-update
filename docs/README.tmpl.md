@@ -6,6 +6,8 @@
 
 {%= _.doc("./docs/use.md") %}
 
+{%= _.doc("./docs/dev.md") %}
+
 {%= _.doc("./docs/third-party.md") %}
 
 ## MIT License

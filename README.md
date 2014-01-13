@@ -149,6 +149,19 @@ like this `changed foo` (*foo* is package name)
 
 
 
+## Development
+
+Edit source, run unit tests, run end to end tests and release
+new version commands:
+
+```sh
+npm test
+npm run e2e
+grunt release
+npm publish
+```
+
+
 ### 3<sup>rd</sup> party libraries
 
 * [lo-dash](https://github.com/bestiejs/lodash) is used throught the code to deal with collections.
