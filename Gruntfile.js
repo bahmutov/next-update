@@ -31,15 +31,21 @@ module.exports = function(grunt) {
         templates: './docs'
       }
     },
+    /* to bump version, then run grunt, then commit
+    grunt bump-only:minor
+    grunt
+    grunt bump-commit
+    */
     bump: {
       options: {
         commit: true,
         commitMessage: 'Release v%VERSION%',
-        commitFiles: ['package.json'], // '-a' for all files
+        commitFiles: ['-a'], // '-a' for all files
         createTag: true,
         tagName: '%VERSION%',
         tagMessage: 'Version %VERSION%',
-        push: true
+        push: true,
+        pushTo: 'origin'
       }
     }
   });
@@ -47,7 +53,9 @@ module.exports = function(grunt) {
   var plugins = require('matchdep').filterDev('grunt-*');
   plugins.forEach(grunt.loadNpmTasks);
 
-  grunt.registerTask('default', ['deps-ok', 'jsonlint',
+  grunt.registerTask('pre-check', ['deps-ok', 'jsonlint',
     'jshint', 'jshint-solid',
     'nice-package', 'complexity']);
+  grunt.registerTask('default', ['pre-check']);
+  grunt.registerTask('release', ['bump-only:patch', 'readme', 'bump-commit']);
 };
