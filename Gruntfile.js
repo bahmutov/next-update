@@ -23,6 +23,13 @@ module.exports = function(grunt) {
       all: {
         options: {}
       }
+    },
+    readme: {
+      options: {
+        readme: './docs/README.tmpl.md',
+        docs: '.',
+        templates: './docs'
+      }
     }
   });
 

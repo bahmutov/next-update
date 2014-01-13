@@ -56,6 +56,7 @@
     "grunt-nice-package": "~0.1.5",
     "grunt-complexity": "~0.1.4",
     "grunt-jshint-solid": "0.0.1",
-    "jshint-stylish": "~0.1.5"
+    "jshint-stylish": "~0.1.5",
+    "grunt-readme": "~0.4.5"
   }
 }

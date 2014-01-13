@@ -1,24 +1,3 @@
-# next-update v0.2.0
-
-> Tests if module's dependencies can be updated to latest version
-
-[![NPM][next-update-icon] ][next-update-url]
-
-[![Build status][next-update-ci-image] ][next-update-ci-url]
-[![dependencies][next-update-dependencies-image] ][next-update-dependencies-url]
-[![devdependencies][next-update-devdependencies-image] ][next-update-devdependencies-url]
-
-[next-update-icon]: https://nodei.co/npm/next-update.png?downloads=true
-[next-update-url]: https://npmjs.org/package/next-update
-[next-update-ci-image]: https://travis-ci.org/uTest/next-update.png?branch=master
-[next-update-ci-url]: https://travis-ci.org/uTest/next-update
-[next-update-dependencies-image]: https://david-dm.org/utest/next-update.png
-[next-update-dependencies-url]: https://david-dm.org/utest/next-update
-[next-update-devdependencies-image]: https://david-dm.org/utest/next-update/dev-status.png
-[next-update-devdependencies-url]: https://david-dm.org/utest/next-update#info=devDependencies
-
-
-
 Tests if module's dependencies can be updated to newer / latest versions
 without breaking the tests.
 
@@ -27,7 +6,7 @@ without breaking the tests.
     next-update --latest
     // checks if latest versions of 3rd party break any unit tests
 
-### Example
+## Example
 
 Imagine your nodejs module *foo* has the following dependencies listed in *package.json*
 
@@ -52,7 +31,7 @@ in the folder with module *foo*. Here is the example output:
 Both *package.json* file and *node_modules* folder are left unchanged,
 and now you know that you can safely upgrade both libraries to later versions.
 
-#### It even tells you the install command ;)
+### It even tells you the install command ;)
 
     Use the following command to install working versions
     npm install --save lodash@2.1.0
@@ -78,12 +57,12 @@ grunt-contrib-jshint  0.8.0      0.7.2         100%               34            
 grunt-bump            0.0.13     0.0.12        100%               4                   0
 ```
 
-### Install
+## Install
 
     npm install -g next-update  // installs module globally
     next-update --help          // shows command line options
 
-### Anonymous usage collection
+## Anonymous usage collection
 
 After testing each module A upgrade from version X to Y, *next-update* sends
 anonymous result to [http://next-update.herokuapp.com/](http://next-update.herokuapp.com/).
@@ -118,7 +97,7 @@ A lot of NPM modules [do not have tests](http://npmt.abru.pt/), but
 at least you can judge if someone else has success going from verion X to version Y
 of a dependency.
 
-### Use
+## Use
 
 Make sure the target module has unit / integration tests,
 and the tests can be run using `npm test` command.
@@ -134,7 +113,7 @@ the target module. In general this tool does the following:
     3. Installs back the current version.
 4. Reports results
 
-#### Misc
+### Misc
 
 * To see what has changed in the latest version of any module,
 use my companion tool [changed](https://npmjs.org/package/changed)
@@ -146,46 +125,3 @@ like this `changed foo` (*foo* is package name)
     * install new versions of the desired modules using standard `npm i dependency@version --save`
 * You can use custom test command, for example `next-update -t "grunt test"`
     * `npm test` is used by default.
-
-
-
-### 3<sup>rd</sup> party libraries
-
-* [lo-dash](https://github.com/bestiejs/lodash) is used throught the code to deal with collections.
-* [check-types](https://github.com/philbooth/check-types.js) is used to verify arguments through out the code.
-* [optimist](https://github.com/substack/node-optimist) is used to process command line arguments.
-* [request](https://npmjs.org/package/request) is used to fetch NPM registry information.
-* [semver](https://npmjs.org/package/semver) is used to compare module version numbers.
-* [q](https://npmjs.org/package/q) library is used to handle promises. While developing this tool,
-I quickly ran into problems managing the asynchronous nature of fetching information, installing multiple modules,
-testing, etc. At first I used [async](https://npmjs.org/package/async), but it was still too complex.
-Using promises allowed to cut the program's code and the complexity to very manageable level.
-* [cli-color](https://npmjs.org/package/cli-color) prints colored text to the terminal.
-
-
-## MIT License
-
-Copyright (c) 2014 Gleb Bahmutov
-
-Permission is hereby granted, free of charge, to any person
-obtaining a copy of this software and associated documentation
-files (the "Software"), to deal in the Software without
-restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following
-conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
-
-
