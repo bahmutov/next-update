@@ -30,6 +30,17 @@ module.exports = function(grunt) {
         docs: '.',
         templates: './docs'
       }
+    },
+    bump: {
+      options: {
+        commit: true,
+        commitMessage: 'Release v%VERSION%',
+        commitFiles: ['package.json'], // '-a' for all files
+        createTag: true,
+        tagName: '%VERSION%',
+        tagMessage: 'Version %VERSION%',
+        push: true
+      }
     }
   });
 
