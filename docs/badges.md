@@ -8,7 +8,7 @@
 [next-update-url]: https://npmjs.org/package/next-update
 [next-update-ci-image]: https://travis-ci.org/bahmutov/next-update.png?branch=master
 [next-update-ci-url]: https://travis-ci.org/bahmutov/next-update
-[next-update-dependencies-image]: https://david-dm.org/utest/next-update.png
-[next-update-dependencies-url]: https://david-dm.org/utest/next-update
-[next-update-devdependencies-image]: https://david-dm.org/utest/next-update/dev-status.png
-[next-update-devdependencies-url]: https://david-dm.org/utest/next-update#info=devDependencies
+[next-update-dependencies-image]: https://david-dm.org/bahmutov/next-update.png
+[next-update-dependencies-url]: https://david-dm.org/bahmutov/next-update
+[next-update-devdependencies-image]: https://david-dm.org/bahmutov/next-update/dev-status.png
+[next-update-devdependencies-url]: https://david-dm.org/bahmutov/next-update#info=devDependencies
