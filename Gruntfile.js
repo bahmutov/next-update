@@ -31,10 +31,8 @@ module.exports = function(grunt) {
         templates: './docs'
       }
     },
-    /* to bump version, then run grunt, then commit
-    grunt bump-only:minor
-    grunt
-    grunt bump-commit
+    /* to bump version, then run grunt (to update readme), then commit
+    grunt release
     */
     bump: {
       options: {
