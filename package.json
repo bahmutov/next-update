@@ -34,9 +34,9 @@
     "optimist": "~0.6.0",
     "lodash": "~2.4.1",
     "check-types": "~1.1.1",
-    "request": "~2.30.0",
+    "request": "~2.31.0",
     "semver": "~2.2.1",
-    "q": "~0.9.7",
+    "q": "~1.0.0",
     "cli-color": "~0.2.3",
     "update-notifier": "~0.1.7",
     "npm-utils": "0.0.6",
@@ -47,15 +47,15 @@
     "grunt": "~0.4.2",
     "grunt-contrib-jshint": "~0.8.0",
     "grunt-bump": "0.0.13",
-    "gt": "~0.8.21",
+    "gt": "~0.8.22",
     "mockery": "~1.4.0",
     "grunt-deps-ok": "~0.1.7",
     "matchdep": "~0.3.0",
     "pre-git": "0.0.14",
     "grunt-jsonlint": "~1.0.4",
     "grunt-nice-package": "~0.1.5",
-    "grunt-complexity": "~0.1.3",
+    "grunt-complexity": "~0.1.4",
     "grunt-jshint-solid": "0.0.1",
-    "jshint-stylish": "~0.1.4"
+    "jshint-stylish": "~0.1.5"
   }
 }
