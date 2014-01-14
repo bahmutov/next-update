@@ -1,13 +1,14 @@
 {
     "maxerr"        : 50,
 
+    "indent"        : 2,
+    "smarttabs"     : true,
     "bitwise"       : true,
     "camelcase"     : false,
     "curly"         : true,
     "eqeqeq"        : true,
     "forin"         : true,
     "immed"         : false,
-    "indent"        : 4,
     "latedef"       : false,
     "newcap"        : true,
     "noarg"         : true,
@@ -44,7 +45,6 @@
     "multistr"      : false,
     "proto"         : false,
     "scripturl"     : false,
-    "smarttabs"     : false,
     "shadow"        : false,
     "sub"           : false,
     "supernew"      : false,

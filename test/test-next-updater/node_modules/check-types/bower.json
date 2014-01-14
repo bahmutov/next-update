@@ -1,0 +1,16 @@
+{
+    "name": "check-types",
+    "version": "0.7.0",
+    "main": "src/check-types.min.js",
+    "ignore": [
+        "AUTHORS",
+        "component.json",
+        "config",
+        "node_modules",
+        "package.json",
+        "README.md",
+        "src/check-types.js",
+        "test"
+    ]
+}
+

@@ -5,8 +5,9 @@
   "main": "index.js",
   "bin": "index.js",
   "scripts": {
-    "test": "node ./node_modules/gt src/test/*.js src/test/*.coffee --output",
-    "e2e": "node ./node_modules/gt test/e2e.coffee --output"
+    "test": "grunt && npm run unit && npm run e2e",
+    "unit": "node ./node_modules/gt src/test/*.js src/test/*.coffee --output",
+    "e2e": "node ./node_modules/gt test/*.coffee --output"
   },
   "pre-commit": [
     "grunt",

@@ -1,5 +1,5 @@
 /*global module:false*/
-module.exports = function(grunt) {
+module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     jshint: {
@@ -7,8 +7,8 @@ module.exports = function(grunt) {
         jshintrc: '.jshintrc',
         reporter: require('jshint-stylish')
       },
-      default: {
-        src: [ "index.js", "src/*.js" ]
+      all: {
+        src: [ '*.js' ]
       }
     },
     jsonlint: {
@@ -17,7 +17,7 @@ module.exports = function(grunt) {
       }
     },
     complexity: {
-      default: grunt.file.readJSON('complexity.json')
+      all: grunt.file.readJSON('complexity.json')
     },
     'nice-package': {
       all: {
