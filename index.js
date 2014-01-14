@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+var q = require('q');
 var nextUpdate = require('./src/next-update');
 if (module.parent) {
   module.exports = function (options) {
@@ -63,6 +64,11 @@ if (module.parent) {
           alias: 't',
           description: 'custom test command to run instead of npm test'
       })
+      .option('skip', {
+        boolean: true,
+        description: 'skip running tests first',
+        default: false
+      })
       .option('all', {
           boolean: true,
           default: false,
@@ -109,7 +115,7 @@ if (module.parent) {
           color: program.color
       };
 
-      nextUpdate.checkCurrentInstall(opts)
+      (program.skip ? q() : nextUpdate.checkCurrentInstall(opts))
       .then(nextUpdate.checkAllUpdates.bind(null, opts))
       .then(function (results) {
           if (Array.isArray(results)) {
