@@ -5,6 +5,7 @@ if (module.parent) {
   module.exports = function (options) {
     options = options || {};
     var opts = {
+      names: options.module,
       testCommand: options.test,
       color: options.color || options.colors
     };
