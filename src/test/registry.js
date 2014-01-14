@@ -22,7 +22,8 @@ gt.async('fetch non existent module', 2, function () {
         var moduleNotFound = (/not found/).test(error);
         var cannotConnect = (/ENOTFOUND/).test(error);
         var errorInNpm = (/ERROR in npm/).test(error);
-        gt.ok(moduleNotFound || cannotConnect || errorInNpm,
+        var couldNot = (/could not fetch/i).test(error);
+        gt.ok(moduleNotFound || cannotConnect || errorInNpm || couldNot,
             'error message gives a good reason,', error);
     }).fin(gt.start);
 }, 30000);
