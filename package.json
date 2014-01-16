@@ -58,6 +58,8 @@
     "grunt-complexity": "~0.1.4",
     "grunt-jshint-solid": "0.0.1",
     "jshint-stylish": "~0.1.5",
-    "grunt-readme": "~0.4.5"
+    "grunt-readme": "~0.4.5",
+    "grunt-lineending": "~0.2.1",
+    "time-grunt": "~0.2.8"
   }
 }
