@@ -3,6 +3,16 @@ module.exports = function (grunt) {
   require('time-grunt')(grunt);
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    lineending: {
+      index: {
+        options: {
+          eol: 'lf'
+        },
+        files: {
+          'index.js': 'index.js'
+        }
+      }
+    },
     jshint: {
       options: {
         jshintrc: '.jshintrc',
@@ -55,6 +65,6 @@ module.exports = function (grunt) {
   grunt.registerTask('pre-check', ['deps-ok', 'jsonlint',
     'jshint', 'jshint-solid',
     'nice-package', 'complexity']);
-  grunt.registerTask('default', ['pre-check']);
+  grunt.registerTask('default', ['pre-check', 'lineending']);
   grunt.registerTask('release', ['bump-only:patch', 'readme', 'bump-commit']);
 };
