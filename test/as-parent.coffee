@@ -1,4 +1,5 @@
 path = require 'path'
+TWO_MINUTES = 120000
 
 gt.module 'using next-update as module',
   setup: ->
@@ -17,4 +18,4 @@ gt.async 'try updating', ->
   .failed -> gt.ok true, 'something failed'
   .finally ->
     gt.start()
-, 60000
+, TWO_MINUTES
