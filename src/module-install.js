@@ -18,15 +18,17 @@ function installModule(name, version, results) {
     npm.stderr.setEncoding('utf-8');
 
     npm.stdout.on('data', function (data) {
+        console.log('stdout:', data);
         testOutput += data;
     });
 
     npm.stderr.on('data', function (data) {
+        console.log('stderr:', data);
         testErrors += data;
     });
 
     npm.on('error', function (err) {
-        console.error(err);
+        console.error('error:', err);
         testErrors += err.toString();
     });
 
@@ -40,6 +42,7 @@ function installModule(name, version, results) {
                 errors: testErrors
             });
         } else {
+            console.log(moduleVersion, 'installed successfully');
             deferred.resolve(results);
         }
     });

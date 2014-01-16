@@ -3,11 +3,12 @@
 var q = require('q');
 var nextUpdate = require('./src/next-update');
 if (module.parent) {
-  module.exports = function (options) {
+  module.exports = function nextUpdateTopLevel(options) {
     options = options || {};
     var opts = {
       names: options.module,
       testCommand: options.test,
+      latest: options.latest,
       color: options.color || options.colors
     };
 
