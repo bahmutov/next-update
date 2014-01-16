@@ -10,6 +10,8 @@
 
 {%= _.doc("./docs/third-party.md") %}
 
+{%= _.doc("./docs/footer.md") %}
+
 ## MIT License
 
 {%= _.doc("./LICENSE-MIT") %}
