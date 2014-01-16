@@ -48,7 +48,7 @@
     "grunt": "~0.4.2",
     "grunt-contrib-jshint": "~0.8.0",
     "grunt-bump": "0.0.13",
-    "gt": "~0.8.22",
+    "gt": "~0.8.29",
     "mockery": "~1.4.0",
     "grunt-deps-ok": "~0.1.7",
     "matchdep": "~0.3.0",
