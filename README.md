@@ -1,4 +1,4 @@
-# next-update v0.2.15
+# next-update v0.2.16
 
 > Tests if module's dependencies can be updated to latest version
 
@@ -188,7 +188,8 @@ License: MIT - do anything with the code, but don't blame me if it does not work
 
 Spread the word: tweet, star on github, etc.
 
-Support: if you find any problems with this module, email / tweet / open issue on Github
+Support: if you find any problems with this module, email / tweet /
+[open issue](https://github.com/bahmutov/next-update/issues?state=open) on Github
 
 
 
