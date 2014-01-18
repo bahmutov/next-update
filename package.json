@@ -35,7 +35,7 @@
     "optimist": "~0.6.0",
     "lodash": "~2.4.1",
     "check-types": "~1.1.1",
-    "request": "~2.31.0",
+    "request": "~2.33.0",
     "semver": "~2.2.1",
     "q": "~1.0.0",
     "cli-color": "~0.2.3",

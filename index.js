@@ -45,6 +45,7 @@ if (module.parent) {
   })
   .option('latest', {
     boolean: true,
+    alias: 'l',
     description: 'only check latest available update',
     default: true
   })
