@@ -17,13 +17,21 @@ function installModule(name, version, results) {
     npm.stdout.setEncoding('utf-8');
     npm.stderr.setEncoding('utf-8');
 
+    function hasError(str) {
+        return /error/i.test(str);
+    }
+
     npm.stdout.on('data', function (data) {
-        console.log('stdout:', data);
+        if (hasError(data)) {
+            console.log('stdout:', data);
+        }
         testOutput += data;
     });
 
     npm.stderr.on('data', function (data) {
-        console.log('stderr:', data);
+        if (hasError(data)) {
+            console.log('stderr:', data);
+        }
         testErrors += data;
     });
 
