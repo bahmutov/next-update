@@ -1,6 +1,8 @@
 var verify = require('check-types').verify;
 var print = require('./print-modules-table');
-var getSuccess = require('./stats').getSuccessStats;
+var stats = require('./stats');
+var clc = require('cli-color');
+var getSuccess = stats.getSuccessStats;
 var q = require('q');
 
 function report(available, currentVersions, options) {
@@ -54,6 +56,7 @@ function report(available, currentVersions, options) {
         });
         console.log('\navailable updates:');
         print(modules, options);
+        console.log('update stats from', clc.underline(stats.url));
     });
 }
 

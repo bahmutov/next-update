@@ -90,5 +90,6 @@ module.exports = {
     sendUpdateResult: sendUpdateResult,
     getSuccessStats: getSuccessStats,
     printStats: printStats,
-    colorProbability: colorProbability
+    colorProbability: colorProbability,
+    url: nextUpdateStatsUrl
 };
