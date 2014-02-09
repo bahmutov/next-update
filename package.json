@@ -1,22 +1,41 @@
 {
   "name": "next-update",
-  "version": "0.2.16",
   "description": "Tests if module's dependencies can be updated to latest version",
-  "main": "index.js",
+  "version": "0.2.16",
+  "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "bin": "index.js",
-  "scripts": {
-    "test": "grunt && npm run unit && npm run e2e",
-    "unit": "node ./node_modules/gt src/test/*.js src/test/*.coffee --output",
-    "e2e": "node ./node_modules/gt test/*.coffee --output"
+  "dependencies": {
+    "check-types": "~1.1.1",
+    "cli-color": "~0.2.3",
+    "deps-ok": "0.0.8",
+    "easy-table": "~0.3.0",
+    "lodash": "~2.4.1",
+    "npm-utils": "0.0.6",
+    "optimist": "~0.6.1",
+    "q": "~1.0.0",
+    "request": "~2.33.0",
+    "semver": "~2.2.1",
+    "update-notifier": "~0.1.7"
   },
-  "pre-commit": [
-    "grunt",
-    "npm test"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/bahmutov/next-update.git"
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-bump": "0.0.13",
+    "grunt-complexity": "~0.1.4",
+    "grunt-contrib-jshint": "~0.8.0",
+    "grunt-deps-ok": "~0.1.7",
+    "grunt-jshint-solid": "0.0.1",
+    "grunt-jsonlint": "~1.0.4",
+    "grunt-lineending": "~0.2.2",
+    "grunt-nice-package": "~0.2.1",
+    "grunt-readme": "~0.4.5",
+    "gt": "~0.8.33",
+    "jshint-stylish": "~0.1.5",
+    "matchdep": "~0.3.0",
+    "mockery": "~1.4.0",
+    "pre-git": "0.0.15",
+    "time-grunt": "~0.2.9"
   },
+  "gitHead": "9f23b792b550c69b3f0c7dd7eb47122d264b44c1",
   "keywords": [
     "javascript",
     "node",
@@ -25,41 +44,22 @@
     "update",
     "version"
   ],
-  "next-update-stats": "http://next-update.herokuapp.com",
-  "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "license": "MIT",
-  "readmeFilename": "README.md",
+  "main": "index.js",
+  "next-update-stats": "http://next-update.herokuapp.com",
+  "pre-commit": [
+    "grunt",
+    "npm test"
+  ],
   "preferGlobal": true,
-  "gitHead": "9f23b792b550c69b3f0c7dd7eb47122d264b44c1",
-  "dependencies": {
-    "optimist": "~0.6.0",
-    "lodash": "~2.4.1",
-    "check-types": "~1.1.1",
-    "request": "~2.33.0",
-    "semver": "~2.2.1",
-    "q": "~1.0.0",
-    "cli-color": "~0.2.3",
-    "update-notifier": "~0.1.7",
-    "npm-utils": "0.0.6",
-    "easy-table": "~0.2.0",
-    "deps-ok": "0.0.8"
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bahmutov/next-update.git"
   },
-  "devDependencies": {
-    "grunt": "~0.4.2",
-    "grunt-contrib-jshint": "~0.8.0",
-    "grunt-bump": "0.0.13",
-    "gt": "~0.8.29",
-    "mockery": "~1.4.0",
-    "grunt-deps-ok": "~0.1.7",
-    "matchdep": "~0.3.0",
-    "pre-git": "0.0.14",
-    "grunt-jsonlint": "~1.0.4",
-    "grunt-nice-package": "~0.1.5",
-    "grunt-complexity": "~0.1.4",
-    "grunt-jshint-solid": "0.0.1",
-    "jshint-stylish": "~0.1.5",
-    "grunt-readme": "~0.4.5",
-    "grunt-lineending": "~0.2.1",
-    "time-grunt": "~0.2.8"
+  "scripts": {
+    "test": "grunt && npm run unit && npm run e2e",
+    "unit": "node ./node_modules/gt src/test/*.js src/test/*.coffee --output",
+    "e2e": "node ./node_modules/gt test/*.coffee --output"
   }
 }
