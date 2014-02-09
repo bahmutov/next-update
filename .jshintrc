@@ -69,5 +69,5 @@
     "passfail"      : false,
     "white"         : true,
 
-    "predef"        : [ ]
+    "globals"       : {}
 }
