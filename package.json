@@ -23,6 +23,7 @@
     "grunt-complexity": "~0.1.4",
     "grunt-contrib-jshint": "~0.8.0",
     "grunt-deps-ok": "~0.1.7",
+    "grunt-help": "~0.2.0",
     "grunt-jshint-solid": "0.0.1",
     "grunt-jsonlint": "~1.0.4",
     "grunt-lineending": "~0.2.2",

@@ -35,6 +35,16 @@ module.exports = function (grunt) {
         options: {}
       }
     },
+
+    // TODO fix help, requires grunt-help fix to
+    // work with optimist
+    help: {
+      options: {
+        destination: 'docs/help.md'
+      },
+      all: {}
+    },
+
     readme: {
       options: {
         readme: './docs/README.tmpl.md',
