@@ -32,7 +32,9 @@ module.exports = function (grunt) {
     },
     'nice-package': {
       all: {
-        options: {}
+        options: {
+          blankLine: true
+        }
       }
     },
 
