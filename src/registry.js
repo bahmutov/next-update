@@ -24,6 +24,11 @@ function cleanVersion(version, name) {
         console.log('Cannot handle git repos, skipping', name, 'at', version);
         return;
     }
+    if (version === 'original' ||
+        version === 'modified' ||
+        version === 'created') {
+        return;
+    }
 
     version = version.replace('~', '');
     var twoDigitVersion = /^\d+\.\d+$/;
@@ -46,7 +51,7 @@ function cleanVersion(version, name) {
         return;
     }
     if (!version) {
-        console.error(version, 'could not clean version ' + originalVersion + ' for ' + name);
+        console.error('could not clean version ' + originalVersion + ' for ' + name);
         return;
     }
     console.assert(version, 'missing clean version ' + originalVersion + ' for ' + name);
