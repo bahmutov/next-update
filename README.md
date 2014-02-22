@@ -1,4 +1,4 @@
-# next-update v0.2.17
+# next-update v0.2.18
 
 > Tests if module's dependencies can be updated to latest version
 
