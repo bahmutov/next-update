@@ -34,7 +34,8 @@
     "matchdep": "~0.3.0",
     "mockery": "~1.4.0",
     "pre-git": "0.0.15",
-    "time-grunt": "~0.2.9"
+    "time-grunt": "~0.2.9",
+    "coveralls": "~2.8.0"
   },
   "gitHead": "9f23b792b550c69b3f0c7dd7eb47122d264b44c1",
   "keywords": [
@@ -61,6 +62,7 @@
   "scripts": {
     "test": "grunt && npm run unit && npm run e2e",
     "unit": "node ./node_modules/gt src/test/*.js src/test/*.coffee --output",
-    "e2e": "node ./node_modules/gt test/*.coffee --output"
+    "e2e": "node ./node_modules/gt test/*.coffee --output",
+    "coveralls": "cat cover/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   }
 }
