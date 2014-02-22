@@ -1,6 +1,7 @@
 [![NPM][next-update-icon] ][next-update-url]
 
 [![Build status][next-update-ci-image] ][next-update-ci-url]
+[![Coverage Status][next-update-coverage-image] ][next-update-coverage-url]
 [![dependencies][next-update-dependencies-image] ][next-update-dependencies-url]
 [![devdependencies][next-update-devdependencies-image] ][next-update-devdependencies-url]
 
@@ -8,6 +9,8 @@
 [next-update-url]: https://npmjs.org/package/next-update
 [next-update-ci-image]: https://travis-ci.org/bahmutov/next-update.png?branch=master
 [next-update-ci-url]: https://travis-ci.org/bahmutov/next-update
+[next-update-coverage-image]: https://coveralls.io/repos/bahmutov/next-update/badge.png
+[next-update-coverage-url]: https://coveralls.io/r/bahmutov/next-update
 [next-update-dependencies-image]: https://david-dm.org/bahmutov/next-update.png
 [next-update-dependencies-url]: https://david-dm.org/bahmutov/next-update
 [next-update-devdependencies-image]: https://david-dm.org/bahmutov/next-update/dev-status.png
