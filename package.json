@@ -4,6 +4,9 @@
   "version": "0.2.17",
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "bin": "index.js",
+  "bugs": {
+    "url": "https://github.com/bahmutov/next-update/issues"
+  },
   "dependencies": {
     "check-types": "~1.1.1",
     "cli-color": "~0.2.3",
@@ -38,6 +41,7 @@
     "time-grunt": "~0.2.9"
   },
   "gitHead": "9f23b792b550c69b3f0c7dd7eb47122d264b44c1",
+  "homepage": "https://github.com/bahmutov/next-update",
   "keywords": [
     "javascript",
     "node",
