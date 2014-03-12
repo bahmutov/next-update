@@ -1,7 +1,7 @@
 {
   "name": "next-update",
   "description": "Tests if module's dependencies can be updated to latest version",
-  "version": "0.2.18",
+  "version": "0.3.0",
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "bin": "index.js",
   "bugs": {
@@ -70,3 +70,4 @@
     "coveralls": "cat cover/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   }
 }
+
