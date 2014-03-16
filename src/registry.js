@@ -30,7 +30,7 @@ function cleanVersion(version, name) {
         return;
     }
 
-    version = version.replace('~', '');
+    version = version.replace('~', '').replace('^', '');
     var twoDigitVersion = /^\d+\.\d+$/;
     if (twoDigitVersion.test(version)) {
         version += '.0';
