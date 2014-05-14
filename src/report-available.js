@@ -31,7 +31,7 @@ function report(available, currentVersions, options) {
                         to: info.versions[0]
                     }).then(function (stats) {
                         updateStats[info.name] = stats;
-                    }).fail(function ignore() {});
+                    }).catch(function ignore() {});
                 });
             }
         }

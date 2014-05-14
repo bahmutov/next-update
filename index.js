@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
 var q = require('q');
+q.longStackSupport =  true;
+
 var nextUpdate = require('./src/next-update');
 if (module.parent) {
   module.exports = function nextUpdateTopLevel(options) {
@@ -124,7 +126,7 @@ if (module.parent) {
         report(results, program.color);
       }
     })
-    .fail(function (error) {
+    .catch(function (error) {
       console.error('ERROR testing next working updates');
       console.error(error.stack);
       process.exit(1);

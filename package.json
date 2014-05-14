@@ -10,7 +10,7 @@
   "dependencies": {
     "check-types": "^1.3.0",
     "cli-color": "^0.3.2",
-    "deps-ok": "^0.4.0",
+    "deps-ok": "^0.4.1",
     "easy-table": "~0.3.0",
     "lodash": "~2.4.1",
     "npm-utils": "0.0.6",
