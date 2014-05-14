@@ -18,6 +18,7 @@
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "check-types": "~0.6.5"
+    "check-types": "~0.6.5",
+    "something-with-git-url": "git@github.com:bahmutov/angular-minicolors.git"
   }
 }
