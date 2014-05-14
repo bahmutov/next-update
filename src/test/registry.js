@@ -18,14 +18,14 @@ gt.async('fetch non existent module', 2, function () {
     gt.func(promise.then, 'return object has then method');
     promise.then(function (results) {
         gt.ok(false, 'should not get success, results ' + JSON.stringify(results, null, 2));
-    }).fail(function (error) {
+    }).catch(function (error) {
         var moduleNotFound = (/not found/).test(error);
         var cannotConnect = (/ENOTFOUND/).test(error);
         var errorInNpm = (/ERROR in npm/).test(error);
         var couldNot = (/could not fetch/i).test(error);
         gt.ok(moduleNotFound || cannotConnect || errorInNpm || couldNot,
             'error message gives a good reason,', error);
-    }).fin(gt.start);
+    }).finally(gt.start);
 }, 30000);
 
 gt.async('fetch gt later versions', function () {
@@ -38,7 +38,7 @@ gt.async('fetch gt later versions', function () {
         gt.equal(results.name, 'gt', 'correct name returned');
         gt.array(results.versions, 'has versions array');
         gt.ok(results.versions.length > 5, 'a few versions');
-    }).fail(onError).fin(gt.start);
+    }).catch(onError).finally(gt.start);
 }, 30000);
 
 gt.async('fetch module later versions', function () {
@@ -51,7 +51,7 @@ gt.async('fetch module later versions', function () {
         gt.equal(results.name, 'lodash', 'correct name returned');
         gt.array(results.versions, 'has versions array');
         gt.ok(results.versions.length > 5, 'a few versions');
-    }).fail(onError).fin(gt.start);
+    }).catch(onError).finally(gt.start);
 }, 30000);
 
 gt.module('registry nextVersions');
@@ -73,7 +73,7 @@ gt.async('fetch gt, optimist versions', function () {
         gt.equal(results[1].name, 'lodash');
         gt.equal(results[0].versions[0], '0.5.1');
         gt.equal(results[1].versions[0], '1.0.1');
-    }).fail(onError).fin(gt.start);
+    }).catch(onError).finally(gt.start);
 }, 30000);
 
 gt.async('fetch latest version', function () {
@@ -87,7 +87,7 @@ gt.async('fetch latest version', function () {
         gt.equal(results[1].name, 'lodash');
         gt.equal(results[0].versions.length, 1);
         gt.equal(results[1].versions.length, 1);
-    }).fail(onError).fin(gt.start);
+    }).catch(onError).finally(gt.start);
 }, 30000);
 
 gt.async('fetch latest version two digits', function () {
@@ -99,7 +99,7 @@ gt.async('fetch latest version two digits', function () {
         gt.equal(results.length, 1, 'single module');
         gt.equal(results[0].name, 'mocha');
         gt.equal(results[0].versions.length, 1);
-    }).fail(onError).fin(gt.start);
+    }).catch(onError).finally(gt.start);
 }, 30000);
 
 gt.test('clean versions, 2 digits', function () {

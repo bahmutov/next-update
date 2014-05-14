@@ -12,8 +12,7 @@ npmPath = (require '../npm-test').npmPath
 
 ONE_MINUTE = 60000
 
-onError = (error) ->
-    throw new Error(error)
+onError = (error) -> throw new Error(error)
 
 gt.test 'basics', ->
     gt.arity test, 1
@@ -24,10 +23,8 @@ gt.async 'using npm test command', ->
     gt.object promise
     promise.then ->
         gt.ok false, 'there should not be npm test'
-    .fail ->
-        gt.ok true, 'failed as expected'
-    .fin ->
-        gt.start()
+    .catch -> gt.ok true, 'failed as expected'
+    .fin -> gt.start()
 , ONE_MINUTE
 
 gt.async 'auto switch to npm test command', ->
@@ -35,8 +32,6 @@ gt.async 'auto switch to npm test command', ->
     gt.object promise
     promise.then ->
         gt.ok false, 'there should not be npm test'
-    .fail ->
-        gt.ok true, 'failed as expected'
-    .fin ->
-        gt.start()
+    .catch -> gt.ok true, 'failed as expected'
+    .fin -> gt.start()
 , ONE_MINUTE
