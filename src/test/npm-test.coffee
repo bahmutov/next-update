@@ -24,8 +24,8 @@ gt.async 'simple npm test', ->
     gt.object promise
     promise.then ->
         gt.ok false, 'there should not be npm test'
-    .fail ->
+    .catch ->
         gt.ok true, 'failed as expected'
-    .fin ->
+    .finally ->
         gt.start()
 , ONE_MINUTE

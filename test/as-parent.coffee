@@ -21,7 +21,7 @@ gt.async 'check latest only updating', ->
   promise = nextUpdate(opts)
   gt.ok q.isPromise(promise), 'next update returns a promise'
   promise.then -> console.log 'everything is ok'
-  promise.fail -> gt.ok false, 'promise failed'
+  promise.catch -> gt.ok false, 'promise failed'
   promise.finally -> gt.start()
 , TWO_MINUTES
 
@@ -41,7 +41,7 @@ gt.async 'results format', ->
     gt.equal result[0].name, 'check-types'
     gt.string result[0].version, 'has version string'
     gt.equal typeof result[0].works, 'boolean', 'has works property'
-  promise.fail -> gt.ok false, 'promise failed'
+  promise.catch -> gt.ok false, 'promise failed'
   promise.finally -> gt.start()
 , TWO_MINUTES
 
@@ -50,6 +50,6 @@ gt.async 'check all', ->
     module: 'check-types'
   promise = nextUpdate(opts)
   promise.then -> gt.ok true, 'everything is ok'
-  promise.fail -> gt.ok false, 'promise failed'
+  promise.catch -> gt.ok false, 'promise failed'
   promise.finally -> gt.start()
 , TWO_MINUTES

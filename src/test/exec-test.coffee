@@ -23,8 +23,12 @@ gt.async 'using npm test command', ->
     gt.object promise
     promise.then ->
         gt.ok false, 'there should not be npm test'
-    .catch -> gt.ok true, 'failed as expected'
-    .fin -> gt.start()
+    .catch ->
+        console.log 'Failed as expected'
+        gt.ok true, 'failed as expected'
+    .finally ->
+        console.log 'finished test'
+        gt.start()
 , ONE_MINUTE
 
 gt.async 'auto switch to npm test command', ->
@@ -32,6 +36,10 @@ gt.async 'auto switch to npm test command', ->
     gt.object promise
     promise.then ->
         gt.ok false, 'there should not be npm test'
-    .catch -> gt.ok true, 'failed as expected'
-    .fin -> gt.start()
+    .catch ->
+        console.log 'failed as expected'
+        gt.ok true, 'failed as expected'
+    .finally ->
+        console.log 'finished test'
+        gt.start()
 , ONE_MINUTE

@@ -11,7 +11,7 @@ gt.async 'get stats', ->
     to: '2.0.0'
   stats.getSuccessStats(opts)
   .then(-> gt.ok false, 'should not find nonexistent module')
-  .fin(-> gt.start())
+  .finally(-> gt.start())
 
 gt.async 'bad request for stats', ->
   opts =
@@ -20,4 +20,4 @@ gt.async 'bad request for stats', ->
     to: '2.0'
   stats.getSuccessStats(opts)
   .then(-> gt.ok false, 'should not find nonexistent module')
-  .fin(-> gt.start())
+  .finally(-> gt.start())
