@@ -131,6 +131,19 @@ function testModuleVersions(options, results) {
     return deferred.promise;
 }
 
+var logLine = (function formLine() {
+    var n = process.stdout.isTTY ? process.stdout.columns : 40;
+    verify.positiveNumber(n, 'expected to get terminal width, got ' + n);
+    var k;
+    var str = '';
+    for(k = 0; k < n; k += 1) {
+        str += '-'
+    }
+    return function () {
+        console.log(str);
+    };
+}());
+
 // checks specific module@version
 // returns promise
 function testModuleVersion(options, results) {
@@ -196,7 +209,16 @@ function testModuleVersion(options, results) {
             to: options.version,
             success: false
         });
-        console.error(error);
+
+        verify.number(error.code, 'expected code in error ' +
+            JSON.stringify(error, null, 2));
+        logLine();
+        console.error('test finished with exit code', error.code);
+        verify.string(error.errors, 'expected errors string in error ' +
+            JSON.stringify(error, null, 2));
+        console.error(error.errors);
+        logLine();
+
         result.works = false;
         results.push(result);
         deferred.resolve(results);
