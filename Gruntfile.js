@@ -77,6 +77,6 @@ module.exports = function (grunt) {
   grunt.registerTask('pre-check', ['deps-ok', 'jsonlint',
     'jshint', 'jshint-solid',
     'nice-package', 'complexity']);
-  grunt.registerTask('default', ['pre-check', 'lineending']);
+  grunt.registerTask('default', ['pre-check', 'lineending', 'readme']);
   grunt.registerTask('release', ['bump-only:patch', 'readme', 'bump-commit']);
 };
