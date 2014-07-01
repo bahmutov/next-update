@@ -1,44 +1,44 @@
 {
   "name": "next-update",
   "description": "Tests if module's dependencies can be updated to latest version",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "bin": "index.js",
   "bugs": {
     "url": "https://github.com/bahmutov/next-update/issues"
   },
   "dependencies": {
-    "check-types": "^1.3.1",
+    "check-types": "1.3.1",
     "cli-color": "0.3.2",
     "deps-ok": "0.4.1",
     "easy-table": "0.3.0",
     "lodash": "2.4.1",
     "npm-utils": "0.0.6",
     "optimist": "0.6.1",
-    "q": "^2.0.2",
+    "q": "2.0.2",
     "request": "2.36.0",
-    "semver": "^2.3.1",
-    "update-notifier": "^0.1.10"
+    "semver": "2.3.1",
+    "update-notifier": "0.1.10"
   },
   "devDependencies": {
-    "coveralls": "^2.10.1",
+    "coveralls": "2.10.1",
     "grunt": "0.4.5",
     "grunt-bump": "0.0.14",
-    "grunt-complexity": "^0.2.0",
+    "grunt-complexity": "0.2.0",
     "grunt-contrib-jshint": "0.10.0",
-    "grunt-deps-ok": "^0.2.0",
+    "grunt-deps-ok": "0.2.0",
     "grunt-help": "0.2.0",
     "grunt-jshint-solid": "0.1.0",
     "grunt-jsonlint": "1.0.4",
     "grunt-lineending": "0.2.2",
-    "grunt-nice-package": "^0.9.1",
+    "grunt-nice-package": "0.9.1",
     "grunt-readme": "0.4.5",
-    "gt": "^0.8.38",
+    "gt": "0.8.38",
     "jshint-stylish": "0.2.0",
     "matchdep": "0.3.0",
     "mockery": "1.4.0",
     "pre-git": "0.0.16",
-    "time-grunt": "^0.3.2"
+    "time-grunt": "0.3.2"
   },
   "engines": {
     "node": ">= 0.8.0"
@@ -73,3 +73,4 @@
     "coveralls": "cat cover/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   }
 }
+
