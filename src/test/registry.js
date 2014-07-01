@@ -3,6 +3,7 @@ gt.module('registry fetchVersions');
 var registry = require('../registry');
 var fetchVersions = registry.fetchVersions;
 var cleanVersions = registry.cleanVersions;
+var timeout = 90*1000;
 
 function onError(error) {
     throw new Error(error);
@@ -26,7 +27,7 @@ gt.async('fetch non existent module', 2, function () {
         gt.ok(moduleNotFound || cannotConnect || errorInNpm || couldNot,
             'error message gives a good reason,', error);
     }).finally(gt.start);
-}, 30000);
+}, timeout);
 
 gt.async('fetch gt later versions', function () {
     gt.func(fetchVersions);
@@ -39,7 +40,7 @@ gt.async('fetch gt later versions', function () {
         gt.array(results.versions, 'has versions array');
         gt.ok(results.versions.length > 5, 'a few versions');
     }).catch(onError).finally(gt.start);
-}, 30000);
+}, timeout);
 
 gt.async('fetch module later versions', function () {
     gt.func(fetchVersions);
@@ -52,7 +53,7 @@ gt.async('fetch module later versions', function () {
         gt.array(results.versions, 'has versions array');
         gt.ok(results.versions.length > 5, 'a few versions');
     }).catch(onError).finally(gt.start);
-}, 30000);
+}, timeout);
 
 gt.module('registry nextVersions');
 
@@ -74,7 +75,7 @@ gt.async('fetch gt, optimist versions', function () {
         gt.equal(results[0].versions[0], '0.5.1');
         gt.equal(results[1].versions[0], '1.0.1');
     }).catch(onError).finally(gt.start);
-}, 30000);
+}, timeout);
 
 gt.async('fetch latest version', function () {
     var onlyLatest = true;
@@ -88,7 +89,7 @@ gt.async('fetch latest version', function () {
         gt.equal(results[0].versions.length, 1);
         gt.equal(results[1].versions.length, 1);
     }).catch(onError).finally(gt.start);
-}, 30000);
+}, timeout);
 
 gt.async('fetch latest version two digits', function () {
     var onlyLatest = true;
@@ -100,7 +101,7 @@ gt.async('fetch latest version two digits', function () {
         gt.equal(results[0].name, 'mocha');
         gt.equal(results[0].versions.length, 1);
     }).catch(onError).finally(gt.start);
-}, 30000);
+}, timeout);
 
 gt.test('clean versions, 2 digits', function () {
     gt.arity(cleanVersions, 1);
