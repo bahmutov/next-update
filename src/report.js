@@ -5,7 +5,7 @@ var _ = require('lodash');
 
 var colorAvailable = process.stdout.isTTY;
 
-function report(updates, useColors) {
+function report(updates, useColors, keptUpdates) {
     check.verify.array(updates, 'expected array of updates');
 
     console.log('\nnext updates:');
@@ -17,8 +17,12 @@ function report(updates, useColors) {
     if (_.isUndefined(cmd)) {
         console.log('Nothing can be updated :(');
     } else {
-        console.log('Use the following command to install working versions');
-        console.log(cmd);
+        if (kekeptUpdatespt) {
+            console.log('Kept working updates');
+        } else {
+            console.log('Use the following command to install working versions');
+            console.log(cmd);
+        }
     }
 }
 

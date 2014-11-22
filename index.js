@@ -78,6 +78,12 @@ if (module.parent) {
     default: false,
     description: 'install all modules at once before testing'
   })
+  .option('keep', {
+    boolean: true,
+    default: false,
+    alias: 'k',
+    description: 'Keep tested version if it is working'
+  })
   .usage(info)
   .argv;
 
@@ -123,7 +129,7 @@ if (module.parent) {
     .then(nextUpdate.checkAllUpdates.bind(null, opts))
     .then(function (results) {
       if (Array.isArray(results)) {
-        report(results, program.color);
+        report(results, program.color, program.keep);
       }
     })
     .catch(function (error) {
