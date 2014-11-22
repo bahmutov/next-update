@@ -17,7 +17,7 @@ function report(updates, useColors, keptUpdates) {
     if (_.isUndefined(cmd)) {
         console.log('Nothing can be updated :(');
     } else {
-        if (kekeptUpdatespt) {
+        if (keptUpdates) {
             console.log('Kept working updates');
         } else {
             console.log('Use the following command to install working versions');

@@ -14,7 +14,7 @@ gt.test 'reportFailure', ->
 
 gt.test 'report basics', ->
     r = report.report
-    gt.arity r, 2
+    gt.ok r.length > 0
     data = []
     r data
 
