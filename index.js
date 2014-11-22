@@ -122,7 +122,8 @@ if (module.parent) {
       latest: program.latest,
       testCommand: program.test,
       all: program.all,
-      color: program.color
+      color: program.color,
+      keep: program.keep
     };
 
     (program.skip ? q() : nextUpdate.checkCurrentInstall(opts))

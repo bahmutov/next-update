@@ -78,7 +78,8 @@ function checkAllUpdates(options) {
         modules: toCheck,
         command: checkCommand,
         all: all,
-        color: options.color
+        color: options.color,
+        keep: options.keep
     });
 
     if (isSingleSpecificVersion(moduleName)) {

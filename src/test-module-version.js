@@ -30,21 +30,28 @@ function testModulesVersions(options, available) {
     var listed = _.zipObject(cleaned);
 
     return q.when(report(available, listed, options))
-    .then(function () {
-        if (options.all) {
-            var install = installAll(available);
-            console.assert(install, 'could not get install all promise');
-            var test = testPromise(options.command);
-            console.assert(test, 'could not get test promise for command', options.command);
-            console.dir(listed);
-            console.dir(options.modules);
-            var revert = revertModules.bind(null, listed);
-            console.assert(revert, 'could not get revert promise');
-            return install.then(test).then(revert);
-        }
+        .then(function () {
+            if (options.all) {
+                var install = installAll(available);
+                console.assert(install, 'could not get install all promise');
+                var test = testPromise(options.command);
+                console.assert(test, 'could not get test promise for command', options.command);
+                console.dir(listed);
+                console.dir(options.modules);
 
-        return installEachTestRevert(listed, available, options.command, options.color);
-    });
+                var installThenTest = install.then(test);
+                if (options.keep) {
+                    return installThenTest;
+                }
+
+                var revert = revertModules.bind(null, listed);
+                console.assert(revert, 'could not get revert promise');
+                return installThenTest.then(revert);
+            }
+
+            return installEachTestRevert(listed, available,
+                options.command, options.color, options.keep);
+        });
 }
 
 // returns promise, does not revert
@@ -66,7 +73,7 @@ function installAll(available) {
     return installAllPromise;
 }
 
-function installEachTestRevert(listed, available, command, color) {
+function installEachTestRevert(listed, available, command, color, keep) {
     verify.object(listed, 'expected listed object');
     verify.array(available, 'expected array');
 
@@ -77,12 +84,14 @@ function installEachTestRevert(listed, available, command, color) {
             ' among current dependencies ' + JSON.stringify(listed));
 
         var revertFunction = installModule.bind(null, name, currentVersion);
+
         var checkModuleFunction = testModuleVersions.bind(null, {
             moduleVersions: nameVersion,
             revertFunction: revertFunction,
             command: command,
             color: color,
-            currentVersion: currentVersion
+            currentVersion: currentVersion,
+            keep: keep
         });
         return checkModuleFunction;
     });
@@ -118,15 +127,24 @@ function testModuleVersions(options, results) {
         });
     });
     var checkAllPromise = checkPromises.reduce(q.when, q());
+    if (options.keep) {
+        checkAllPromise = checkAllPromise.then(function (result) {
+            verify.array(result, 'expected array of results', result);
+            var lastSuccess = _.last(_.filter(result, { works: true }));
+            console.log('keeping last working version', lastSuccess);
+            return result;
+        });
+    } else {
+        checkAllPromise = checkAllPromise.then(restoreVersionFunc);
+    }
     checkAllPromise
-    .then(restoreVersionFunc)
-    .then(function (result) {
-        results.push(result);
-        deferred.resolve(results);
-    }, function (error) {
-        console.error('could not check', nameVersions, error);
-        deferred.reject(error);
-    });
+        .then(function (result) {
+            results.push(result);
+            deferred.resolve(results);
+        }, function (error) {
+            console.error('could not check', nameVersions, error);
+            deferred.reject(error);
+        });
 
     return deferred.promise;
 }
