@@ -66,6 +66,8 @@ function installCommand(updates) {
         var updatesByDependencyType = splitByType(updates, pkg);
         console.assert(updatesByDependencyType, 'could not split updates by type');
 
+        // console.log(updatesByDependencyType)
+
         var depCmd = installCommandType(updatesByDependencyType.dependencies, 'dependencies');
         var devCmd = installCommandType(updatesByDependencyType.devDependencies, 'devDependencies');
         var peerCmd = installCommandType(updatesByDependencyType.peerDependencies,

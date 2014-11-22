@@ -2,15 +2,38 @@ var check = require('check-types');
 var spawn = require('child_process').spawn;
 var q = require('q');
 var NPM_PATH = require('npm-utils').path;
+var formInstallCommand = require('./report-install-command');
 
 // returns a promise
-function installModule(name, version, results) {
+function installModule(name, version, keep, results) {
     check.verify.string(name, 'expected module name string');
     check.verify.string(version, 'expected version string');
+    if (keep) {
+        console.assert(typeof keep === 'boolean', 'invalid keep');
+    }
+    if (results) {
+        check.verify.array(results, 'missing results');
+    }
 
-    var moduleVersion = name + '@' + version;
-    console.log('  installing', moduleVersion);
-    var npm = spawn(NPM_PATH, ['install', moduleVersion]);
+    var cmd = formInstallCommand([[{
+        name: name,
+        version: version,
+        works: true
+    }]]);
+    check.verify.unemptyString(cmd, 'could not form install command');
+    cmd = cmd.trim();
+
+    var moduleVersion = name + '@' + version, npm;
+    if (keep) {
+        console.log('  ', cmd);
+        var args = cmd.split(' ');
+        args.shift();
+        npm = spawn(NPM_PATH, args);
+    } else {
+        console.log('  installing', moduleVersion);
+        npm = spawn(NPM_PATH, ['install', moduleVersion]);
+    }
+
     var testOutput = '';
     var testErrors = '';
 

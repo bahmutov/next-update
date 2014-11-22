@@ -125,3 +125,4 @@ like this `changed foo` (*foo* is package name)
     * install new versions of the desired modules using standard `npm i dependency@version --save`
 * You can use custom test command, for example `next-update -t "grunt test"`
     * `npm test` is used by default.
+* You can keep each working version in package.json by using `--keep` flag.

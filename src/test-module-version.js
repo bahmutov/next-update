@@ -66,7 +66,7 @@ function installAll(available) {
         verify.string(version, 'missing module version from ' +
             JSON.stringify(nameVersions));
 
-        var installFunction = installModule.bind(null, name, version);
+        var installFunction = installModule.bind(null, name, version, false);
         return installFunction;
     });
     var installAllPromise = installFunctions.reduce(q.when, q());
@@ -83,7 +83,7 @@ function installEachTestRevert(listed, available, command, color, keep) {
         verify.string(currentVersion, 'cannot find current version for ' + name +
             ' among current dependencies ' + JSON.stringify(listed));
 
-        var revertFunction = installModule.bind(null, name, currentVersion);
+        var revertFunction = installModule.bind(null, name, currentVersion, keep);
 
         var checkModuleFunction = testModuleVersions.bind(null, {
             moduleVersions: nameVersion,
@@ -131,14 +131,23 @@ function testModuleVersions(options, results) {
         checkAllPromise = checkAllPromise.then(function (result) {
             verify.array(result, 'expected array of results', result);
             var lastSuccess = _.last(_.filter(result, { works: true }));
-            console.log('keeping last working version', lastSuccess);
-            return result;
+            if (lastSuccess) {
+                console.log('keeping last working version', lastSuccess.name + '@' + lastSuccess.version);
+                return installModule(lastSuccess.name, lastSuccess.version, true, result);
+            } else {
+                return restoreVersionFunc().then(function () {
+                    // console.log('returning result after reverting', result);
+                    return q(result);
+                });
+            }
         });
     } else {
-        checkAllPromise = checkAllPromise.then(restoreVersionFunc);
+        checkAllPromise = checkAllPromise
+            .then(restoreVersionFunc);
     }
     checkAllPromise
         .then(function (result) {
+            check.verify.array(result, 'could not get result array');
             results.push(result);
             deferred.resolve(results);
         }, function (error) {
@@ -204,7 +213,7 @@ function testModuleVersion(options, results) {
         return;
     })
     .then(function () {
-        return installModule(options.name, options.version);
+        return installModule(options.name, options.version, false);
     })
     .then(test)
     .then(function () {
