@@ -1,12 +1,13 @@
 {
   "name": "next-update",
   "description": "Tests if module's dependencies can be updated to latest version",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "bin": "index.js",
   "bugs": {
     "url": "https://github.com/bahmutov/next-update/issues"
   },
+  "contributors": [],
   "dependencies": {
     "check-types": "1.4.0",
     "cli-color": "0.3.2",

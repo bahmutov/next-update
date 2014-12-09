@@ -13,9 +13,9 @@ function loadPackage() {
 
 function saveOption(type) {
     var saveCommands = {
-        dependencies: '--save',
-        devDependencies: '--save-dev',
-        peerDependencies: '--save-peer'
+        dependencies: '--save --save-exact',
+        devDependencies: '--save-dev --save-exact',
+        peerDependencies: '--save-peer --save-exact'
     };
     return saveCommands[type];
 }

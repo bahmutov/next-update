@@ -130,5 +130,5 @@ gt.test 'normal and dev dependency command', ->
     ]
   ]
   console.log cmd
-  gt.ok /--save lodash@0\.3\.0/.test(cmd), 'normal dependency'
-  gt.ok /--save-dev grunt@0\.3\.0/.test(cmd), 'save dev dependency'
+  gt.ok /--save --save-exact lodash@0\.3\.0/.test(cmd), 'normal dependency'
+  gt.ok /--save-dev --save-exact grunt@0\.3\.0/.test(cmd), 'save dev dependency'

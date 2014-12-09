@@ -28,6 +28,7 @@ function installModule(name, version, keep, results) {
         console.log('  ', cmd);
         var args = cmd.split(' ');
         args.shift();
+        args.push('--save-exact');
         npm = spawn(NPM_PATH, args);
     } else {
         console.log('  installing', moduleVersion);
