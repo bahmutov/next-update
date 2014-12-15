@@ -6,6 +6,8 @@ without breaking the tests.
     next-update --latest
     // checks if latest versions of 3rd party break any unit tests
 
+Also check out: [dont-break](https://github.com/bahmutov/dont-break) that does the opposite.
+
 ## Example
 
 Imagine your nodejs module *foo* has the following dependencies listed in *package.json*
