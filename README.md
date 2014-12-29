@@ -1,6 +1,6 @@
 # next-update v0.5.3
 
-> Tests if module's dependencies can be updated to latest version
+> Tests if module's dependencies can be updated to the newer version without breaking the tests
 
 [![NPM][next-update-icon] ][next-update-url]
 
@@ -21,8 +21,6 @@
 [next-update-devdependencies-url]: https://david-dm.org/bahmutov/next-update#info=devDependencies
 
 
-
-> Tests if module's dependencies can be updated to newer / latest versions without breaking the tests.
 
 Also check out: 
 

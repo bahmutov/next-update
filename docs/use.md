@@ -1,5 +1,3 @@
-> Tests if module's dependencies can be updated to newer / latest versions without breaking the tests.
-
 Also check out: 
 
 * [next-updater](https://github.com/bahmutov/next-updater) can update all your repos
