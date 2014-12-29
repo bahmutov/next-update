@@ -1,12 +1,10 @@
-Tests if module's dependencies can be updated to newer / latest versions
-without breaking the tests.
+> Tests if module's dependencies can be updated to newer / latest versions without breaking the tests.
 
-    next-update --available
-    // shows new versions available without installing anything
-    next-update --latest
-    // checks if latest versions of 3rd party break any unit tests
+Also check out: 
 
-Also check out: [dont-break](https://github.com/bahmutov/dont-break) that does the opposite.
+* [next-updater](https://github.com/bahmutov/next-updater) can update all your repos
+* [dont-break](https://github.com/bahmutov/dont-break) 
+that checks if your code is going to break everyone who depends on it.
 
 ## Example
 
