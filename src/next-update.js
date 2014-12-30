@@ -79,7 +79,8 @@ function checkAllUpdates(options) {
         command: checkCommand,
         all: all,
         color: options.color,
-        keep: options.keep
+        keep: options.keep,
+        allowed: options.allow || options.allowed
     });
 
     if (isSingleSpecificVersion(moduleName)) {

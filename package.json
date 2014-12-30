@@ -1,7 +1,7 @@
 {
   "name": "next-update",
   "description": "Tests if module's dependencies can be updated to the newer version without breaking the tests",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "bin": "index.js",
   "bugs": {
@@ -19,6 +19,7 @@
     "npm-utils": "0.0.8",
     "optimist": "0.6.1",
     "q": "2.0.2",
+    "quote": "0.2.2",
     "request": "2.51.0",
     "semver": "4.2.0",
     "update-notifier": "0.1.10"

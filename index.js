@@ -53,7 +53,8 @@ if (module.parent) {
       testCommand: program.test,
       all: program.all,
       color: program.color,
-      keep: program.keep
+      keep: program.keep,
+      allow: program.allowed || program.allow
     };
 
     (program.skip ? q() : nextUpdate.checkCurrentInstall(opts))

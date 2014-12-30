@@ -3,10 +3,10 @@ var verify = check.verify;
 var q = require('q');
 var _ = require('lodash');
 var semver = require('semver');
+var quote = require('quote');
 var installModule = require('./module-install');
 var reportSuccess = require('./report').reportSuccess;
 var reportFailure = require('./report').reportFailure;
-
 var stats = require('./stats');
 
 var cleanVersions = require('./registry').cleanVersions;
@@ -19,6 +19,7 @@ check.verify.fn(revertModules, 'revert is not a function, but ' +
 var npmTest = require('./npm-test').test;
 var execTest = require('./exec-test');
 var report = require('./report-available');
+var filterAllowed = require('./filter-allowed-updates');
 
 // expect array of objects, each {name, versions (Array) }
 // returns promise
@@ -29,11 +30,19 @@ function testModulesVersions(options, available) {
     var cleaned = cleanVersions(options.modules);
     var listed = _.zipObject(cleaned);
 
-    console.log('testing module versions');
-    console.log('current versions', listed);
-    console.log('options', options);
-    console.log('available', available);
+    // console.log('testing module versions');
+    // console.log('current versions', listed);
+    // console.log('options', options);
+    // console.log('available', available);
+    var allowed = filterAllowed(listed, available, options);
+    la(check.array(allowed), 'could not filter allowed updates', listed, available, options);
+    // console.log('allowed', allowed);
 
+    if (available.length && !allowed.length) {
+        console.log('No updates allowed using option', quote(options.allow || options.allowed));
+        console.log(available.length + ' available updates filtered');
+        return q(listed);
+    }
 
     return q.when(report(available, listed, options))
         .then(function () {

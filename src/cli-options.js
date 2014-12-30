@@ -62,6 +62,11 @@ var program = optimist
   alias: 'k',
   description: 'Keep tested version if it is working'
 })
+.option('allow', {
+  string: true,
+  default: 'major',
+  description: 'Allow major / minor / patch updates'
+})
 .usage(info)
 .argv;
 
