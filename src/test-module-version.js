@@ -193,6 +193,7 @@ function testModuleVersion(options, results) {
     var result = {
         name: options.name,
         version: options.version,
+        from: options.currentVersion,
         works: true
     };
 

@@ -33,15 +33,18 @@ function reportModule(moduleVersions, useColors) {
     }
     useColors = !!useColors && colorAvailable;
     var name = moduleVersions[0].name;
-    check.verify.string(name, 'missing module name from ' + JSON.stringify(moduleVersions));
+    check.verify.unemptyString(name, 'missing module name from ' + JSON.stringify(moduleVersions));
+    var fromVersion = moduleVersions[0].from;
+    check.verify.unemptyString(fromVersion, 'missing from version from ' + JSON.stringify(moduleVersions));
+
     if (useColors) {
         var colorVersions = moduleVersions.map(function (info) {
             return (info.works ? colors.greenBright : colors.redBright)(info.version);
         });
         var str = colorVersions.join(', ');
-        console.log(name + ' ' + str);
+        console.log(name + ' ' + fromVersion + ' -> ' + str);
     } else {
-        console.log(name);
+        console.log(name + '@' + fromVersion);
         moduleVersions.forEach(function (info) {
             console.log('  ' + info.version + ' ' + (info.works ? 'PASS' : 'FAIL'));
         });

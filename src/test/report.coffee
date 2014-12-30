@@ -19,9 +19,9 @@ gt.test 'report basics', ->
     r data
 
 info = [
-    [{name: 'a', version: '1.0'}],
-    [{name: 'a', version: '1.1', works: true}],
-    [{name: 'b', version: '1.0', works: false}]
+    [{name: 'a', version: '1.0', from: '0.0.0'}],
+    [{name: 'a', version: '1.1', from: '0.0.0', works: true}],
+    [{name: 'b', version: '1.0', from: '0.0.0', works: false}]
 ]
 
 gt.test 'report modules, default colors', 0, ->
