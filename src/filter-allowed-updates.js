@@ -28,6 +28,9 @@ function filterAllowedUpdates(current, available, options) {
   var allowed = options.allow || options.allowed || 'major';
   var isAllowed = isDiffAllowed.bind(null, allowed);
 
+  // console.log('filtering available updates', available);
+  // console.log('allowed', allowed);
+
   var filtered = available.filter(function (availableUpdate) {
     la(check.unemptyString(availableUpdate.name), 'missing name in available', availableUpdate);
     var fromVersion = current[availableUpdate.name];
@@ -35,6 +38,7 @@ function filterAllowedUpdates(current, available, options) {
 
     var versions = availableUpdate.versions;
     la(check.array(versions), 'missing versions in update', availableUpdate);
+
     var filteredVersions = versions.filter(function (toVersion) {
       var diff = semver.diff(fromVersion, toVersion);
       // console.log(availableUpdate.name, 'difference from', fromVersion, 'to', toVersion, diff);
@@ -45,6 +49,7 @@ function filterAllowedUpdates(current, available, options) {
     return availableUpdate.versions.length > 0;
   });
 
+  // console.log('filtered', filtered);
   return filtered;
 }
 

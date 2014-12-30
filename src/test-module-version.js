@@ -44,10 +44,10 @@ function testModulesVersions(options, available) {
         return q(listed);
     }
 
-    return q.when(report(available, listed, options))
+    return q.when(report(allowed, listed, options))
         .then(function () {
             if (options.all) {
-                var install = installAll(available);
+                var install = installAll(allowed);
                 console.assert(install, 'could not get install all promise');
                 var test = testPromise(options.command);
                 console.assert(test, 'could not get test promise for command', options.command);
@@ -64,7 +64,7 @@ function testModulesVersions(options, available) {
                 return installThenTest.then(revert);
             }
 
-            return installEachTestRevert(listed, available,
+            return installEachTestRevert(listed, allowed,
                 options.command, options.color, options.keep);
         });
 }
