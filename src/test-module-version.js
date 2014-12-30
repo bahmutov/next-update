@@ -29,6 +29,12 @@ function testModulesVersions(options, available) {
     var cleaned = cleanVersions(options.modules);
     var listed = _.zipObject(cleaned);
 
+    console.log('testing module versions');
+    console.log('current versions', listed);
+    console.log('options', options);
+    console.log('available', available);
+
+
     return q.when(report(available, listed, options))
         .then(function () {
             if (options.all) {
