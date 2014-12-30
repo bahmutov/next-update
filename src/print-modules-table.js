@@ -27,7 +27,7 @@ function printModulesTable(modules, options) {
 
             t.cell('from version', stats.from);
             var total = +stats.success + stats.failure;
-            var probability = total ? stats.success / total : 0;
+            var probability = total ? stats.success / total : null;
             var probabilityStr = colorProbability(probability, options);
             t.cell('success %', probabilityStr, markProbability);
             t.cell('successful updates', info.stats.success, Table.Number(0));

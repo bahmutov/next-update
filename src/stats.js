@@ -53,6 +53,10 @@ function getSuccessStats(options) {
 }
 
 function colorProbability(probability, options) {
+    if (probability === null) {
+        return '';
+    }
+
     options = options || {};
     var useColors = !!options.color && colorAvailable;
     if (probability < 0 || probability > 1) {

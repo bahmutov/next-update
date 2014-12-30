@@ -7,6 +7,8 @@ var clc = require('cli-color');
 var getSuccess = stats.getSuccessStats;
 var q = require('q');
 
+function ignore() {}
+
 function report(available, currentVersions, options) {
     la(check.array(available), 'expect an array of info objects', available);
 
@@ -19,12 +21,20 @@ function report(available, currentVersions, options) {
 
     var chain = q();
     var updateStats = {};
+
     available.forEach(function (info) {
         la(check.unemptyString(info.name), 'missing module name', info);
         la(check.array(info.versions), 'missing module versions', info);
 
+        var currentVersion = currentVersions && currentVersions[info.name] || null;
+        if (currentVersion) {
+            updateStats[info.name] = {
+                name: info.name,
+                from: currentVersion
+            };
+        }
+
         if (info.versions.length === 1) {
-            var currentVersion = currentVersions[info.name];
             if (currentVersion) {
                 chain = chain.then(function () {
                     return getSuccess({
@@ -33,7 +43,7 @@ function report(available, currentVersions, options) {
                         to: info.versions[0]
                     }).then(function (stats) {
                         updateStats[info.name] = stats;
-                    }).catch(function ignore() {});
+                    }).catch(ignore);
                 });
             }
         }
@@ -45,6 +55,7 @@ function report(available, currentVersions, options) {
         available.forEach(function (info) {
             verify.string(info.name, 'missing module name ' + info);
             verify.array(info.versions, 'missing module versions ' + info);
+
             var sep = ', ';
             if (info.versions.length > 5) {
                 sep = '\n  ';
