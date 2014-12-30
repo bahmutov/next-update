@@ -12,7 +12,8 @@ if (module.parent) {
       testCommand: options.test,
       latest: Boolean(options.latest),
       keep: Boolean(options.keep),
-      color: Boolean(options.color || options.colors)
+      color: Boolean(options.color || options.colors),
+      allow: options.allow || options.allowed
     };
 
     return nextUpdate.checkCurrentInstall(opts)
