@@ -1,4 +1,6 @@
-var verify = require('check-types').verify;
+require('lazy-ass');
+var check = require('check-more-types');
+var verify = check.verify;
 var print = require('./print-modules-table');
 var stats = require('./stats');
 var clc = require('cli-color');
@@ -6,21 +8,21 @@ var getSuccess = stats.getSuccessStats;
 var q = require('q');
 
 function report(available, currentVersions, options) {
-    verify.array(available, 'expect an array of info objects');
+    la(check.array(available), 'expect an array of info objects', available);
+
     if (!available.length) {
         console.log('nothing new is available');
         return;
     }
-    if (currentVersions) {
-        verify.object(currentVersions, 'expected current versions object ' +
-            JSON.stringify(currentVersions, null, 2));
-    }
+    la(check.maybe.object(currentVersions),
+        'expected current versions object', currentVersions);
 
     var chain = q();
     var updateStats = {};
     available.forEach(function (info) {
-        verify.string(info.name, 'missing module name ' + info);
-        verify.array(info.versions, 'missing module versions ' + info);
+        la(check.unemptyString(info.name), 'missing module name', info);
+        la(check.array(info.versions), 'missing module versions', info);
+
         if (info.versions.length === 1) {
             var currentVersion = currentVersions[info.name];
             if (currentVersion) {
