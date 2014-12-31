@@ -3,6 +3,8 @@ var path = require('path');
 var print = require('./print-modules-table');
 var nameVersionParser = require('./moduleName');
 var getKnownDependencies = require('./get-known-dependencies');
+require('console.table');
+var _ = require('lodash');
 
 function printCurrentModules(infos) {
     check.verify.array(infos, 'expected array of modules');
@@ -39,8 +41,13 @@ function getDependenciesToCheck(moduleNames) {
     var packageFilename = path.join(workingDirectory, 'package.json');
     var nameVersionPairs = getKnownDependencies(packageFilename);
 
-    console.log('module\'s current dependencies:');
-    printCurrentModules(nameVersionPairs);
+    var title = 'module\'s current dependencies:';
+    console.table(title, _.map(nameVersionPairs, function (nameVersion) {
+        return {
+            module: nameVersion[0],
+            version: nameVersion[1]
+        };
+    }));
 
     var toCheck = nameVersionPairs;
     if (moduleNames) {
