@@ -34,11 +34,11 @@ if (module.parent) {
     });
   } else if (program.revert) {
     revert(program.module)
-    .then(function () {
-      console.log('done reverting');
-    }, function (error) {
-      console.error('error while reverting\n', error);
-    });
+      .then(function () {
+        console.log('done reverting');
+      }, function (error) {
+        console.error('error while reverting\n', error);
+      });
   } else {
     console.log(info);
 
@@ -58,17 +58,23 @@ if (module.parent) {
       allow: program.allowed || program.allow
     };
 
-    (program.skip ? q() : nextUpdate.checkCurrentInstall(opts))
-    .then(nextUpdate.checkAllUpdates.bind(null, opts))
-    .then(function (results) {
+    var checkCurrent = nextUpdate.checkCurrentInstall.bind(null, opts);
+    var checkCurrentState = program.skip ? q : checkCurrent;
+    var checkUpdates = nextUpdate.checkAllUpdates.bind(null, opts);
+
+    var reportTestResults = function (results) {
       if (Array.isArray(results)) {
         report(results, program.color, program.keep);
       }
-    })
-    .catch(function (error) {
-      console.error('ERROR testing next working updates');
-      console.error(error.stack);
-      process.exit(1);
-    });
+    };
+
+    checkCurrentState()
+      .then(checkUpdates)
+      .then(reportTestResults)
+      .catch(function (error) {
+        console.error('ERROR testing next working updates');
+        console.error(error.stack);
+        process.exit(1);
+      });
   }
 }
