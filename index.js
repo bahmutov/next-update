@@ -3,23 +3,10 @@
 var q = require('q');
 q.longStackSupport =  true;
 
-var nextUpdate = require('./src/next-update');
 if (module.parent) {
-  module.exports = function nextUpdateTopLevel(options) {
-    options = options || {};
-    var opts = {
-      names: options.module,
-      testCommand: options.test,
-      latest: Boolean(options.latest),
-      keep: Boolean(options.keep),
-      color: Boolean(options.color || options.colors),
-      allow: options.allow || options.allowed
-    };
-
-    return nextUpdate.checkCurrentInstall(opts)
-      .then(nextUpdate.checkAllUpdates.bind(null, opts));
-  };
+  module.exports = require('./src/next-update-as-module');
 } else {
+  var nextUpdate = require('./src/next-update');
   var program = require('./src/cli-options');
 
   var pkg = require('./package.json');
