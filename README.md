@@ -1,4 +1,4 @@
-# next-update v0.7.3
+# next-update v0.7.4
 
 > Tests if module's dependencies can be updated to the newer version without breaking the tests
 
@@ -164,11 +164,18 @@ npm publish
 ```
 
 
+### Related
+
+* [Painless modular development](http://glebbahmutov.com/blog/modular-development-using-nodejs/)
+* [Really painless modular development](http://glebbahmutov.com/blog/really-painless-modular-development/)
+
+
+
 ### 3<sup>rd</sup> party libraries
 
 * [lazy-ass](https://github.com/bahmutov/lazy-ass) and 
 [check-more-types](https://github.com/kensho/check-more-types) are used to 
-[defend against runtime errors](http://bahmutov.calepin.co/lazy-and-async-assertions.html).
+[defend against runtime errors](http://glebbahmutov.com/blog/lazy-and-async-assertions/).
 * [lo-dash](https://github.com/bestiejs/lodash) is used to deal with collections / iterators.
 * [check-types](https://github.com/philbooth/check-types.js) is used to verify arguments through out the code.
 * [optimist](https://github.com/substack/node-optimist) is used to process command line arguments.
@@ -188,7 +195,7 @@ Author: Gleb Bahmutov &copy; 2014
 
 * [@bahmutov](https://twitter.com/bahmutov)
 * [glebbahmutov.com](http://glebbahmutov.com)
-* [blog](http://bahmutov.calepin.co/)
+* [blog](http://glebbahmutov.com/blog)
 
 License: MIT - do anything with the code, but don't blame me if it does not work.
 

@@ -2,7 +2,7 @@
 
 * [lazy-ass](https://github.com/bahmutov/lazy-ass) and 
 [check-more-types](https://github.com/kensho/check-more-types) are used to 
-[defend against runtime errors](http://bahmutov.calepin.co/lazy-and-async-assertions.html).
+[defend against runtime errors](http://glebbahmutov.com/blog/lazy-and-async-assertions/).
 * [lo-dash](https://github.com/bestiejs/lodash) is used to deal with collections / iterators.
 * [check-types](https://github.com/philbooth/check-types.js) is used to verify arguments through out the code.
 * [optimist](https://github.com/substack/node-optimist) is used to process command line arguments.

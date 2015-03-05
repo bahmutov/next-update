@@ -8,6 +8,8 @@
 
 {%= _.doc("./docs/dev.md") %}
 
+{%= _.doc("./docs/related.md") %}
+
 {%= _.doc("./docs/third-party.md") %}
 
 {%= _.doc("./docs/footer.md") %}
