@@ -63,7 +63,8 @@
   "next-update-stats": "http://next-update.herokuapp.com",
   "pre-commit": [
     "grunt",
-    "npm test"
+    "npm test",
+    "npm version"
   ],
   "preferGlobal": true,
   "readmeFilename": "README.md",
