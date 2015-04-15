@@ -31,7 +31,7 @@ function checkDependenciesInstalled() {
         if (depsOk(process.cwd())) {
             defer.resolve();
         } else {
-            var msg = 'Current installation is invalid, please run NPM install first';
+            var msg = 'Current installation is not complete. Please run `npm install` or `bower install` first';
             defer.reject(new Error(msg));
         }
     });
