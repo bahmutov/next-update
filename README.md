@@ -1,4 +1,4 @@
-# next-update v0.7.5
+# next-update v0.7.6
 
 > Tests if module's dependencies can be updated to the newer version without breaking the tests
 
