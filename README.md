@@ -116,7 +116,7 @@ stats: deps-ok 0.0.7 -> 0.0.8 success probability 44.44% 8 success(es) 10 failur
 ```
 
 A lot of NPM modules [do not have tests](http://npmt.abru.pt/), but
-at least you can judge if someone else has success going from verion X to version Y
+at least you can judge if someone else has success going from version X to version Y
 of a dependency.
 
 ### Use
