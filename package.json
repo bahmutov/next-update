@@ -74,8 +74,8 @@
   },
   "scripts": {
     "test": "grunt && npm run unit && npm run e2e",
-    "unit": "node ./node_modules/gt src/test/*.js src/test/*.coffee --output",
-    "e2e": "node ./node_modules/gt test/*.coffee --output",
+    "unit": "gt src/test/*.js src/test/*.coffee --output",
+    "e2e": "gt test/*.coffee --output",
     "coveralls": "cat cover/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "dont-break": "dont-break"
   }
