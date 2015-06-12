@@ -27,17 +27,18 @@ function testModulesVersions(options, available) {
     verify.object(options, 'missing options');
     verify.array(available, 'expected array of available modules');
 
-    var listed = cleanVersions(options.modules);
+    var cleaned = cleanVersions(options.modules);
     // console.log('cleaned', cleaned);
     // var listed = _.zipObject(cleaned);
+    var names = _.pluck(cleaned, 'name');
+    var listed = _.zipObject(names, cleaned);
 
-    // console.log('testing module versions');
-    // console.log('current versions', listed);
-    // console.log('options', options);
-    // console.log('available', available);
+    console.log('testing module versions');
+    console.log('current versions', listed);
+    console.log('options', options);
+    console.log('available', available);
     var allowed = filterAllowed(listed, available, options);
     la(check.array(allowed), 'could not filter allowed updates', listed, available, options);
-    // console.log('allowed', allowed);
 
     if (available.length && !allowed.length) {
         console.log('No updates allowed using option', quote(options.allow || options.allowed));
@@ -45,8 +46,10 @@ function testModulesVersions(options, available) {
         return q(listed);
     }
 
+    console.log('allowed', allowed);
     return q.when(report(allowed, listed, options))
-        .then(function () {
+        .then(function testInstalls() {
+            console.log('testing installs');
             if (options.all) {
                 var install = installAll(allowed);
                 console.assert(install, 'could not get install all promise');
@@ -95,9 +98,9 @@ function installEachTestRevert(listed, available, command, color, keep) {
 
     var checkModulesFunctions = available.map(function (nameVersion) {
         var name = nameVersion.name;
-        var currentVersion = listed[name];
-        verify.string(currentVersion, 'cannot find current version for ' + name +
-            ' among current dependencies ' + JSON.stringify(listed));
+        var currentVersion = listed[name].version;
+        la(check.string(currentVersion), 'cannot find current version for', name,
+            'among current dependencies', listed);
 
         var revertFunction = installModule.bind(null, name, currentVersion, keep);
 

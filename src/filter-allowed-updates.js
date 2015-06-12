@@ -1,6 +1,7 @@
 require('lazy-ass');
 var check = require('check-more-types');
 var semver = require('semver');
+var _ = require('lodash');
 
 la(check.fn(semver.diff), 'semver missing diff method', semver);
 
@@ -26,14 +27,14 @@ function isDiffAllowed(allowed, diff) {
 
 function filterAllowedUpdates(current, available, options) {
   var allowed = options.allow || options.allowed || 'major';
-  var isAllowed = isDiffAllowed.bind(null, allowed);
+  var isAllowed = _.partial(isDiffAllowed, allowed);
 
-  // console.log('filtering available updates', available);
-  // console.log('allowed', allowed);
+  console.log('filtering available updates', available);
+  console.log('current versions', current);
 
-  var filtered = available.filter(function (availableUpdate) {
+  var filtered = available.filter(function filterAvailable(availableUpdate) {
     la(check.unemptyString(availableUpdate.name), 'missing name in available', availableUpdate);
-    var fromVersion = current[availableUpdate.name];
+    var fromVersion = current[availableUpdate.name].version;
     la(check.unemptyString(fromVersion), 'cannot find current version for', availableUpdate.name, current);
 
     var versions = availableUpdate.versions;
