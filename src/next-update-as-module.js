@@ -8,7 +8,8 @@ module.exports = function nextUpdateTopLevel(options) {
     latest: Boolean(options.latest),
     keep: Boolean(options.keep),
     color: Boolean(options.color || options.colors),
-    allow: options.allow || options.allowed
+    allow: options.allow || options.allowed,
+    type: options.type
   };
 
   var checkUpdates = nextUpdate.checkAllUpdates.bind(null, opts);

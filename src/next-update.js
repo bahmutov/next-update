@@ -49,6 +49,8 @@ function checkCurrentInstall(options) {
     });
 }
 
+var isOnline = Q.denodeify(require('is-online'));
+
 // returns promise
 function checkAllUpdates(options) {
     options = options || {};
@@ -83,18 +85,26 @@ function checkAllUpdates(options) {
         allowed: options.allow || options.allowed
     });
 
-    if (isSingleSpecificVersion(moduleName)) {
-        var nv = nameVersionParser(moduleName[0]);
-        console.log('checking only specific:', nv.name, nv.version);
-        var list = [{
-            name: nv.name,
-            versions: [nv.version]
-        }];
-        return testVersionsBound(list);
-    } else {
-        var nextVersionsPromise = nextVersions(toCheck, checkLatestOnly);
-        return nextVersionsPromise.then(testVersionsBound);
-    }
+    return isOnline()
+        .then(function (online) {
+            if (!online) {
+                throw new Error('Need to be online to check new modules');
+            }
+        }).then(function () {
+            if (isSingleSpecificVersion(moduleName)) {
+                var nv = nameVersionParser(moduleName[0]);
+                console.log('checking only specific:', nv.name, nv.version);
+                var list = [{
+                    name: nv.name,
+                    versions: [nv.version]
+                }];
+                return testVersionsBound(list);
+            } else {
+                var nextVersionsPromise = nextVersions(toCheck, checkLatestOnly);
+                return nextVersionsPromise.then(testVersionsBound);
+            }
+        });
+
 }
 
 function isSingleSpecificVersion(moduleNames) {

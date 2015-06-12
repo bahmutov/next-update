@@ -15,6 +15,7 @@
     "console.table": "0.4.0",
     "deps-ok": "0.10.1",
     "easy-table": "0.3.0",
+    "is-online": "4.0.2",
     "lazy-ass": "0.5.3",
     "lodash": "3.6.0",
     "npm-utils": "0.0.9",
@@ -76,7 +77,7 @@
   "scripts": {
     "test": "grunt && npm run unit && npm run e2e",
     "unit": "gt src/test/*.js src/test/*.coffee --output",
-    "limited": "gt --filter 'fetch non existent module' --output src/test/*.js src/test/*.coffee",
+    "limited": "gt --filter 'results format' --output test/*.coffee",
     "e2e": "gt test/*.coffee --output",
     "coveralls": "cat cover/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "dont-break": "dont-break",

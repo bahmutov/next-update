@@ -44,15 +44,16 @@ function getDependenciesToCheck(moduleNames) {
     var title = 'module\'s current dependencies:';
     console.table(title, _.map(nameVersionPairs, function (nameVersion) {
         return {
-            module: nameVersion[0],
-            version: nameVersion[1]
+            module: nameVersion.name,
+            version: nameVersion.version,
+            type: nameVersion.type
         };
     }));
 
     var toCheck = nameVersionPairs;
     if (moduleNames) {
         toCheck = nameVersionPairs.filter(function (nameVersion) {
-            var name = nameVersion[0];
+            var name = nameVersion.name;
             return moduleNames.some(function (aModule) {
                 var moduleName = nameVersionParser(aModule).name;
                 return name === moduleName;

@@ -27,8 +27,9 @@ function testModulesVersions(options, available) {
     verify.object(options, 'missing options');
     verify.array(available, 'expected array of available modules');
 
-    var cleaned = cleanVersions(options.modules);
-    var listed = _.zipObject(cleaned);
+    var listed = cleanVersions(options.modules);
+    // console.log('cleaned', cleaned);
+    // var listed = _.zipObject(cleaned);
 
     // console.log('testing module versions');
     // console.log('current versions', listed);
