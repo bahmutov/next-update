@@ -5,6 +5,7 @@
 [![NPM][next-update-icon] ][next-update-url]
 
 [![Build status][next-update-ci-image] ][next-update-ci-url]
+[![Circle CI][circle-ci-image] ][circle-ci-url]
 [![Coverage Status][next-update-coverage-image] ][next-update-coverage-url]
 [![dependencies][next-update-dependencies-image] ][next-update-dependencies-url]
 [![devdependencies][next-update-devdependencies-image] ][next-update-devdependencies-url]
@@ -19,6 +20,8 @@
 [next-update-dependencies-url]: https://david-dm.org/bahmutov/next-update
 [next-update-devdependencies-image]: https://david-dm.org/bahmutov/next-update/dev-status.png
 [next-update-devdependencies-url]: https://david-dm.org/bahmutov/next-update#info=devDependencies
+[circle-ci-image]: https://circleci.com/gh/bahmutov/next-update.svg?style=svg
+[circle-ci-url]: https://circleci.com/gh/bahmutov/next-update
 
 
 
