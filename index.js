@@ -42,14 +42,15 @@ if (module.parent) {
       all: program.all,
       color: program.color,
       keep: program.keep,
-      allow: program.allowed || program.allow
+      allow: program.allowed || program.allow,
+      type: program.type
     };
 
     var checkCurrent = nextUpdate.checkCurrentInstall.bind(null, opts);
     var checkCurrentState = program.skip ? q : checkCurrent;
     var checkUpdates = nextUpdate.checkAllUpdates.bind(null, opts);
 
-    var reportTestResults = function (results) {
+    var reportTestResults = function reportTestResults(results) {
       if (Array.isArray(results)) {
         report(results, program.color, program.keep);
       }

@@ -15,7 +15,10 @@ gt.test('basic of fetch', function () {
 });
 
 gt.async('fetch non existent module', 2, function () {
-    var promise = fetchVersions(['this-module-should-not-exist-at-all', '0.2.0']);
+    var promise = fetchVersions({
+        name: 'this-module-should-not-exist-at-all',
+        version: '0.2.0'
+    });
     gt.func(promise.then, 'return object has then method');
     promise.then(function (results) {
         gt.ok(false, 'should not get success, results ' + JSON.stringify(results, null, 2));
@@ -32,7 +35,7 @@ gt.async('fetch non existent module', 2, function () {
 gt.async('fetch gt later versions', function () {
     gt.func(fetchVersions);
     gt.arity(fetchVersions, 1);
-    var promise = fetchVersions(['gt', '0.5.0']);
+    var promise = fetchVersions({ name: 'gt', version: '0.5.0' });
     gt.func(promise.then, 'return object has then method');
     promise.then(function (results) {
         gt.object(results, 'returns an object');
@@ -45,7 +48,7 @@ gt.async('fetch gt later versions', function () {
 gt.async('fetch module later versions', function () {
     gt.func(fetchVersions);
     gt.arity(fetchVersions, 1);
-    var promise = fetchVersions(['lodash', '0.7.0']);
+    var promise = fetchVersions({ name: 'lodash', version: '0.7.0' });
     gt.func(promise.then, 'return object has then method');
     promise.then(function (results) {
         gt.object(results, 'returns an object');
@@ -65,7 +68,13 @@ gt.test('next versions basics', function () {
 });
 
 gt.async('fetch gt, optimist versions', function () {
-    var promise = nextVersions([['gt', '0.5.0'], ['lodash', '1.0.0']]);
+    var promise = nextVersions([{
+        name: 'gt',
+        version: '0.5.0'
+    }, {
+        name: 'lodash',
+        version: '1.0.0'
+    }]);
     gt.func(promise.then, 'return object has then method');
     promise.then(function (results) {
         gt.array(results);
@@ -79,7 +88,13 @@ gt.async('fetch gt, optimist versions', function () {
 
 gt.async('fetch latest version', function () {
     var onlyLatest = true;
-    var promise = nextVersions([['gt', '0.5.0'], ['lodash', '1.0.0']], onlyLatest);
+    var promise = nextVersions([{
+        name: 'gt',
+        version: '0.5.0'
+    }, {
+        name: 'lodash',
+        version: '1.0.0'
+    }], onlyLatest);
     gt.func(promise.then, 'return object has then method');
     promise.then(function (results) {
         gt.array(results);
@@ -93,7 +108,7 @@ gt.async('fetch latest version', function () {
 
 gt.async('fetch latest version two digits', function () {
     var onlyLatest = true;
-    var promise = nextVersions([['mocha', '~1.8']], onlyLatest);
+    var promise = nextVersions([{ name: 'mocha', version: '~1.8' }], onlyLatest);
     gt.func(promise.then, 'return object has then method');
     promise.then(function (results) {
         gt.array(results);
@@ -105,35 +120,47 @@ gt.async('fetch latest version two digits', function () {
 
 gt.test('clean versions, 2 digits', function () {
     gt.arity(cleanVersions, 1);
-    var cleaned = cleanVersions([['mocha', '~1.8']]);
+    var cleaned = cleanVersions([{ name: 'mocha', version: '~1.8' }]);
     gt.array(cleaned);
     gt.equal(cleaned.length, 1);
-    gt.equal(cleaned[0][0], 'mocha', 'correct name');
-    gt.string(cleaned[0][1], 'version is a string');
+    gt.equal(cleaned[0].name, 'mocha', 'correct name');
+    gt.string(cleaned[0].version, 'version is a string');
 });
 
 gt.test('clean two versions', function () {
-    var input = [['gt', '0.5.0'], ['lodash', '1.0.0']];
+    var input = [{
+        name: 'gt',
+        version: '0.5.0'
+    }, {
+        name: 'lodash',
+        version: '1.0.0'
+    }];
     var cleaned = cleanVersions(input);
     gt.array(cleaned);
     // console.dir(cleaned);
     gt.equal(cleaned.length, 2);
-    gt.string(cleaned[0][1], 'first module has string version');
-    gt.string(cleaned[1][1], 'second module has string version');
+    gt.string(cleaned[0].version, 'first module has string version');
+    gt.string(cleaned[1].version, 'second module has string version');
 });
 
 gt.test('clean latest versions', function () {
-    var input = [['gt', 'latest']];
+    var input = [{
+        name: 'gt',
+        version: 'latest'
+    }];
     var cleaned = cleanVersions(input);
     gt.array(cleaned, 'got back an array');
     gt.equal(cleaned.length, 1);
-    gt.string(cleaned[0][1], 'module has string version');
+    gt.string(cleaned[0].version, 'module has string version');
 });
 
 gt.test('clean version *', function () {
-    var input = [['gt', '*']];
+    var input = [{
+        name: 'gt',
+        version: '*'
+    }];
     var cleaned = cleanVersions(input);
     gt.array(cleaned);
     gt.equal(cleaned.length, 1);
-    gt.string(cleaned[0][1], 'module has string version');
+    gt.string(cleaned[0].version, 'module has string version');
 });

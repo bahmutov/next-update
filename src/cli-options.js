@@ -60,12 +60,17 @@ var program = optimist
   boolean: true,
   default: false,
   alias: 'k',
-  description: 'Keep tested version if it is working'
+  description: 'keep tested version if it is working'
 })
 .option('allow', {
   string: true,
   default: 'major',
-  description: 'Allow major / minor / patch updates'
+  description: 'allow major / minor / patch updates'
+})
+.options('type', {
+  string: true,
+  default: 'all',
+  description: 'check dependencies of type (all, prod, dev, peer)'
 })
 .usage(info)
 .argv;

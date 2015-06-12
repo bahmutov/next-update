@@ -59,7 +59,7 @@ function cleanVersion(version, name) {
 }
 
 function cleanVersionPair(nameVersion) {
-    check.verify.array(nameVersion, 'expected and array');
+    check.verify.array(nameVersion, 'expected an array');
     console.assert(nameVersion.length === 2,
         'expected 2 items, name and version ' + nameVersion);
     var name = nameVersion[0];
@@ -76,10 +76,28 @@ function cleanVersionPair(nameVersion) {
     return nameVersion;
 }
 
+function cleanVersionObject(info) {
+    check.verify.object(info, 'expected info');
+    var name = info.name;
+    check.verify.string(name, 'could not get module name from ' + info);
+
+    var version = info.version;
+    check.verify.string(version, 'could not get module version from ' + info);
+    version = cleanVersion(version, name);
+
+    if (!version) {
+        return;
+    }
+
+    info.version = version;
+    return info;
+}
+
 function cleanVersions(nameVersionPairs) {
     check.verify.array(nameVersionPairs, 'expected array');
-    var cleaned = nameVersionPairs.map(cleanVersionPair)
-        .filter(_.isArray);
+    var cleaned = nameVersionPairs
+        .map(cleanVersionObject)
+        .filter(check.object);
     return cleaned;
 }
 
@@ -87,9 +105,11 @@ function cleanVersions(nameVersionPairs) {
 // https://github.com/jprichardson/npm-latest
 // returns a promise
 function fetchVersions(nameVersion) {
-    check.verify.array(nameVersion, 'expected name / version array');
-    var name = nameVersion[0];
-    var version = nameVersion[1];
+    console.log(nameVersion);
+    // TODO use check.schema
+    check.verify.object(nameVersion, 'expected name, version object');
+    var name = nameVersion.name;
+    var version = nameVersion.version;
     check.verify.string(name, 'missing name string');
     check.verify.string(version, 'missing version string');
 
