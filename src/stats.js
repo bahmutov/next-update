@@ -39,10 +39,15 @@ function getSuccessStats(options) {
     var defer = Q.defer();
     request(opts, function (err, response, stats) {
         if (err || response.statusCode !== 200) {
-            if (response.statusCode !== 404) {
-                console.error('could not get success stats for', options.name);
-                console.error(opts);
-                console.error(err || response.statusCode);
+            if (response) {
+                if (response.statusCode !== 404) {
+                    console.error('could not get success stats for', options.name);
+                    console.error(opts);
+                }
+                console.error('response status:', response.statusCode);
+            }
+            if (err) {
+                console.error(err);
             }
             defer.reject(err);
             return;
