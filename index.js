@@ -61,7 +61,9 @@ if (module.parent) {
       .then(reportTestResults)
       .catch(function (error) {
         console.error('ERROR testing next working updates');
-        console.error(error.stack);
+        if (error.stack) {
+          console.error(error.stack);
+        }
         process.exit(1);
       });
   }

@@ -105,7 +105,7 @@ function cleanVersions(nameVersionPairs) {
 // https://github.com/jprichardson/npm-latest
 // returns a promise
 function fetchVersions(nameVersion) {
-    console.log(nameVersion);
+    // console.log(nameVersion);
     // TODO use check.schema
     check.verify.object(nameVersion, 'expected name, version object');
     var name = nameVersion.name;
@@ -114,7 +114,7 @@ function fetchVersions(nameVersion) {
     check.verify.string(version, 'missing version string');
 
     // console.log('fetching versions for', name, 'current version', version);
-
+    var MAX_WAIT_TIMEOUT = 5000;
     var deferred = q.defer();
 
     registryUrl().then(function (npmUrl) {
@@ -124,6 +124,11 @@ function fetchVersions(nameVersion) {
         var url = npmUrl + name;
 
         request.get(url, onNPMversions);
+        setTimeout(function () {
+            var msg = 'timed out waiting for NPM for package ' + name;
+            console.error(msg);
+            deferred.reject(msg);
+        }, MAX_WAIT_TIMEOUT);
 
         function onNPMversions(err, response, body) {
             if (err) {
@@ -180,11 +185,13 @@ function nextVersions(nameVersionPairs, checkLatestOnly) {
     checkLatestOnly = !!checkLatestOnly;
     nameVersionPairs = cleanVersions(nameVersionPairs);
 
+    var MAX_CHECK_TIMEOUT = 10000;
     var deferred = q.defer();
 
     console.log('checking NPM registry');
     var fetchPromises = nameVersionPairs.map(fetchVersions);
-    var fetchAllPromise = q.all(fetchPromises);
+    var fetchAllPromise = q.all(fetchPromises)
+        .timeout(MAX_CHECK_TIMEOUT, 'timed out waiting for NPM');
 
     fetchAllPromise.then(function (results) {
         var available = results.filter(function (nameNewVersions) {
