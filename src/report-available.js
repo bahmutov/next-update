@@ -1,5 +1,6 @@
 require('lazy-ass');
 var check = require('check-more-types');
+require('console.json');
 var verify = check.verify;
 var print = require('./print-modules-table');
 var stats = require('./stats');
