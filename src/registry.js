@@ -124,13 +124,15 @@ function fetchVersions(nameVersion) {
         var url = npmUrl + name;
 
         request.get(url, onNPMversions);
-        setTimeout(function () {
+        var timer = setTimeout(function () {
             var msg = 'timed out waiting for NPM for package ' + name;
             console.error(msg);
             deferred.reject(msg);
         }, MAX_WAIT_TIMEOUT);
 
         function onNPMversions(err, response, body) {
+            clearTimeout(timer);
+
             if (err) {
                 console.error('ERROR when fetching info for package', name);
                 deferred.reject(err.message);

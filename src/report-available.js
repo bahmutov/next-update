@@ -16,7 +16,8 @@ function report(available, currentVersions, options) {
         console.log('nothing new is available');
         return;
     }
-    console.log('current versions', currentVersions);
+    console.log('current versions');
+    console.json(currentVersions);
     la(check.maybe.object(currentVersions),
         'expected current versions object', currentVersions);
 
@@ -59,11 +60,17 @@ function report(available, currentVersions, options) {
             verify.string(info.name, 'missing module name ' + info);
             verify.array(info.versions, 'missing module versions ' + info);
 
-            var sep = ', ';
-            if (info.versions.length > 5) {
-                sep = '\n  ';
+            var sep = ', ', versions;
+
+            if (info.versions.length < 5) {
+                versions = info.versions.join(sep);
+            } else {
+                versions = info.versions.slice(0, 2)
+                    .concat('...')
+                    .concat(info.versions.slice(info.versions.length - 2))
+                    .join(sep);
             }
-            var versions = info.versions.join(sep);
+
             modules.push({
                 name: info.name,
                 version: versions,

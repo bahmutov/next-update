@@ -1,7 +1,7 @@
 {
   "name": "next-update",
   "description": "Tests if module's dependencies can be updated to the newer version without breaking the tests",
-  "version": "0.7.7",
+  "version": "0.7.8",
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "bin": "index.js",
   "bugs": {
@@ -12,6 +12,7 @@
     "check-more-types": "1.5.0",
     "check-types": "1.4.0",
     "cli-color": "0.3.3",
+    "console.json": "0.2.1",
     "console.table": "0.4.0",
     "deps-ok": "0.10.1",
     "easy-table": "0.3.0",

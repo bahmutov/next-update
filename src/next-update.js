@@ -1,3 +1,7 @@
+require('lazy-ass');
+var check = require('check-more-types');
+require('console.json');
+
 var Q = require('q');
 Q.longStackSupport = true;
 var check = require('check-types');
