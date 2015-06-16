@@ -43,7 +43,7 @@
     "jshint-stylish": "1.0.1",
     "matchdep": "0.3.0",
     "mockery": "1.4.0",
-    "pre-git": "0.2.1",
+    "pre-git": "0.6.0",
     "publish": "0.5.0",
     "time-grunt": "1.1.0"
   },
