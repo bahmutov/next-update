@@ -123,6 +123,8 @@ function fetchVersions(nameVersion) {
         npmUrl = npmUrl.replace(/^https:/, 'http:').trim();
         var url = npmUrl + name;
 
+        // TODO how to detect if the registry is not responding?
+
         request.get(url, onNPMversions);
         var timer = setTimeout(function () {
             var msg = 'timed out waiting for NPM for package ' + name;
