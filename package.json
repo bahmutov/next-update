@@ -1,9 +1,11 @@
 {
   "name": "next-update",
   "description": "Tests if module's dependencies can be updated to the newer version without breaking the tests",
-  "version": "0.7.9",
+  "version": "0.7.10",
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
-  "bin": "index.js",
+  "bin": {
+    "next-update": "./bin/next-update.js"
+  },
   "bugs": {
     "url": "https://github.com/bahmutov/next-update/issues"
   },
