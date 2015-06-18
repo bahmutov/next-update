@@ -5,33 +5,37 @@ var NPM_PATH = require('npm-utils').path;
 var formInstallCommand = require('./report-install-command');
 
 // returns a promise
-function installModule(name, version, keep, results) {
+function installModule(options, results) {
+    check.verify.object(options, 'missing options');
     check.verify.string(name, 'expected module name string');
     check.verify.string(version, 'expected version string');
-    if (keep) {
-        console.assert(typeof keep === 'boolean', 'invalid keep');
+
+    if (options.keep) {
+        console.assert(typeof options.keep === 'boolean', 'invalid keep');
     }
     if (results) {
         check.verify.array(results, 'missing results');
     }
 
     var cmd = formInstallCommand([[{
-        name: name,
-        version: version,
+        name: options.name,
+        version: options.version,
         works: true
     }]]);
     check.verify.unemptyString(cmd, 'could not form install command');
     cmd = cmd.trim();
 
-    var moduleVersion = name + '@' + version, npm;
-    if (keep) {
+    var moduleVersion = options.name + '@' + options.version, npm;
+    if (options.keep) {
         console.log('  ', cmd);
         var args = cmd.split(' ');
         args.shift();
         args.push('--save-exact');
         npm = spawn(NPM_PATH, args);
     } else {
-        console.log('  installing', moduleVersion);
+        if (!options.tldr) {
+            console.log('  installing', moduleVersion);
+        }
         npm = spawn(NPM_PATH, ['install', moduleVersion]);
     }
 
@@ -74,7 +78,9 @@ function installModule(name, version, keep, results) {
                 errors: testErrors
             });
         } else {
-            console.log(moduleVersion, 'installed successfully');
+            if (!options.tldr) {
+                console.log(moduleVersion, 'installed successfully');
+            }
             deferred.resolve(results);
         }
     });

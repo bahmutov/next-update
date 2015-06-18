@@ -91,7 +91,8 @@ function checkAllUpdates(options) {
         all: all,
         color: options.color,
         keep: options.keep,
-        allowed: options.allow || options.allowed
+        allowed: options.allow || options.allowed,
+        tldr: options.tldr
     });
 
     return isOnline()

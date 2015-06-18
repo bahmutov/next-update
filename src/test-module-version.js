@@ -54,7 +54,7 @@ function testModulesVersions(options, available) {
         .then(function testInstalls() {
             // console.log('testing installs');
             if (options.all) {
-                var install = installAll(allowed);
+                var install = installAll(allowed, options);
                 console.assert(install, 'could not get install all promise');
                 var test = testPromise(options.command);
                 console.assert(test, 'could not get test promise for command', options.command);
@@ -72,12 +72,12 @@ function testModulesVersions(options, available) {
             }
 
             return installEachTestRevert(listed, allowed,
-                options.command, options.color, options.keep);
+                options.command, options.color, options.keep, options.tldr);
         });
 }
 
 // returns promise, does not revert
-function installAll(available) {
+function installAll(available, options) {
     verify.array(available, 'expected array');
 
     var installFunctions = available.map(function (nameVersions) {
@@ -88,14 +88,20 @@ function installAll(available) {
         verify.string(version, 'missing module version from ' +
             JSON.stringify(nameVersions));
 
-        var installFunction = installModule.bind(null, name, version, false);
+        var installOptions = {
+            name: name,
+            version: version,
+            keep: keep,
+            tldr: tldr
+        };
+        var installFunction = installModule.bind(null, installOptions);
         return installFunction;
     });
     var installAllPromise = installFunctions.reduce(q.when, q());
     return installAllPromise;
 }
 
-function installEachTestRevert(listed, available, command, color, keep) {
+function installEachTestRevert(listed, available, command, color, keep, tldr) {
     verify.object(listed, 'expected listed object');
     verify.array(available, 'expected array');
 
@@ -105,7 +111,13 @@ function installEachTestRevert(listed, available, command, color, keep) {
         la(check.string(currentVersion), 'cannot find current version for', name,
             'among current dependencies', listed);
 
-        var revertFunction = installModule.bind(null, name, currentVersion, keep);
+        var installOptions = {
+            name: name,
+            version: currentVersion,
+            keep: keep,
+            tldr: tldr
+        };
+        var revertFunction = installModule.bind(null, installOptions);
 
         var checkModuleFunction = testModuleVersions.bind(null, {
             moduleVersions: nameVersion,
@@ -113,7 +125,8 @@ function installEachTestRevert(listed, available, command, color, keep) {
             command: command,
             color: color,
             currentVersion: currentVersion,
-            keep: keep
+            keep: keep,
+            tldr: tldr
         });
         return checkModuleFunction;
     });
@@ -145,7 +158,8 @@ function testModuleVersions(options, results) {
             version: version,
             command: options.command,
             color: options.color,
-            currentVersion: options.currentVersion
+            currentVersion: options.currentVersion,
+            tldr: options.tldr
         });
     });
     var checkAllPromise = checkPromises.reduce(q.when, q());
@@ -155,7 +169,12 @@ function testModuleVersions(options, results) {
             var lastSuccess = _.last(_.filter(result, { works: true }));
             if (lastSuccess) {
                 console.log('keeping last working version', lastSuccess.name + '@' + lastSuccess.version);
-                return installModule(lastSuccess.name, lastSuccess.version, true, result);
+                return installModule({
+                    name: lastSuccess.name,
+                    version: lastSuccess.version,
+                    keep: true,
+                    tldr: options.tldr
+                }, result);
             } else {
                 return restoreVersionFunc().then(function () {
                     // console.log('returning result after reverting', result);
@@ -210,7 +229,10 @@ function testModuleVersion(options, results) {
     verify.array(results, 'missing previous results array');
 
     var nameVersion = options.name + '@' + options.version;
-    console.log('\ntesting', nameVersion);
+
+    if (!options.tldr) {
+        console.log('\ntesting', nameVersion);
+    }
 
     var result = {
         name: options.name,
@@ -236,7 +258,12 @@ function testModuleVersion(options, results) {
         return;
     })
     .then(function () {
-        return installModule(options.name, options.version, false);
+        return installModule({
+            name: options.name,
+            version: options.version,
+            keep: false,
+            tldr: options.tldr
+        });
     })
     .then(test)
     .then(function () {

@@ -12,7 +12,11 @@ function revert(moduleName) {
     var installPromises = toCheck.map(function (nameVersion) {
         var name = nameVersion[0];
         var version = nameVersion[1];
-        return installModule.bind(null, name, version);
+        return installModule.bind(null, {
+            name: name,
+            version: version,
+            tldr: false
+        });
     });
     return installPromises.reduce(q.when, q());
 }
