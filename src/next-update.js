@@ -22,7 +22,7 @@ var boundConsoleLog = console.log.bind(console);
 // returns a promise
 function available(moduleName, options) {
     var toCheck = getDependenciesToCheck(options, moduleName);
-    var nextVersionsPromise = nextVersions(toCheck);
+    var nextVersionsPromise = nextVersions(options, toCheck);
     nextVersionsPromise.then(function (info) {
         toCheck = _.zipObject(toCheck);
         return reportAvailable(info, toCheck, options);
@@ -109,7 +109,7 @@ function checkAllUpdates(options) {
                 }];
                 return testVersionsBound(list);
             } else {
-                var nextVersionsPromise = nextVersions(toCheck, checkLatestOnly);
+                var nextVersionsPromise = nextVersions(options, toCheck, checkLatestOnly);
                 return nextVersionsPromise.then(testVersionsBound);
             }
         });

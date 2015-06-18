@@ -19,13 +19,15 @@ function printModulesTable(modules, options) {
     modules.forEach(function (info) {
         verify.string(info.name, 'missing module name ' + info);
         verify.string(info.version, 'missing module version ' + info);
+
         t.cell('package', info.name);
+        t.cell('current', info.from);
         t.cell('available', info.version);
+
         if (haveStats && info.stats) {
             var stats = info.stats;
             verify.object(stats, 'expected stats object');
 
-            t.cell('from version', stats.from);
             var total = +stats.success + stats.failure;
             var probability = total ? stats.success / total : null;
             var probabilityStr = colorProbability(probability, options);

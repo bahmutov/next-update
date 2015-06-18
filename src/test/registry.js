@@ -64,11 +64,11 @@ var nextVersions = require('../registry').nextVersions;
 
 gt.test('next versions basics', function () {
     gt.func(nextVersions);
-    gt.arity(nextVersions, 2);
+    gt.arity(nextVersions, 3);
 });
 
 gt.async('fetch gt, optimist versions', function () {
-    var promise = nextVersions([{
+    var promise = nextVersions({}, [{
         name: 'gt',
         version: '0.5.0'
     }, {
@@ -88,7 +88,7 @@ gt.async('fetch gt, optimist versions', function () {
 
 gt.async('fetch latest version', function () {
     var onlyLatest = true;
-    var promise = nextVersions([{
+    var promise = nextVersions({}, [{
         name: 'gt',
         version: '0.5.0'
     }, {
@@ -108,7 +108,7 @@ gt.async('fetch latest version', function () {
 
 gt.async('fetch latest version two digits', function () {
     var onlyLatest = true;
-    var promise = nextVersions([{ name: 'mocha', version: '~1.8' }], onlyLatest);
+    var promise = nextVersions({}, [{ name: 'mocha', version: '~1.8' }], onlyLatest);
     gt.func(promise.then, 'return object has then method');
     promise.then(function (results) {
         gt.array(results);

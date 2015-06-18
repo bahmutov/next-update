@@ -184,7 +184,8 @@ function fetchVersions(nameVersion) {
 }
 
 // returns a promise with available new versions
-function nextVersions(nameVersionPairs, checkLatestOnly) {
+function nextVersions(options, nameVersionPairs, checkLatestOnly) {
+    check.verify.object(options, 'expected object with options');
     check.verify.array(nameVersionPairs, 'expected array');
     checkLatestOnly = !!checkLatestOnly;
     nameVersionPairs = cleanVersions(nameVersionPairs);
@@ -192,7 +193,9 @@ function nextVersions(nameVersionPairs, checkLatestOnly) {
     var MAX_CHECK_TIMEOUT = 10000;
     var deferred = q.defer();
 
-    console.log('checking NPM registry');
+    if (!options.tldr) {
+        console.log('checking NPM registry');
+    }
     var fetchPromises = nameVersionPairs.map(fetchVersions);
     var fetchAllPromise = q.all(fetchPromises)
         .timeout(MAX_CHECK_TIMEOUT, 'timed out waiting for NPM');

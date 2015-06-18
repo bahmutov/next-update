@@ -24,7 +24,9 @@ if (program.available) {
       console.error('error while reverting\n', error);
     });
 } else {
-  console.log(info);
+  if (!program.tldr) {
+    console.log(info);
+  }
 
   var updateNotifier = require('update-notifier');
   updateNotifier({

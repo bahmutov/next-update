@@ -72,10 +72,12 @@ function report(available, currentVersions, options) {
                     .join(sep);
             }
 
+            var stats = updateStats[info.name];
             modules.push({
                 name: info.name,
                 version: versions,
-                stats: updateStats[info.name]
+                from: stats.from,
+                stats: stats
             });
         });
         console.log('\navailable updates:');
