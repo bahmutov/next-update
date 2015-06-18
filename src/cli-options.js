@@ -72,6 +72,11 @@ var program = optimist
   default: 'all',
   description: 'check dependencies of type (all, prod, dev, peer)'
 })
+.options('tldr', {
+  boolean: true,
+  default: false,
+  description: 'only print VERY important log messages'
+})
 .usage(info)
 .argv;
 

@@ -41,7 +41,8 @@ if (program.available) {
     color: program.color,
     keep: program.keep,
     allow: program.allowed || program.allow,
-    type: program.type
+    type: program.type,
+    tldr: program.tldr
   };
 
   var checkCurrent = nextUpdate.checkCurrentInstall.bind(null, opts);

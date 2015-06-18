@@ -20,7 +20,8 @@ function printCurrentModules(infos) {
     print(modules);
 }
 
-function getDependenciesToCheck(moduleNames) {
+function getDependenciesToCheck(options, moduleNames) {
+    check.verify.object(options, 'missing options');
     if (moduleNames) {
         console.log('returning dependencies for');
         console.dir(moduleNames);
@@ -41,14 +42,16 @@ function getDependenciesToCheck(moduleNames) {
     var packageFilename = path.join(workingDirectory, 'package.json');
     var nameVersionPairs = getKnownDependencies(packageFilename);
 
-    var title = 'module\'s current dependencies:';
-    console.table(title, _.map(nameVersionPairs, function (nameVersion) {
-        return {
-            module: nameVersion.name,
-            version: nameVersion.version,
-            type: nameVersion.type
-        };
-    }));
+    if (!options.tldr) {
+        var title = 'module\'s current dependencies:';
+        console.table(title, _.map(nameVersionPairs, function (nameVersion) {
+            return {
+                module: nameVersion.name,
+                version: nameVersion.version,
+                type: nameVersion.type
+            };
+        }));
+    }
 
     var toCheck = nameVersionPairs;
     if (moduleNames) {
@@ -59,7 +62,9 @@ function getDependenciesToCheck(moduleNames) {
                 return name === moduleName;
             });
         });
-        console.log('only checking\n', toCheck);
+        if (!options.tldr) {
+            console.log('only checking\n', toCheck);
+        }
     }
     return toCheck;
 }

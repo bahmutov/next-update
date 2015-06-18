@@ -17,9 +17,11 @@ var runTest = require('./test-module-version').testPromise;
 var getDependenciesToCheck = require('./dependencies');
 var reportAvailable = require('./report-available');
 
+var boundConsoleLog = console.log.bind(console);
+
 // returns a promise
 function available(moduleName, options) {
-    var toCheck = getDependenciesToCheck(moduleName);
+    var toCheck = getDependenciesToCheck(options, moduleName);
     var nextVersionsPromise = nextVersions(toCheck);
     nextVersionsPromise.then(function (info) {
         toCheck = _.zipObject(toCheck);
@@ -43,14 +45,17 @@ function checkDependenciesInstalled() {
 }
 
 function checkCurrentInstall(options) {
-    console.log('checking if the current state works');
+    options = options || {};
+    var log = options.tldr ? _.noop : boundConsoleLog;
+    log('checking if the current state works');
+
     return checkDependenciesInstalled()
-    .then(function () {
-        return runTest(options && options.testCommand)();
-    })
-    .then(function () {
-        console.log('current state works');
-    });
+        .then(function () {
+            return runTest(options && options.testCommand)();
+        })
+        .then(function () {
+            console.log('tests are passing at the start');
+        });
 }
 
 var isOnline = Q.denodeify(require('is-online'));
@@ -77,7 +82,7 @@ function checkAllUpdates(options) {
     if (checkCommand) {
         check.verify.string(checkCommand, 'expected string test command');
     }
-    var toCheck = getDependenciesToCheck(moduleName);
+    var toCheck = getDependenciesToCheck(options, moduleName);
     check.verify.array(toCheck, 'dependencies to check should be an array');
 
     var testVersionsBound = testVersions.bind(null, {

@@ -8,7 +8,7 @@ function revert(moduleName) {
         console.log('should revert', JSON.stringify(moduleName));
     }
 
-    var toCheck = getDependenciesToCheck(moduleName);
+    var toCheck = getDependenciesToCheck({}, moduleName);
     var installPromises = toCheck.map(function (nameVersion) {
         var name = nameVersion[0];
         var version = nameVersion[1];
