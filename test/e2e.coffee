@@ -1,5 +1,5 @@
 path = require 'path'
-index = path.join __dirname, '../index.js'
+index = path.join __dirname, '../bin/next-update.js'
 ONE_MINUTE = 60000
 TWO_MINUTES = 120000
 moduleName = 'check-types'

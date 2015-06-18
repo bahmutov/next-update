@@ -1,5 +1,5 @@
 path = require 'path'
-index = path.join __dirname, '../index.js'
+index = path.join __dirname, '../bin/next-update.js'
 TWO_MINUTES = 120000
 
 gt.module 'single module check',

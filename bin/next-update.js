@@ -27,10 +27,11 @@ if (program.available) {
   console.log(info);
 
   var updateNotifier = require('update-notifier');
-  var notifier = updateNotifier();
-  if (notifier.update) {
-    notifier.notify();
-  }
+  updateNotifier({
+    pkg: pkg,
+    name: pkg.name,
+    version: pkg.version
+  }).notify();
 
   var opts = {
     names: program.module,
