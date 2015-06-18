@@ -29,8 +29,8 @@ function filterAllowedUpdates(current, available, options) {
   var allowed = options.allow || options.allowed || 'major';
   var isAllowed = _.partial(isDiffAllowed, allowed);
 
-  console.log('filtering available updates', available);
-  console.log('current versions', current);
+  // console.log('filtering available updates', available);
+  // console.log('current versions', current);
 
   var filtered = available.filter(function filterAvailable(availableUpdate) {
     la(check.unemptyString(availableUpdate.name), 'missing name in available', availableUpdate);

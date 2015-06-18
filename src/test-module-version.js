@@ -33,10 +33,13 @@ function testModulesVersions(options, available) {
     var names = _.pluck(cleaned, 'name');
     var listed = _.zipObject(names, cleaned);
 
+    /*
     console.log('testing module versions');
     console.log('current versions', listed);
     console.log('options', options);
     console.log('available', available);
+    */
+
     var allowed = filterAllowed(listed, available, options);
     la(check.array(allowed), 'could not filter allowed updates', listed, available, options);
 
@@ -46,17 +49,17 @@ function testModulesVersions(options, available) {
         return q(listed);
     }
 
-    console.log('allowed', allowed);
+    // console.log('allowed', allowed);
     return q.when(report(allowed, listed, options))
         .then(function testInstalls() {
-            console.log('testing installs');
+            // console.log('testing installs');
             if (options.all) {
                 var install = installAll(allowed);
                 console.assert(install, 'could not get install all promise');
                 var test = testPromise(options.command);
                 console.assert(test, 'could not get test promise for command', options.command);
-                console.dir(listed);
-                console.dir(options.modules);
+                // console.dir(listed);
+                // console.dir(options.modules);
 
                 var installThenTest = install.then(test);
                 if (options.keep) {

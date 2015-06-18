@@ -17,8 +17,8 @@ function report(available, currentVersions, options) {
         console.log('nothing new is available');
         return;
     }
-    console.log('current versions');
-    console.json(currentVersions);
+    // console.log('current versions');
+    // console.json(currentVersions);
     la(check.maybe.object(currentVersions),
         'expected current versions object', currentVersions);
 
@@ -30,7 +30,7 @@ function report(available, currentVersions, options) {
         la(check.array(info.versions), 'missing module versions', info);
 
         var currentVersion = currentVersions && currentVersions[info.name] || null;
-        console.log('version for', info.name, currentVersion)
+        // console.log('version for', info.name, currentVersion)
         if (currentVersion) {
             la(check.unemptyString(currentVersion.version), 'missing version', currentVersion);
             updateStats[info.name] = {
