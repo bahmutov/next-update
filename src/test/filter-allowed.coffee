@@ -5,7 +5,7 @@ check = require 'check-more-types'
 filter = require '../filter-allowed-updates'
 
 current =
-  q: { name: 'q', version: '1.1.1' }
+  q: { name: 'q', version: '1.1.1', type: 'dev' }
 available = [ { name: 'q', versions: [ '2.0.2' ] } ]
 
 gt.test 'allow major', ->
