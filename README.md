@@ -25,6 +25,8 @@
 
 
 
+[![asciicast](https://asciinema.org/a/21645.png)](https://asciinema.org/a/21645)
+
 Also check out: 
 
 * [next-updater](https://github.com/bahmutov/next-updater) can update all your repos
