@@ -5,9 +5,12 @@ var q = require('q');
 var npmPath = require('./npm-test').npmPath;
 
 // returns a promise
-function test(testCommand) {
+function test(options, testCommand) {
+    options = options || {};
+    var log = options.tldr ? _.noop : console.log.bind(console);
+
     verify.unemptyString(testCommand, 'missing test command string');
-    console.log(' ', testCommand);
+    log(' ', testCommand);
 
     var testParts = testCommand.split(' ');
     console.assert(testParts.length > 0, 'missing any test words in ' + testCommand);

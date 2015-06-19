@@ -15,11 +15,11 @@ ONE_MINUTE = 60000
 onError = (error) -> throw new Error(error)
 
 gt.test 'basics', ->
-    gt.arity test, 1
+    gt.arity test, 2
 
 gt.async 'using npm test command', ->
     gt.string npmPath, 'has npm path'
-    promise = test npmPath + ' test'
+    promise = test {}, npmPath + ' test'
     gt.object promise
     promise.then ->
         gt.ok false, 'there should not be npm test'
@@ -32,7 +32,7 @@ gt.async 'using npm test command', ->
 , ONE_MINUTE
 
 gt.async 'auto switch to npm test command', ->
-    promise = test 'npm test'
+    promise = test {}, 'npm test'
     gt.object promise
     promise.then ->
         gt.ok false, 'there should not be npm test'

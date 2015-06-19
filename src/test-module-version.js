@@ -56,7 +56,7 @@ function testModulesVersions(options, available) {
             if (options.all) {
                 var install = installAll(allowed, options);
                 console.assert(install, 'could not get install all promise');
-                var test = testPromise(options.command);
+                var test = testPromise(options, options.command);
                 console.assert(test, 'could not get test promise for command', options.command);
                 // console.dir(listed);
                 // console.dir(options.modules);
@@ -241,7 +241,7 @@ function testModuleVersion(options, results) {
         works: true
     };
 
-    var test = testPromise(options.command);
+    var test = testPromise(options, options.command);
     console.assert(test, 'could not get test promise for command', options.command);
 
     var deferred = q.defer();
@@ -303,11 +303,11 @@ function testModuleVersion(options, results) {
     return deferred.promise;
 }
 
-function testPromise(command) {
-    var testFunction = npmTest;
+function testPromise(options, command) {
+    var testFunction = npmTest.bind(null, options);
     if (command) {
         verify.unemptyString(command, 'expected string command, not ' + command);
-        testFunction = execTest.bind(null, command);
+        testFunction = execTest.bind(null, options, command);
     }
     return testFunction;
 }

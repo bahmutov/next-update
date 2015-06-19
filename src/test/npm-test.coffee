@@ -16,7 +16,7 @@ onError = (error) ->
     throw new Error(error)
 
 gt.test 'basics', ->
-    gt.arity test, 0
+    gt.arity test, 1
     gt.string npmTest.npmPath, 'has npm path'
 
 gt.async 'simple npm test', ->

@@ -1,6 +1,7 @@
 var check = require('check-types');
 var spawn = require('child_process').spawn;
 var q = require('q');
+var _ = require('lodash');
 
 // hack to find npm bin script reliably
 function findNpmPath() {
@@ -12,8 +13,12 @@ function findNpmPath() {
 var NPM_PATH = findNpmPath();
 
 // returns a promise
-function test() {
-    console.log('  npm test');
+function test(options) {
+    options = options || {};
+    var log = options.tldr ? _.noop : console.log.bind(console);
+    var errorLog = options.tldr ? _.noop : console.error.bind(console);
+    log('  npm test');
+
     check.verify.string(NPM_PATH, 'missing npm path string');
     var npm = spawn(NPM_PATH, ['test']);
     var testOutput = '';
@@ -24,14 +29,16 @@ function test() {
 
     npm.stdout.on('data', function (data) {
         testOutput += data;
+        log(data);
     });
 
     npm.stderr.on('data', function (data) {
         testErrors += data;
+        log(data);
     });
 
     npm.on('error', function (err) {
-        console.error(err);
+        errorLog(err);
         testErrors += err.toString();
     });
 
@@ -39,7 +46,8 @@ function test() {
     npm.on('exit', function (code) {
         if (code) {
             console.error('npm test returned', code);
-            console.error('test errors:\n' + testErrors);
+            errorLog('test errors:\n' + testErrors);
+
             deferred.reject({
                 code: code,
                 errors: testErrors

@@ -51,10 +51,10 @@ function checkCurrentInstall(options) {
 
     return checkDependenciesInstalled()
         .then(function () {
-            return runTest(options && options.testCommand)();
+            return runTest(options, options.testCommand)();
         })
         .then(function () {
-            console.log('tests are passing at the start');
+            console.log('> tests are passing at the start');
         });
 }
 
