@@ -45,7 +45,7 @@ function test(options) {
     var deferred = q.defer();
     npm.on('exit', function (code) {
         if (code) {
-            console.error('npm test returned', code);
+            errorLog('npm test returned', code);
             errorLog('test errors:\n' + testErrors);
 
             deferred.reject({

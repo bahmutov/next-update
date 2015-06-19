@@ -253,53 +253,59 @@ function testModuleVersion(options, results) {
     });
 
     getSuccess
-    .then(stats.printStats.bind(null, options), function () {
-        console.log('could not get update stats', options.name);
-        return;
-    })
-    .then(function () {
-        return installModule({
-            name: options.name,
-            version: options.version,
-            keep: false,
-            tldr: options.tldr
+        .then(stats.printStats.bind(null, options), function () {
+            console.log('could not get update stats', options.name);
+            return;
+        })
+        .then(function () {
+            return installModule({
+                name: options.name,
+                version: options.version,
+                keep: false,
+                tldr: options.tldr
+            });
+        })
+        .then(test)
+        .then(function () {
+            reportSuccess(nameVersion + ' works', options.color);
+
+            stats.sendUpdateResult({
+                name: options.name,
+                from: options.currentVersion,
+                to: options.version,
+                success: true
+            });
+            results.push(result);
+            deferred.resolve(results);
+        }, function (error) {
+            reportFailure(nameVersion + ' tests failed :(', options.color);
+
+            stats.sendUpdateResult({
+                name: options.name,
+                from: options.currentVersion,
+                to: options.version,
+                success: false
+            });
+
+            verify.number(error.code, 'expected code in error ' +
+                JSON.stringify(error, null, 2));
+
+            var horizontalLine = options.tldr ? _.noop : logLine;
+
+            horizontalLine();
+            if (!options.tldr) {
+                console.error('test finished with exit code', error.code);
+                verify.string(error.errors, 'expected errors string in error ' +
+                    JSON.stringify(error, null, 2));
+                console.error(error.errors);
+            }
+
+            horizontalLine();
+
+            result.works = false;
+            results.push(result);
+            deferred.resolve(results);
         });
-    })
-    .then(test)
-    .then(function () {
-        reportSuccess(nameVersion + ' works', options.color);
-
-        stats.sendUpdateResult({
-            name: options.name,
-            from: options.currentVersion,
-            to: options.version,
-            success: true
-        });
-        results.push(result);
-        deferred.resolve(results);
-    }, function (error) {
-        reportFailure(nameVersion + ' tests failed :(', options.color);
-
-        stats.sendUpdateResult({
-            name: options.name,
-            from: options.currentVersion,
-            to: options.version,
-            success: false
-        });
-
-        verify.number(error.code, 'expected code in error ' +
-            JSON.stringify(error, null, 2));
-        logLine();
-        console.error('test finished with exit code', error.code);
-        verify.string(error.errors, 'expected errors string in error ' +
-            JSON.stringify(error, null, 2));
-        console.error(error.errors);
-        logLine();
-
-        result.works = false;
-        results.push(result);
-        deferred.resolve(results);
-    });
     return deferred.promise;
 }
 
