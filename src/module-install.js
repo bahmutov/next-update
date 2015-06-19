@@ -7,8 +7,8 @@ var formInstallCommand = require('./report-install-command');
 // returns a promise
 function installModule(options, results) {
     check.verify.object(options, 'missing options');
-    check.verify.string(name, 'expected module name string');
-    check.verify.string(version, 'expected version string');
+    check.verify.string(options.name, 'expected module name string');
+    check.verify.string(options.version, 'expected version string');
 
     if (options.keep) {
         console.assert(typeof options.keep === 'boolean', 'invalid keep');

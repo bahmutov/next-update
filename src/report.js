@@ -8,19 +8,25 @@ var colorAvailable = process.stdout.isTTY;
 function report(updates, useColors, keptUpdates) {
     check.verify.array(updates, 'expected array of updates');
 
-    console.log('\nnext updates:');
+    console.log('\n> next updates:');
     updates.forEach(function (moduleVersions) {
         reportModule(moduleVersions, useColors);
     });
 
     var cmd = formInstallCommand(updates);
     if (_.isUndefined(cmd)) {
-        console.log('Nothing can be updated :(');
+        console.log('> nothing can be updated :(');
     } else {
         if (keptUpdates) {
-            console.log('Kept working updates');
+            console.log('> kept working updates');
         } else {
-            console.log('Use the following command to install working versions');
+            cmd = cmd.trim();
+            var lines = cmd.split('\n').length;
+            if (lines === 1) {
+                console.log('> use the following command to install working versions');
+            } else {
+                console.log('> use the following commands to install working versions');
+            }
             console.log(cmd);
         }
     }

@@ -5,7 +5,7 @@ var q = require('q');
 // returns promise
 function revert(moduleName) {
     if (moduleName) {
-        console.log('should revert', JSON.stringify(moduleName));
+        console.log('reverting module', JSON.stringify(moduleName));
     }
 
     var toCheck = getDependenciesToCheck({}, moduleName);
