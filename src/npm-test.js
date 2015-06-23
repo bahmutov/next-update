@@ -15,8 +15,8 @@ var NPM_PATH = findNpmPath();
 // returns a promise
 function test(options) {
     options = options || {};
-    var log = options.tldr ? _.noop : console.log.bind(console);
-    var errorLog = options.tldr ? _.noop : console.error.bind(console);
+    var log = options.tldr ? _.noop : process.stdout.write.bind(process.stdout);
+    var errorLog = options.tldr ? _.noop : process.stderr.write.bind(process.stderr);
     log('  npm test');
 
     check.verify.string(NPM_PATH, 'missing npm path string');

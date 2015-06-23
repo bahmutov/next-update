@@ -20,9 +20,28 @@ function printCurrentModules(infos) {
     print(modules);
 }
 
+function printTable(options, nameVersionPairs) {
+    if (options.tldr) {
+        return;
+    }
+
+    var allowedType = options.type || 'all';
+    var title = 'module\'s current dependencies:';
+    var filtered = allowedType === 'all' ?
+        nameVersionPairs :
+        _.filter(nameVersionPairs, { type: allowedType });
+
+    console.table(title, _.map(filtered, function (nameVersion) {
+        return {
+            module: nameVersion.name,
+            version: nameVersion.version,
+            type: nameVersion.type
+        };
+    }));
+}
+
 function getDependenciesToCheck(options, moduleNames) {
     check.verify.object(options, 'missing options');
-    var allowedType = options.type || 'all';
 
     if (moduleNames) {
         console.log('returning dependencies for');
@@ -44,20 +63,7 @@ function getDependenciesToCheck(options, moduleNames) {
     var packageFilename = path.join(workingDirectory, 'package.json');
     var nameVersionPairs = getKnownDependencies(packageFilename);
 
-    if (!options.tldr) {
-        var title = 'module\'s current dependencies:';
-        var filtered = allowedType === 'all' ?
-            nameVersionPairs :
-            _.filter(nameVersionPairs, { type: allowedType });
-
-        console.table(title, _.map(filtered, function (nameVersion) {
-            return {
-                module: nameVersion.name,
-                version: nameVersion.version,
-                type: nameVersion.type
-            };
-        }));
-    }
+    printTable(options, nameVersionPairs);
 
     var toCheck = nameVersionPairs;
     if (moduleNames) {
