@@ -22,6 +22,8 @@ function printCurrentModules(infos) {
 
 function getDependenciesToCheck(options, moduleNames) {
     check.verify.object(options, 'missing options');
+    var allowedType = options.type || 'all';
+
     if (moduleNames) {
         console.log('returning dependencies for');
         console.dir(moduleNames);
@@ -44,7 +46,11 @@ function getDependenciesToCheck(options, moduleNames) {
 
     if (!options.tldr) {
         var title = 'module\'s current dependencies:';
-        console.table(title, _.map(nameVersionPairs, function (nameVersion) {
+        var filtered = allowedType === 'all' ?
+            nameVersionPairs :
+            _.filter(nameVersionPairs, { type: allowedType });
+
+        console.table(title, _.map(filtered, function (nameVersion) {
             return {
                 module: nameVersion.name,
                 version: nameVersion.version,
