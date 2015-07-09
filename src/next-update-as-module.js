@@ -9,7 +9,8 @@ module.exports = function nextUpdateTopLevel(options) {
     keep: Boolean(options.keep),
     color: Boolean(options.color || options.colors),
     allow: options.allow || options.allowed,
-    type: options.type
+    type: options.type,
+    changedLog: options['changed-log']
   };
 
   var checkUpdates = nextUpdate.checkAllUpdates.bind(null, opts);

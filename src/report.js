@@ -2,34 +2,48 @@ var colors = require('cli-color');
 var check = require('check-types');
 var formInstallCommand = require('./report-install-command');
 var _ = require('lodash');
+var changedLog = require('changed-log');
+var Q = require('q');
 
 var colorAvailable = process.stdout.isTTY;
 
-function report(updates, useColors, keptUpdates) {
+function report(updates, options) {
+    options = options || {};
+    var useColors = Boolean(options.useColors) && colorAvailable;
     check.verify.array(updates, 'expected array of updates');
+    // sets latest working version for each module too
+    var cmd = formInstallCommand(updates);
 
     console.log('\n> next updates:');
     updates.forEach(function (moduleVersions) {
         reportModule(moduleVersions, useColors);
     });
 
-    var cmd = formInstallCommand(updates);
-    if (_.isUndefined(cmd)) {
-        console.log('> nothing can be updated :(');
-    } else {
-        if (keptUpdates) {
-            console.log('> kept working updates');
+    var reportChanges = updates.map(function (moduleVersions) {
+        return _.partial(printChangedLog, moduleVersions, useColors);
+    });
+
+    function printInstallCommand() {
+        if (_.isUndefined(cmd)) {
+            console.log('> nothing can be updated :(');
         } else {
-            cmd = cmd.trim();
-            var lines = cmd.split('\n').length;
-            if (lines === 1) {
-                console.log('> use the following command to install working versions');
+            if (options.keptUpdates) {
+                console.log('> kept working updates');
             } else {
-                console.log('> use the following commands to install working versions');
+                cmd = cmd.trim();
+                var lines = cmd.split('\n').length;
+                if (lines === 1) {
+                    console.log('> use the following command to install working versions');
+                } else {
+                    console.log('> use the following commands to install working versions');
+                }
+                console.log(cmd);
             }
-            console.log(cmd);
         }
     }
+
+    var start = options.changedLog ? reportChanges.reduce(Q.when, Q()) : Q();
+    return start.then(printInstallCommand);
 }
 
 function reportModule(moduleVersions, useColors) {
@@ -37,7 +51,6 @@ function reportModule(moduleVersions, useColors) {
     if (!moduleVersions.length) {
         return;
     }
-    useColors = !!useColors && colorAvailable;
     var name = moduleVersions[0].name;
     check.verify.unemptyString(name, 'missing module name from ' + JSON.stringify(moduleVersions));
     var fromVersion = moduleVersions[0].from;
@@ -55,6 +68,19 @@ function reportModule(moduleVersions, useColors) {
             console.log('  ' + info.version + ' ' + (info.works ? 'PASS' : 'FAIL'));
         });
     }
+}
+
+function printChangedLog(moduleVersions, useColors) {
+    var info = moduleVersions[0];
+
+    if (!info.works) {
+        return;
+    }
+    return changedLog({
+        name: info.name,
+        from: info.from,
+        to: info.version
+    });
 }
 
 function reportSuccess(text, useColors) {

@@ -77,6 +77,12 @@ var program = optimist
   default: false,
   description: 'only print VERY important log messages'
 })
+.options('changed-log', {
+  boolean: true,
+  default: true,
+  alias: 'L',
+  description: 'print commit changes between working versions'
+})
 .usage(info)
 .argv;
 

@@ -1,7 +1,7 @@
 {
   "name": "next-update",
   "description": "Tests if module's dependencies can be updated to the newer version without breaking the tests",
-  "version": "0.8.3",
+  "version": "0.9.0",
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "bin": {
     "next-update": "./bin/next-update.js"

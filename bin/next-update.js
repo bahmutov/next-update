@@ -53,7 +53,11 @@ if (program.available) {
 
   var reportTestResults = function reportTestResults(results) {
     if (Array.isArray(results)) {
-      report(results, program.color, program.keep);
+      return report(results, {
+        useColors: program.color,
+        keptUpdates: program.keep,
+        changedLog: program['changed-log']
+      });
     }
   };
 

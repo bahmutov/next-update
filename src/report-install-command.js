@@ -87,33 +87,6 @@ function installCommand(updates) {
     }
 }
 
-function installCommandType(updates, type) {
-    check.verify.array(updates, 'expected array of updates');
-    if (!updates.length) {
-        return;
-    }
-    check.verify.string(type, 'missing type');
-
-    var saveCommand = saveOption(type);
-    if (!saveCommand) {
-        throw new Error('invalid dependency type ' + type);
-    }
-    var originalCmd, cmd;
-    originalCmd = cmd = 'npm install ' + saveCommand;
-    updates.forEach(function (moduleVersions) {
-        var latestWorkingVersion = getLatestWorkingVersion(moduleVersions);
-        if (latestWorkingVersion) {
-            cmd += ' ' + latestWorkingVersion.name + '@' + latestWorkingVersion.version;
-        }
-    });
-
-    if (originalCmd === cmd) {
-        return;
-    }
-
-    return cmd;
-}
-
 function getLatestWorkingVersion(versions) {
     check.verify.array(versions, 'expected array of versions');
     var working;
@@ -125,6 +98,42 @@ function getLatestWorkingVersion(versions) {
     });
 
     return working;
+}
+
+function setWorkingVersion(updates) {
+    updates.forEach(function (moduleVersions) {
+        moduleVersions.latestWorkingVersion = getLatestWorkingVersion(moduleVersions);
+    });
+}
+
+function installCommandType(updates, type) {
+    check.verify.array(updates, 'expected array of updates');
+    if (!updates.length) {
+        return;
+    }
+    check.verify.string(type, 'missing type');
+
+    var saveCommand = saveOption(type);
+    if (!saveCommand) {
+        throw new Error('invalid dependency type ' + type);
+    }
+
+    setWorkingVersion(updates);
+
+    var originalCmd, cmd;
+    originalCmd = cmd = 'npm install ' + saveCommand;
+    updates.forEach(function (moduleVersions) {
+        var latestWorkingVersion = moduleVersions.latestWorkingVersion;
+        if (latestWorkingVersion) {
+            cmd += ' ' + latestWorkingVersion.name + '@' + latestWorkingVersion.version;
+        }
+    });
+
+    if (originalCmd === cmd) {
+        return;
+    }
+
+    return cmd;
 }
 
 module.exports = installCommand;
