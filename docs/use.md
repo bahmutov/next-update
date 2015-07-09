@@ -3,6 +3,8 @@ Also check out:
 * [next-updater](https://github.com/bahmutov/next-updater) can update all your repos
 * [dont-break](https://github.com/bahmutov/dont-break) 
 that checks if your code is going to break everyone who depends on it.
+* [changed-log](https://github.com/bahmutov/changed-log) returns commit messages for
+the given NPM package or Github repo between two tags.
 
 ## Example
 
