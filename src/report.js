@@ -42,7 +42,11 @@ function report(updates, options) {
         }
     }
 
-    var start = options.changedLog ? reportChanges.reduce(Q.when, Q()) : Q();
+    function printError(err) {
+        console.error('Error reporting changes');
+        console.error(err.message);
+    }
+    var start = options.changedLog ? reportChanges.reduce(Q.when, Q()).catch(printError) : Q();
     return start.then(printInstallCommand);
 }
 
