@@ -14,7 +14,7 @@ var NPM_PATH = findNpmPath();
 console.log('found npm path %s', NPM_PATH);
 
 function argsToString(arrayLike) {
-    return Array.prototype.slice.call(arguments, 0).join(' ');
+    return Array.prototype.slice.call(arrayLike, 0).join(' ');
 }
 
 function writeToStderr() {
