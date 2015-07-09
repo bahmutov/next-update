@@ -11,12 +11,25 @@ function findNpmPath() {
 }
 
 var NPM_PATH = findNpmPath();
+console.log('found npm path %s', NPM_PATH);
+
+function argsToString(arrayLike) {
+    return Array.prototype.slice.call(arguments, 0).join(' ');
+}
+
+function writeToStderr() {
+    process.stderr.write(argsToString(arguments));
+}
+
+function writeToStdout() {
+    process.stderr.write(argsToString(arguments));
+}
 
 // returns a promise
 function test(options) {
     options = options || {};
-    var log = options.tldr ? _.noop : process.stdout.write.bind(process.stdout);
-    var errorLog = options.tldr ? _.noop : process.stderr.write.bind(process.stderr);
+    var log = options.tldr ? _.noop : writeToStdout;
+    var errorLog = options.tldr ? _.noop : writeToStderr;
     log('  npm test');
 
     check.verify.string(NPM_PATH, 'missing npm path string');
