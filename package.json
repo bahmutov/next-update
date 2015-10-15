@@ -85,6 +85,7 @@
     "e2e": "gt test/*.coffee --output",
     "coveralls": "cat cover/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "dont-break": "dont-break",
-    "2npm": "publish"
+    "2npm": "publish",
+    "self-update": "node bin/next-update.js -k true"
   }
 }
