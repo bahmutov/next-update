@@ -11,7 +11,7 @@
   },
   "contributors": [],
   "dependencies": {
-    "changed-log": "0.6.1",
+    "changed-log": "0.7.0",
     "check-more-types": "1.5.0",
     "check-types": "1.4.0",
     "cli-color": "0.3.3",
