@@ -46,7 +46,9 @@ function report(updates, options) {
         console.error('Error reporting changes');
         console.error(err.message);
     }
-    var start = options.changedLog ? reportChanges.reduce(Q.when, Q()).catch(printError) : Q();
+    var start = options.changedLog ?
+        reportChanges.reduce(Q.when, Q()).catch(printError) :
+        Q();
     return start.then(printInstallCommand);
 }
 
