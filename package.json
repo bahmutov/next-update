@@ -1,7 +1,7 @@
 {
   "name": "next-update",
   "description": "Tests if module's dependencies can be updated to the newer version without breaking the tests",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "bin": {
     "next-update": "./bin/next-update.js"
@@ -11,7 +11,7 @@
   },
   "contributors": [],
   "dependencies": {
-    "changed-log": "0.7.1",
+    "changed-log": "0.7.3",
     "check-more-types": "2.1.1",
     "check-types": "1.4.0",
     "cli-color": "1.1.0",
