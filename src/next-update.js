@@ -28,7 +28,7 @@ function available(moduleName, options) {
         return reportAvailable(info, toCheck, options);
     }, function (error) {
         console.error('Could not fetch available modules\n', error);
-    });
+    }).done();
 }
 
 function checkDependenciesInstalled() {

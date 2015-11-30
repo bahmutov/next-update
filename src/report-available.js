@@ -73,6 +73,11 @@ function report(available, currentVersions, options) {
             }
 
             var stats = updateStats[info.name];
+            if (!stats) {
+                return;
+            }
+            la(check.object(stats), 'could not get stats for', info.name,
+                'all', updateStats, 'available stats', info);
             modules.push({
                 name: info.name,
                 version: versions,
@@ -81,8 +86,13 @@ function report(available, currentVersions, options) {
             });
         });
         console.log('\navailable updates:');
-        print(modules, options);
-        console.log('update stats from', clc.underline(stats.url));
+        if (modules.length) {
+            print(modules, options);
+            console.log('update stats from', clc.underline(stats.url));
+        } else {
+            console.log(available);
+            console.log('no stats is available yet for these updates');
+        }
     });
 }
 

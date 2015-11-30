@@ -3,3 +3,4 @@
 /cover
 /test/cover
 /src/test/npm-debug.log
+.DS_Store
