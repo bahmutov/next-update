@@ -40,6 +40,23 @@ function printTable(options, nameVersionPairs) {
     }));
 }
 
+function getSkippedModules(packageFilename) {
+    var pkg = require(packageFilename);
+    var config = pkg &&
+        pkg.config &&
+        pkg.config['next-update'];
+    if (config) {
+        return config.skip ||
+            config.skipped ||
+            config.lock ||
+            config.locked ||
+            config.ignore ||
+            config.ignored ||
+            [];
+    }
+    return [];
+}
+
 function getDependenciesToCheck(options, moduleNames) {
     check.verify.object(options, 'missing options');
 
@@ -63,6 +80,11 @@ function getDependenciesToCheck(options, moduleNames) {
     var packageFilename = path.join(workingDirectory, 'package.json');
     var nameVersionPairs = getKnownDependencies(packageFilename);
 
+    var skipModules = getSkippedModules(packageFilename);
+    check.verify.array(skipModules, 'expected list of skipped modules');
+    if (skipModules.length && !options.tldr) {
+        console.log('ignoring the following modules', skipModules.join(', '));
+    }
     printTable(options, nameVersionPairs);
 
     var toCheck = nameVersionPairs;

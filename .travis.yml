@@ -1,13 +1,24 @@
-language: node_js
 sudo: false
+language: node_js
+cache:
+  directories:
+    - node_modules
+notifications:
+  email: false
 node_js:
-  - "0.12"
-  - "4"
-  - "5"
-branches:
-  only:
-    - master
+  - '5'
+  - '4'
+  - '0.12'
+before_install:
+  - npm i -g npm@^2.0.0
 before_script:
-  - npm install -g grunt-cli
+  - npm prune
 after_success:
+  - 'curl -Lo travis_after_all.py https://git.io/travis_after_all'
+  - python travis_after_all.py
+  - 'export $(cat .to_export_back) &> /dev/null'
   - npm run coveralls
+  - npm run semantic-release
+branches:
+  except:
+    - "/^v\\d+\\.\\d+\\.\\d+$/"

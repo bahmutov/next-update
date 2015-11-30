@@ -1,7 +1,7 @@
 {
   "name": "next-update",
   "description": "Tests if module's dependencies can be updated to the newer version without breaking the tests",
-  "version": "0.9.5",
+  "version": "0.0.0-semantic-release",
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "bin": {
     "next-update": "./bin/next-update.js"
@@ -65,6 +65,7 @@
     "mockery": "1.4.0",
     "pre-git": "1.4.0",
     "publish": "0.5.0",
+    "semantic-release": "4.3.5",
     "time-grunt": "1.2.1"
   },
   "engines": {
@@ -98,6 +99,7 @@
     "issues": "git-issues",
     "limited": "gt --filter 'allow major' --output src/test/*.coffee",
     "self-update": "node bin/next-update.js -k true",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "test": "npm run build && npm run unit && npm run e2e",
     "unit": "gt src/test/*.js src/test/*.coffee --output"
   }
