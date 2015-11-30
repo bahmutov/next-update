@@ -88,13 +88,35 @@ grunt-bump            0.0.13     0.0.12        100%               4             
 
 ### Install
 
+You can install this tool globally
+
     npm install -g next-update  // installs module globally
     next-update --help          // shows command line options
+
+Then run inside any package folder
+
+    /git/my-awesome-module
+    $ next-update
+
+Or you can use this module as a devDependency and a script command
+
+    npm install --save-dev next-update
+
+```json
+{
+    "scripts": {
+        "next-update": "next-update -k true --tldr"
+    }
+}
+```
+
+This command will keep the successfuly version upgrades in the package.json file,
+but will not be very verbose when run. 
 
 ### Anonymous usage collection
 
 After testing each module A upgrade from version X to Y, *next-update* sends
-anonymous result to [http://next-update.herokuapp.com/](http://next-update.herokuapp.com/).
+anonymous result to [next-update.herokuapp.com/](http://next-update.herokuapp.com/).
 The only information transmitted is:
 
 ```json
