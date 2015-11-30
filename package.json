@@ -9,6 +9,12 @@
   "bugs": {
     "url": "https://github.com/bahmutov/next-update/issues"
   },
+  "files": [
+    "bin",
+    "index.js",
+    "src",
+    "!src/test"
+  ],
   "config": {
     "pre-git": {
       "commit-msg": "validate-commit-msg",
@@ -16,7 +22,9 @@
         "npm run build",
         "npm test"
       ],
-      "pre-push": [],
+      "pre-push": [
+        "npm run size"
+      ],
       "post-commit": [
         "npm version"
       ],
@@ -101,6 +109,7 @@
     "self-update": "node bin/next-update.js -k true",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "test": "npm run build && npm run unit && npm run e2e",
-    "unit": "gt src/test/*.js src/test/*.coffee --output"
+    "unit": "gt src/test/*.js src/test/*.coffee --output",
+    "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";"
   }
 }
