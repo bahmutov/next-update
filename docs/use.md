@@ -1,7 +1,7 @@
-Also check out: 
+Also check out:
 
 * [next-updater](https://github.com/bahmutov/next-updater) can update all your repos
-* [dont-break](https://github.com/bahmutov/dont-break) 
+* [dont-break](https://github.com/bahmutov/dont-break)
 that checks if your code is going to break everyone who depends on it.
 * [changed-log](https://github.com/bahmutov/changed-log) returns commit messages for
 the given NPM package or Github repo between two tags.
@@ -82,7 +82,7 @@ Or you can use this module as a devDependency and a script command
 ```
 
 This command will keep the successfuly version upgrades in the package.json file,
-but will not be very verbose when run. 
+but will not be very verbose when run.
 
 ## Anonymous usage collection
 
@@ -135,7 +135,25 @@ the target module. In general this tool does the following:
     3. Installs back the current version.
 4. Reports results
 
-### Misc
+## Ignoring or skipping some modules
+
+Some modules are hard to unit test, thus the automatic upgrades are not appropriate.
+For example [benv](https://npmjs.org/package/benv) upgrade brings a new
+[jsdom](https://npmjs.org/package/jsdom) version, which does not work on Node 0.12
+Similarly, upgrading [Q](https://npmjs.org/package/q) from 1.x.x to 2.x.x is usually
+a breaking change.
+
+You can skip a list of modules by name using `config` property in the `package.json`
+
+```json
+"config": {
+    "next-update": {
+        "skip": ["benv", "q"]
+    }
+}
+```
+
+## Misc
 
 * To see what has changed in the latest version of any module,
 use my companion tool [changed](https://npmjs.org/package/changed)

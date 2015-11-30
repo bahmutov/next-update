@@ -57,24 +57,38 @@ function getSkippedModules(packageFilename) {
     return [];
 }
 
+function remove(nameVersionPairs, skipModules) {
+    check.verify.array(skipModules, 'expected list of modules to skip');
+    return nameVersionPairs.filter(function (dep) {
+        check.verify.unemptyString(dep.name, 'missing name for dependency');
+        return !_.includes(skipModules, dep.name);
+    });
+}
+
+function normalizeModuleNames(moduleNames) {
+    if (!moduleNames) {
+        return;
+    }
+    console.log('returning dependencies for');
+    console.dir(moduleNames);
+    if (check.string(moduleNames)) {
+        moduleNames = [moduleNames];
+    }
+
+    if (check.object(moduleNames)) {
+        var names = Object.keys(moduleNames);
+        moduleNames = names;
+    }
+
+    check.verify.array(moduleNames, 'expected module names array ' +
+        JSON.stringify(moduleNames));
+    return moduleNames;
+}
+
 function getDependenciesToCheck(options, moduleNames) {
     check.verify.object(options, 'missing options');
+    moduleNames = normalizeModuleNames(moduleNames);
 
-    if (moduleNames) {
-        console.log('returning dependencies for');
-        console.dir(moduleNames);
-        if (check.string(moduleNames)) {
-            moduleNames = [moduleNames];
-        }
-
-        if (check.object(moduleNames)) {
-            var names = Object.keys(moduleNames);
-            moduleNames = names;
-        }
-
-        check.verify.array(moduleNames, 'expected module names array ' +
-            JSON.stringify(moduleNames));
-    }
     var workingDirectory = process.cwd();
 
     var packageFilename = path.join(workingDirectory, 'package.json');
@@ -82,8 +96,11 @@ function getDependenciesToCheck(options, moduleNames) {
 
     var skipModules = getSkippedModules(packageFilename);
     check.verify.array(skipModules, 'expected list of skipped modules');
-    if (skipModules.length && !options.tldr) {
-        console.log('ignoring the following modules', skipModules.join(', '));
+    if (skipModules.length) {
+        if (!options.tldr) {
+            console.log('ignoring the following modules', skipModules.join(', '));
+        }
+        nameVersionPairs = remove(nameVersionPairs, skipModules);
     }
     printTable(options, nameVersionPairs);
 
