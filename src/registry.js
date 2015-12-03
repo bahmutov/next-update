@@ -101,6 +101,37 @@ function cleanVersions(nameVersionPairs) {
     return cleaned;
 }
 
+function formNpmErrorMessage(name, info) {
+    var reason = info.reason || info.error || JSON.stringify(info);
+    var str = 'ERROR in npm info for ' + name + ' reason ' + reason;
+    return str;
+}
+
+function cleanVersionFor(name, version) {
+    return cleanVersion(version, name);
+}
+
+function extractVersions(info) {
+    if (info.time) {
+        return Object.keys(info.time);
+    }
+    if (info.versions) {
+        return Object.keys(info.versions);
+    }
+}
+
+function is404(response) {
+    return response && response.statusCode === 404;
+}
+
+function isNotFound(str) {
+    var moduleNotFound = (/not found/).test(str);
+    var cannotConnect = (/ENOTFOUND/).test(str);
+    var errorInNpm = (/ERROR in npm/).test(str);
+    var couldNotFetch = (/could not fetch/i).test(str);
+    return moduleNotFound || cannotConnect || errorInNpm || couldNotFetch;
+}
+
 // fetching versions inspired by
 // https://github.com/jprichardson/npm-latest
 // returns a promise
@@ -113,9 +144,21 @@ function fetchVersions(nameVersion) {
     check.verify.string(name, 'missing name string');
     check.verify.string(version, 'missing version string');
 
+    var cleanVersionForName = _.partial(cleanVersionFor, name);
+    function isLaterVersion(ver) {
+        var later = semver.gt(ver, version);
+        return later;
+    }
+
     // console.log('fetching versions for', name, 'current version', version);
     var MAX_WAIT_TIMEOUT = 5000;
     var deferred = q.defer();
+
+    function rejectOnTimeout() {
+        var msg = 'timed out waiting for NPM for package ' + name;
+        console.error(msg);
+        deferred.reject(msg);
+    }
 
     registryUrl().then(function (npmUrl) {
         check.verify.webUrl(npmUrl, 'need npm registry url, got ' + npmUrl);
@@ -126,11 +169,7 @@ function fetchVersions(nameVersion) {
         // TODO how to detect if the registry is not responding?
 
         request.get(url, onNPMversions);
-        var timer = setTimeout(function () {
-            var msg = 'timed out waiting for NPM for package ' + name;
-            console.error(msg);
-            deferred.reject(msg);
-        }, MAX_WAIT_TIMEOUT);
+        var timer = setTimeout(rejectOnTimeout, MAX_WAIT_TIMEOUT);
 
         function onNPMversions(err, response, body) {
             clearTimeout(timer);
@@ -141,31 +180,41 @@ function fetchVersions(nameVersion) {
                 return;
             }
 
+            if (is404(response)) {
+                deferred.resolve({
+                    name: name,
+                    versions: []
+                });
+                return;
+            }
+
             try {
                 var info = JSON.parse(body);
                 if (info.error) {
-                    var str = 'ERROR in npm info for ' + name + ' reason ' + info.reason;
+                    var str = formNpmErrorMessage(name, info);
                     console.error(str);
+
+                    if (isNotFound(info.error)) {
+                        deferred.resolve({
+                            name: name,
+                            versions: []
+                        });
+                        return;
+                    }
+
                     deferred.reject(str);
                     return;
                 }
-                var versions;
-                if (info.time) {
-                    versions = Object.keys(info.time);
-                } else if (info.versions) {
-                    versions = Object.keys(info.versions);
-                }
+                var versions = extractVersions(info);
+
                 if (!Array.isArray(versions)) {
-                    throw new Error('Could not get versions for ' + name + ' from ' + info);
+                    throw new Error('Could not get versions for ' + name +
+                        ' from ' + JSON.stringify(info) +
+                        ' response ' + JSON.stringify(response, null, 2));
                 }
 
-                var validVersions = versions.filter(function (version) {
-                    return cleanVersion(version, name);
-                });
-                var newerVersions = validVersions.filter(function (ver) {
-                    var later = semver.gt(ver, version);
-                    return later;
-                });
+                var validVersions = versions.filter(cleanVersionForName);
+                var newerVersions = validVersions.filter(isLaterVersion);
 
                 deferred.resolve({
                     name: name,
@@ -201,8 +250,11 @@ function nextVersions(options, nameVersionPairs, checkLatestOnly) {
         .timeout(MAX_CHECK_TIMEOUT, 'timed out waiting for NPM');
 
     fetchAllPromise.then(function (results) {
+        check.verify.array(results, 'expected list of results');
         var available = results.filter(function (nameNewVersions) {
-            return nameNewVersions.versions.length;
+            return nameNewVersions &&
+                check.array(nameNewVersions.versions) &&
+                nameNewVersions.versions.length;
         });
         if (checkLatestOnly) {
             available = available.map(function (nameVersions) {
