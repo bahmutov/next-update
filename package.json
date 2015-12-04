@@ -19,9 +19,7 @@
       "pre-push": [
         "npm run size"
       ],
-      "post-commit": [
-        "npm version"
-      ],
+      "post-commit": [],
       "post-merge": []
     }
   },
