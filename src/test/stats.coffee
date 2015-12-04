@@ -3,7 +3,7 @@ gt.module 'stats'
 Q = require 'q'
 stats = require '../stats'
 
-timeout = 15000
+timeout = 35000
 
 gt.async 'get stats', ->
   gt.func stats.getSuccessStats
