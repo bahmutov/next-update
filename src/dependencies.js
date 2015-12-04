@@ -1,3 +1,4 @@
+var la = require('lazy-ass');
 var check = require('check-types');
 var path = require('path');
 var print = require('./print-modules-table');
@@ -5,6 +6,9 @@ var nameVersionParser = require('./moduleName');
 var getKnownDependencies = require('./get-known-dependencies');
 require('console.table');
 var _ = require('lodash');
+
+la(check.fn(console.table), 'missing console.table method');
+la(check.fn(console.json), 'missing console.json method');
 
 function printCurrentModules(infos) {
     check.verify.array(infos, 'expected array of modules');
@@ -114,7 +118,8 @@ function getDependenciesToCheck(options, moduleNames) {
             });
         });
         if (!options.tldr) {
-            console.log('only checking\n', toCheck);
+            console.log('only checking');
+            console.json(toCheck);
         }
     }
     return toCheck;

@@ -1,5 +1,8 @@
+var la = require('lazy-ass');
+var check = require('check-more-types');
+var log = require('debug')('registry');
+
 var request = require('request');
-var check = require('check-types');
 var verify = check.verify;
 var semver = require('semver');
 var q = require('q');
@@ -8,7 +11,7 @@ var isUrl = require('npm-utils').isUrl;
 var _ = require('lodash');
 
 var _registryUrl = require('npm-utils').registryUrl;
-check.verify.fn(_registryUrl, 'expected registry url function');
+la(check.fn(_registryUrl), 'expected registry url function');
 var registryUrl = _.once(_registryUrl);
 
 function cleanVersion(version, name) {
@@ -161,13 +164,15 @@ function fetchVersions(nameVersion) {
     }
 
     registryUrl().then(function (npmUrl) {
-        check.verify.webUrl(npmUrl, 'need npm registry url, got ' + npmUrl);
+        log('NPM registry url', npmUrl);
+        la(check.webUrl(npmUrl), 'need npm registry url, got', npmUrl);
 
         npmUrl = npmUrl.replace(/^https:/, 'http:').trim();
         var url = npmUrl + name;
 
         // TODO how to detect if the registry is not responding?
 
+        log('getting url', url);
         request.get(url, onNPMversions);
         var timer = setTimeout(rejectOnTimeout, MAX_WAIT_TIMEOUT);
 

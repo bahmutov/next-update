@@ -1,7 +1,8 @@
-require('lazy-ass');
+var la = require('lazy-ass');
 var check = require('check-more-types');
 require('console.json');
 
+var log = require('debug')('next-update');
 var Q = require('q');
 Q.longStackSupport = true;
 var check = require('check-types');
@@ -22,10 +23,18 @@ var boundConsoleLog = console.log.bind(console);
 // returns a promise
 function available(moduleName, options) {
     var toCheck = getDependenciesToCheck(options, moduleName);
+    la(check.array(toCheck), 'expected object of deps to check, was', toCheck);
+    var toCheckHash = _.zipObject(
+        _.pluck(toCheck, 'name'),
+        _.pluck(toCheck, 'version')
+    );
+
+    log('need to check these dependencies');
+    log(toCheckHash);
+
     var nextVersionsPromise = nextVersions(options, toCheck);
     nextVersionsPromise.then(function (info) {
-        toCheck = _.zipObject(toCheck);
-        return reportAvailable(info, toCheck, options);
+        return reportAvailable(info, toCheckHash, options);
     }, function (error) {
         console.error('Could not fetch available modules\n', error);
     }).done();

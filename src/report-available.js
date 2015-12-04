@@ -1,7 +1,8 @@
-require('lazy-ass');
+var la = require('lazy-ass');
 var check = require('check-more-types');
+var log = require('debug')('report-available');
+
 require('console.json');
-var verify = check.verify;
 var print = require('./print-modules-table');
 var stats = require('./stats');
 var clc = require('cli-color');
@@ -10,17 +11,36 @@ var q = require('q');
 
 function ignore() {}
 
-function report(available, currentVersions, options) {
+function reportAvailable(available, currentVersions, options) {
     la(check.array(available), 'expect an array of info objects', available);
 
     if (!available.length) {
         console.log('nothing new is available');
         return;
     }
-    // console.log('current versions');
-    // console.json(currentVersions);
+
+    log('report available');
+    log(available);
+    log('current versions');
+    log(JSON.stringify(currentVersions));
+
     la(check.maybe.object(currentVersions),
-        'expected current versions object', currentVersions);
+        'expected current versions as an object, but was', currentVersions);
+
+    function getCurrentVersion(name) {
+        la(check.unemptyString(name), 'missing name');
+        if (!currentVersions) {
+            return;
+        }
+        if (check.string(currentVersions[name])) {
+            return currentVersions[name];
+        }
+        if (check.object(currentVersions[name])) {
+            la(check.string(currentVersions[name].version),
+                'missing version for', name, 'in', currentVersions);
+            return currentVersions[name].version;
+        }
+    }
 
     var chain = q();
     var updateStats = {};
@@ -29,13 +49,15 @@ function report(available, currentVersions, options) {
         la(check.unemptyString(info.name), 'missing module name', info);
         la(check.array(info.versions), 'missing module versions', info);
 
-        var currentVersion = currentVersions && currentVersions[info.name] || null;
+        var currentVersion = getCurrentVersion(info.name);
+
         // console.log('version for', info.name, currentVersion)
         if (currentVersion) {
-            la(check.unemptyString(currentVersion.version), 'missing version', currentVersion);
+            la(check.unemptyString(currentVersion),
+                'missing version', currentVersion, 'for', info.name);
             updateStats[info.name] = {
                 name: info.name,
-                from: currentVersion.version
+                from: currentVersion
             };
         }
 
@@ -44,7 +66,7 @@ function report(available, currentVersions, options) {
                 chain = chain.then(function () {
                     return getSuccess({
                         name: info.name,
-                        from: currentVersion.version,
+                        from: currentVersion,
                         to: info.versions[0]
                     }).then(function (stats) {
                         updateStats[info.name] = stats;
@@ -58,8 +80,8 @@ function report(available, currentVersions, options) {
         var modules = [];
 
         available.forEach(function (info) {
-            verify.string(info.name, 'missing module name ' + info);
-            verify.array(info.versions, 'missing module versions ' + info);
+            la(check.unemptyString(info.name), 'missing module name', info);
+            la(check.array(info.versions), 'missing module versions', info);
 
             var sep = ', ', versions;
 
@@ -96,4 +118,4 @@ function report(available, currentVersions, options) {
     });
 }
 
-module.exports = report;
+module.exports = reportAvailable;
