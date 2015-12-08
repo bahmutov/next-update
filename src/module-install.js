@@ -1,4 +1,4 @@
-var check = require('check-types');
+var check = require('check-more-types');
 var spawn = require('child_process').spawn;
 var q = require('q');
 var NPM_PATH = require('npm-utils').path;

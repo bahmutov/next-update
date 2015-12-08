@@ -1,5 +1,5 @@
 var colors = require('cli-color');
-var check = require('check-types');
+var check = require('check-more-types');
 var formInstallCommand = require('./report-install-command');
 var _ = require('lodash');
 var changedLog = require('changed-log');

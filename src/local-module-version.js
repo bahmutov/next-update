@@ -1,4 +1,4 @@
-var check = require('check-types');
+var check = require('check-more-types');
 var fs = require('fs');
 var path = require('path');
 

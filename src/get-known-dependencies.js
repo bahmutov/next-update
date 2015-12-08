@@ -1,4 +1,4 @@
-var check = require('check-types');
+var check = require('check-more-types');
 var _ = require('lodash');
 var registry = require('./registry');
 var cleanVersions = registry.cleanVersions;

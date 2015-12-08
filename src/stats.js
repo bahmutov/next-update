@@ -1,4 +1,4 @@
-var verify = require('check-types').verify;
+var verify = require('check-more-types').verify;
 var request = require('request');
 var Q = require('q');
 var colors = require('cli-color');

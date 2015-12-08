@@ -1,4 +1,4 @@
-var verify = require('check-types').verify;
+var verify = require('check-more-types').verify;
 var Table = require('easy-table');
 var colorProbability = require('./stats').colorProbability;
 

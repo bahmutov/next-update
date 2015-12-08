@@ -1,5 +1,5 @@
 var la = require('lazy-ass');
-var check = require('check-types');
+var check = require('check-more-types');
 var path = require('path');
 var print = require('./print-modules-table');
 var nameVersionParser = require('./moduleName');

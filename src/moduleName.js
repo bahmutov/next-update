@@ -1,4 +1,4 @@
-var check = require('check-types');
+var check = require('check-more-types');
 
 function moduleName(str) {
     check.verify.string(str, 'expected string module name');
