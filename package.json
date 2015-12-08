@@ -37,7 +37,7 @@
     "is-online": "5.0.0",
     "lazy-ass": "1.1.0",
     "lodash": "3.10.1",
-    "npm-utils": "0.4.0",
+    "npm-utils": "1.0.0",
     "optimist": "0.6.1",
     "q": "2.0.3",
     "quote": "0.4.0",

@@ -1,12 +1,11 @@
 var la = require('lazy-ass');
 var check = require('check-more-types');
+var verify = check.verify;
 require('console.json');
 
 var log = require('debug')('next-update');
 var Q = require('q');
 Q.longStackSupport = true;
-var check = require('check-types');
-var verify = check.verify;
 var depsOk = require('deps-ok');
 var _ = require('lodash');
 
@@ -17,6 +16,7 @@ var testVersions = require('./test-module-version').testModulesVersions;
 var runTest = require('./test-module-version').testPromise;
 var getDependenciesToCheck = require('./dependencies');
 var reportAvailable = require('./report-available');
+var npmUtils = require('npm-utils');
 
 var boundConsoleLog = console.log.bind(console);
 
@@ -46,11 +46,17 @@ function checkDependenciesInstalled() {
         if (depsOk(process.cwd())) {
             defer.resolve();
         } else {
-            var msg = 'Current installation is not complete. Please run `npm install` or `bower install` first';
+            var msg = 'Current installation is incomplete. Please run `npm install` or `bower install` first';
             defer.reject(new Error(msg));
         }
     });
     return defer.promise;
+}
+
+function cleanDependencies() {
+    var update = _.partial(npmUtils.test, 'npm update');
+    var prune = _.partial(npmUtils.test, 'npm prune');
+    return update().then(prune);
 }
 
 function checkCurrentInstall(options) {
@@ -58,7 +64,8 @@ function checkCurrentInstall(options) {
     var log = options.tldr ? _.noop : boundConsoleLog;
     log('checking if the current state works');
 
-    return checkDependenciesInstalled()
+    return cleanDependencies()
+        .then(checkDependenciesInstalled)
         .then(function () {
             return runTest(options, options.testCommand)();
         })
