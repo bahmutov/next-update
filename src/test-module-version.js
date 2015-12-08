@@ -1,4 +1,5 @@
-var check = require('check-types');
+var la = require('lazy-ass');
+var check = require('check-more-types');
 var verify = check.verify;
 var q = require('q');
 var _ = require('lodash');
