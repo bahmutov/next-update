@@ -4,7 +4,7 @@
   "version": "0.0.0-semantic-release",
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "bin": {
-    "next-update": "./bin/next-update.js"
+    "next-update": "bin/next-update.js"
   },
   "bugs": {
     "url": "https://github.com/bahmutov/next-update/issues"
@@ -101,7 +101,8 @@
     "commit": "git-issues && commit-wizard",
     "coveralls": "cat cover/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "dont-break": "dont-break",
-    "e2e": "gt test/*.coffee --output",
+    "e2e": "npm run install-for-tests && gt test/*.coffee --output",
+    "install-for-tests": "cd test/test-next-updater && npm install",
     "issues": "git-issues",
     "limited": "gt --filter 'allow major' --output src/test/*.coffee",
     "self-update": "node bin/next-update.js -k true",
