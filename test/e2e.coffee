@@ -10,6 +10,7 @@ gt.module 'end 2 end tests',
   teardown: ->
     process.chdir __dirname
 
+# TODO set the final version limit to check
 gt.async '--module', ->
     gt.exec 'node', [index, '--module', moduleName], 0
 , ONE_MINUTE

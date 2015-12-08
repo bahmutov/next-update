@@ -118,8 +118,10 @@ function getDependenciesToCheck(options, moduleNames) {
             });
         });
         if (!options.tldr) {
-            console.log('only checking');
-            console.json(toCheck);
+            console.log('only checking modules');
+            console.log(toCheck.map(function (m) {
+                return m.name + '@' + m.version;
+            }));
         }
     }
     return toCheck;

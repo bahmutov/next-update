@@ -76,6 +76,16 @@ function checkCurrentInstall(options) {
 
 var isOnline = Q.denodeify(require('is-online'));
 
+function makeSureValidModule(moduleNames, checkingModules) {
+    la(check.array(moduleNames), 'expected list of modules', moduleNames);
+    la(check.array(checkingModules), 'expected list of modules to check', checkingModules);
+    if (moduleNames.length === 1 && check.empty(checkingModules)) {
+        console.error('Could not find module "%s" in the list of dependencies', moduleNames[0]);
+        console.error('Please check the name');
+        process.exit(-1);
+    }
+}
+
 // returns promise
 function checkAllUpdates(options) {
     options = options || {};
@@ -100,6 +110,8 @@ function checkAllUpdates(options) {
     }
     var toCheck = getDependenciesToCheck(options, moduleName);
     check.verify.array(toCheck, 'dependencies to check should be an array');
+
+    makeSureValidModule(moduleName, toCheck);
 
     var testVersionsBound = testVersions.bind(null, {
         modules: toCheck,
