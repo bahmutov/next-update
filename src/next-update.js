@@ -76,10 +76,16 @@ function checkCurrentInstall(options) {
 
 var isOnline = Q.denodeify(require('is-online'));
 
+function isSingleItem(names) {
+    return names &&
+        check.array(names) &&
+        names.length === 1;
+}
+
 function makeSureValidModule(moduleNames, checkingModules) {
-    la(check.array(moduleNames), 'expected list of modules', moduleNames);
+    la(check.maybe.array(moduleNames), 'expected list of modules', moduleNames);
     la(check.array(checkingModules), 'expected list of modules to check', checkingModules);
-    if (moduleNames.length === 1 && check.empty(checkingModules)) {
+    if (isSingleItem(moduleNames) && check.empty(checkingModules)) {
         console.error('Could not find module "%s" in the list of dependencies', moduleNames[0]);
         console.error('Please check the name');
         process.exit(-1);
