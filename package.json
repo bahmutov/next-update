@@ -25,7 +25,7 @@
   },
   "contributors": [],
   "dependencies": {
-    "changed-log": "0.7.3",
+    "changed-log": "0.10.2",
     "check-more-types": "2.2.0",
     "cli-color": "1.1.0",
     "console.json": "0.2.1",
