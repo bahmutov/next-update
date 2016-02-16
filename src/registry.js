@@ -154,7 +154,7 @@ function fetchVersions(nameVersion) {
     }
 
     // console.log('fetching versions for', name, 'current version', version);
-    var MAX_WAIT_TIMEOUT = 5000;
+    var MAX_WAIT_TIMEOUT = 15000;
     var deferred = q.defer();
 
     function rejectOnTimeout() {
