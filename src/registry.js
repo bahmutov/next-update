@@ -154,11 +154,12 @@ function fetchVersions(nameVersion) {
     }
 
     // console.log('fetching versions for', name, 'current version', version);
-    var MAX_WAIT_TIMEOUT = 15000;
+    var MAX_WAIT_TIMEOUT = 25000;
     var deferred = q.defer();
 
     function rejectOnTimeout() {
-        var msg = 'timed out waiting for NPM for package ' + name;
+        var msg = 'timed out waiting for NPM for package ' + name +
+            ' after ' + MAX_WAIT_TIMEOUT + 'ms';
         console.error(msg);
         deferred.reject(msg);
     }
