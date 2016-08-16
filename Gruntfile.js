@@ -77,6 +77,8 @@ module.exports = function (grunt) {
   grunt.registerTask('pre-check', ['deps-ok', 'jsonlint',
     'jshint', 'jshint-solid',
     'nice-package', 'complexity']);
-  grunt.registerTask('default', ['pre-check', 'lineending', 'readme']);
+  // disabling readme task for now - seems to crash
+  // TypeError: Cannot read property '1' of null
+  grunt.registerTask('default', ['pre-check', 'lineending'/*, 'readme'*/]);
   grunt.registerTask('release', ['bump-only:patch', 'readme', 'bump-commit']);
 };
