@@ -1,5 +1,10 @@
+'use strict';
+
 var optimist = require('optimist');
 var pkg = require('../package.json');
+var la = require('lazy-ass');
+var is = require('check-more-types');
+var _ = require('lodash');
 
 var info = pkg.name + ' - ' + pkg.description + '\n' +
     '  version: ' + pkg.version + '\n' +
@@ -20,7 +25,7 @@ var program = optimist
 .options('module', {
   string: true,
   alias: 'm',
-  description: 'checks specific module, can include version name@version',
+  description: 'checks specific module(s), can include version name@version',
   default: null
 })
 .option('latest', {
@@ -94,6 +99,11 @@ if (program.version) {
 if (program.help || program.h) {
   optimist.showHelp();
   process.exit(0);
+}
+
+if (is.string(program.module)) {
+  program.module = program.module.split(',').map(_.trim);
+  la(is.array(program.module), 'expected list of modules', program.module);
 }
 
 module.exports = program;
