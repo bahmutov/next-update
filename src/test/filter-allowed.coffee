@@ -1,6 +1,6 @@
 gt.module 'filter allowed'
 
-require 'lazy-ass'
+la = require 'lazy-ass'
 check = require 'check-more-types'
 filter = require '../filter-allowed-updates'
 
