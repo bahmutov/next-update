@@ -15,7 +15,7 @@ var revert = require('../src/revert');
 if (program.available) {
   nextUpdate.available(program.module, {
     color: program.color
-  });
+  }).done();
 } else if (program.revert) {
   revert(program.module)
     .then(function () {

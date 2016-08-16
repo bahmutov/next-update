@@ -22,6 +22,7 @@ var boundConsoleLog = console.log.bind(console);
 
 // returns a promise
 function available(moduleName, options) {
+    options = options || {};
     var toCheck = getDependenciesToCheck(options, moduleName);
     la(check.array(toCheck), 'expected object of deps to check, was', toCheck);
     var toCheckHash = _.zipObject(
@@ -33,11 +34,11 @@ function available(moduleName, options) {
     log(toCheckHash);
 
     var nextVersionsPromise = nextVersions(options, toCheck);
-    nextVersionsPromise.then(function (info) {
+    return nextVersionsPromise.then(function (info) {
         return reportAvailable(info, toCheckHash, options);
     }, function (error) {
         console.error('Could not fetch available modules\n', error);
-    }).done();
+    });
 }
 
 function checkDependenciesInstalled() {

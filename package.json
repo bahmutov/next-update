@@ -26,6 +26,7 @@
   "contributors": [],
   "dependencies": {
     "changed-log": "0.10.2",
+    "chdir-promise": "0.2.1",
     "check-more-types": "2.2.0",
     "cli-color": "1.1.0",
     "console.json": "0.2.1",
@@ -62,6 +63,7 @@
     "gt": "0.10.0",
     "jshint-stylish": "2.0.1",
     "matchdep": "1.0.1",
+    "mocha": "3.0.2",
     "mockery": "1.7.0",
     "pre-git": "1.4.0",
     "publish": "0.6.0",
@@ -105,10 +107,12 @@
     "install-for-tests": "cd test/test-next-updater && npm install",
     "issues": "git-issues",
     "limited": "gt --filter 'allow major' --output src/test/*.coffee",
+    "mocha": "mocha test/*-spec.js",
+    "posttest": "npm run mocha && npm run e2e",
     "self-update": "node bin/next-update.js -k true",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";",
-    "test": "npm run build && npm run unit && npm run e2e",
+    "test": "npm run build && npm run unit",
     "unit": "gt src/test/*.js src/test/*.coffee --output"
   }
 }

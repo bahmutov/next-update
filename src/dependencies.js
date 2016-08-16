@@ -1,3 +1,6 @@
+'use strict';
+
+var debug = require('debug')('next-update');
 var la = require('lazy-ass');
 var check = require('check-more-types');
 var path = require('path');
@@ -91,7 +94,9 @@ function normalizeModuleNames(moduleNames) {
 
 function getDependenciesToCheck(options, moduleNames) {
     check.verify.object(options, 'missing options');
+    debug('initial module names', moduleNames);
     moduleNames = normalizeModuleNames(moduleNames);
+    debug('normalized module names', moduleNames);
 
     var workingDirectory = process.cwd();
 
@@ -110,6 +115,7 @@ function getDependenciesToCheck(options, moduleNames) {
 
     var toCheck = nameVersionPairs;
     if (moduleNames) {
+        debug('matching module names', moduleNames);
         toCheck = nameVersionPairs.filter(function (nameVersion) {
             var name = nameVersion.name;
             return moduleNames.some(function (aModule) {
@@ -118,10 +124,16 @@ function getDependenciesToCheck(options, moduleNames) {
             });
         });
         if (!options.tldr) {
-            console.log('only checking modules');
-            console.log(toCheck.map(function (m) {
-                return m.name + '@' + m.version;
-            }));
+            if (toCheck.length) {
+                console.log('only checking modules');
+                console.log(toCheck.map(function (m) {
+                    return m.name + '@' + m.version;
+                }));
+            } else {
+                console.log('Hmm, no modules to check');
+                console.log('from initial list\n' +
+                    JSON.stringify(nameVersionPairs, null, 2));
+            }
         }
     }
     return toCheck;

@@ -16,7 +16,7 @@ function reportAvailable(available, currentVersions, options) {
 
     if (!available.length) {
         console.log('nothing new is available');
-        return;
+        return [];
     }
 
     log('report available');
@@ -115,6 +115,7 @@ function reportAvailable(available, currentVersions, options) {
             console.log(available);
             console.log('no stats is available yet for these updates');
         }
+        return available;
     });
 }
 

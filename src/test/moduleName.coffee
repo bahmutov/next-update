@@ -40,3 +40,15 @@ gt.test 'name@version 3 digits + rc', ->
     gt.object nv, 'returns an object'
     gt.equal nv.name, 'lodash'
     gt.equal nv.version, '1.0.1-rc1', 'has correct version'
+
+gt.test 'scoped name @author/name', ->
+    nv = moduleName '@bahmutov/csv'
+    gt.object nv, 'returns an object'
+    gt.equal nv.name, '@bahmutov/csv'
+    gt.undefined nv.version, 'has no version'
+
+gt.test 'scoped name @author/name with version', ->
+    nv = moduleName '@bahmutov/csv@1.1.0'
+    gt.object nv, 'returns an object'
+    gt.equal nv.name, '@bahmutov/csv'
+    gt.equal nv.version, '1.1.0'
