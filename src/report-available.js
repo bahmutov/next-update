@@ -1,6 +1,8 @@
+'use strict';
+
 var la = require('lazy-ass');
 var check = require('check-more-types');
-var log = require('debug')('report-available');
+var log = require('debug')('next-update');
 
 require('console.json');
 var print = require('./print-modules-table');
@@ -50,8 +52,8 @@ function reportAvailable(available, currentVersions, options) {
         la(check.array(info.versions), 'missing module versions', info);
 
         var currentVersion = getCurrentVersion(info.name);
+        log('version for', info.name, currentVersion);
 
-        // console.log('version for', info.name, currentVersion)
         if (currentVersion) {
             la(check.unemptyString(currentVersion),
                 'missing version', currentVersion, 'for', info.name);

@@ -1,6 +1,8 @@
+'use strict';
+
 var la = require('lazy-ass');
 var check = require('check-more-types');
-var log = require('debug')('registry');
+var log = require('debug')('next-update');
 
 var request = require('request');
 var verify = check.verify;
@@ -164,12 +166,16 @@ function fetchVersions(nameVersion) {
         deferred.reject(msg);
     }
 
+    function escapeName(str) {
+        return str.replace('/', '%2F');
+    }
+
     registryUrl().then(function (npmUrl) {
         log('NPM registry url', npmUrl);
         la(check.webUrl(npmUrl), 'need npm registry url, got', npmUrl);
 
         npmUrl = npmUrl.replace(/^https:/, 'http:').trim();
-        var url = npmUrl + name;
+        var url = npmUrl + escapeName(name);
 
         // TODO how to detect if the registry is not responding?
 
@@ -178,6 +184,7 @@ function fetchVersions(nameVersion) {
         var timer = setTimeout(rejectOnTimeout, MAX_WAIT_TIMEOUT);
 
         function onNPMversions(err, response, body) {
+            log('got response for', url);
             clearTimeout(timer);
 
             if (err) {
@@ -187,6 +194,7 @@ function fetchVersions(nameVersion) {
             }
 
             if (is404(response)) {
+                log('404 response for', url);
                 deferred.resolve({
                     name: name,
                     versions: []
@@ -195,8 +203,11 @@ function fetchVersions(nameVersion) {
             }
 
             try {
+                log('parsing response body');
                 var info = JSON.parse(body);
+                log('parsed response, error?', info.error);
                 if (info.error) {
+                    log('error parsing\n' + body + '\n');
                     var str = formNpmErrorMessage(name, info);
                     console.error(str);
 
@@ -211,7 +222,9 @@ function fetchVersions(nameVersion) {
                     deferred.reject(str);
                     return;
                 }
+                log('extracting versions');
                 var versions = extractVersions(info);
+                log('versions', versions);
 
                 if (!Array.isArray(versions)) {
                     throw new Error('Could not get versions for ' + name +
@@ -221,6 +234,8 @@ function fetchVersions(nameVersion) {
 
                 var validVersions = versions.filter(cleanVersionForName);
                 var newerVersions = validVersions.filter(isLaterVersion);
+                log('valid versions', validVersions);
+                log('newer versions', newerVersions);
 
                 deferred.resolve({
                     name: name,
@@ -246,7 +261,6 @@ function nextVersions(options, nameVersionPairs, checkLatestOnly) {
     nameVersionPairs = cleanVersions(nameVersionPairs);
 
     var MAX_CHECK_TIMEOUT = 10000;
-    var deferred = q.defer();
 
     if (!options.tldr) {
         console.log('checking NPM registry');
@@ -255,8 +269,11 @@ function nextVersions(options, nameVersionPairs, checkLatestOnly) {
     var fetchAllPromise = q.all(fetchPromises)
         .timeout(MAX_CHECK_TIMEOUT, 'timed out waiting for NPM');
 
-    fetchAllPromise.then(function (results) {
+    return fetchAllPromise.then(function (results) {
         check.verify.array(results, 'expected list of results');
+        log('fetch all new version results');
+        log(results);
+
         var available = results.filter(function (nameNewVersions) {
             return nameNewVersions &&
                 check.array(nameNewVersions.versions) &&
@@ -272,12 +289,10 @@ function nextVersions(options, nameVersionPairs, checkLatestOnly) {
         } else {
             console.log('checking ALL versions');
         }
-        deferred.resolve(available);
+        return available;
     }, function (error) {
-        deferred.reject(error);
+        return q.reject(error);
     });
-
-    return deferred.promise;
 }
 
 module.exports = {
