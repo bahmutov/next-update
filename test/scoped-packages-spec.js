@@ -1,14 +1,14 @@
 'use strict'
 
-const la = require('lazy-ass')
-const is = require('check-more-types')
-const pause = 30*1000
-const chdir = require('chdir-promise')
-const join = require('path').join
-const testFolder = join(__dirname, 'test-scoped-names')
+var la = require('lazy-ass')
+var is = require('check-more-types')
+var pause = 30*1000
+var chdir = require('chdir-promise')
+var join = require('path').join
+var testFolder = join(__dirname, 'test-scoped-names')
 
 describe('scoped packages', function () {
-  const nextUpdate = require('../src/next-update')
+  var nextUpdate = require('../src/next-update')
 
   it('is an object', function () {
     la(is.object(nextUpdate))
@@ -27,9 +27,9 @@ describe('scoped packages', function () {
       .then(function (available) {
         la(is.array(available), 'returns an array', available)
         la(is.not.empty(available), 'there should be a new version', available)
-        const first = available[0]
+        var first = available[0]
         la(first.name === '@bahmutov/csv', 'wrong name', first)
-        const versions = first.versions;
+        var versions = first.versions;
         la(is.array(versions), 'expected list of new versions', first)
         la(versions[0] === '1.2.0', 'first available version', versions)
       })
