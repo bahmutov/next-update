@@ -1,3 +1,6 @@
+'use strict';
+
+var debug = require('debug')('next-update');
 var check = require('check-more-types');
 var spawn = require('child_process').spawn;
 var q = require('q');
@@ -11,7 +14,7 @@ function findNpmPath() {
 }
 
 var NPM_PATH = findNpmPath();
-console.log('found npm path %s', NPM_PATH);
+debug('found npm path %s', NPM_PATH);
 
 function argsToString(arrayLike) {
     return Array.prototype.slice.call(arrayLike, 0).join(' ');
