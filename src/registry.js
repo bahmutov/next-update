@@ -56,7 +56,7 @@ function cleanVersion(version, name) {
         return;
     }
     if (!version) {
-        console.error('could not clean version ' + originalVersion + ' for ' + name);
+        log('could not clean version ' + originalVersion + ' for ' + name);
         return;
     }
     console.assert(version, 'missing clean version ' + originalVersion + ' for ' + name);
