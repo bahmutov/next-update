@@ -77,8 +77,9 @@ module.exports = function (grunt) {
   grunt.registerTask('pre-check', ['deps-ok', 'jsonlint',
     'jshint', 'jshint-solid',
     'nice-package', 'complexity']);
-  // disabling readme task for now - seems to crash
+  // if readme task crashes with error
   // TypeError: Cannot read property '1' of null
-  grunt.registerTask('default', ['pre-check', 'lineending'/*, 'readme'*/]);
+  // this is because it cannot parse package version "0.0.0-semantic-release"
+  grunt.registerTask('default', ['pre-check', 'lineending', 'readme']);
   grunt.registerTask('release', ['bump-only:patch', 'readme', 'bump-commit']);
 };
