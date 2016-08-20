@@ -69,6 +69,7 @@
     "pre-git": "1.4.0",
     "publish": "0.6.0",
     "semantic-release": "4.3.5",
+    "stop-build": "^1.0.1",
     "time-grunt": "1.4.0"
   },
   "engines": {
@@ -113,7 +114,8 @@
     "self-update": "node bin/next-update.js -k true",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";",
-    "test": "npm run build && npm run unit",
+    "pretest": "npm run build",
+    "test": "npm run unit",
     "unit": "gt src/test/*.js src/test/*.coffee --output"
   },
   "release": {

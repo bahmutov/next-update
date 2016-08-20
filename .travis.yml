@@ -11,6 +11,9 @@ node_js:
   - '0.12'
 before_script:
   - npm prune
+script:
+  - npm test
+  - $(npm bin)/stop-build
 after_success:
   - npm run semantic-release
   - npm run coveralls
