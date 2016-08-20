@@ -4,6 +4,9 @@
 
 {%= _.doc("./docs/badges.md") %}
 
+**Note** I no longer maintain Node 0.12 compatibility. Please switch to
+Node 4.
+
 [![asciicast](https://asciinema.org/a/21645.png)](https://asciinema.org/a/21645)
 
 {%= _.doc("./docs/use.md") %}
