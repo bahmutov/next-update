@@ -46,7 +46,7 @@
     "update-notifier": "0.5.0"
   },
   "devDependencies": {
-    "condition-node-version": "^1.3.0",
+    "condition-node-version": "1.3.0",
     "coveralls": "2.11.4",
     "git-issues": "1.2.0",
     "grunt": "0.4.5",
@@ -69,7 +69,7 @@
     "pre-git": "1.4.0",
     "publish": "0.6.0",
     "semantic-release": "4.3.5",
-    "stop-build": "^1.0.1",
+    "stop-build": "1.0.1",
     "time-grunt": "1.4.0"
   },
   "engines": {
@@ -95,6 +95,12 @@
   "next-update-stats": "http://next-update.herokuapp.com",
   "preferGlobal": true,
   "readmeFilename": "README.md",
+  "release": {
+    "verifyConditions": {
+      "path": "condition-node-version",
+      "node": "4"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/bahmutov/next-update.git"
@@ -111,17 +117,11 @@
     "limited": "gt --filter 'allow major' --output src/test/*.coffee",
     "mocha": "mocha test/*-spec.js",
     "posttest": "npm run mocha && npm run e2e",
+    "pretest": "npm run build",
     "self-update": "node bin/next-update.js -k true",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";",
-    "pretest": "npm run build",
     "test": "npm run unit",
     "unit": "gt src/test/*.js src/test/*.coffee --output"
-  },
-  "release": {
-    "verifyConditions": {
-      "path": "condition-node-version",
-      "node": "4"
-    }
   }
 }
