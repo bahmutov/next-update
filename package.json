@@ -41,7 +41,7 @@
     "optimist": "0.6.1",
     "q": "2.0.3",
     "quote": "0.4.0",
-    "request": "2.65.0",
+    "request": "2.74.0",
     "semver": "5.3.0",
     "update-notifier": "0.5.0"
   },
