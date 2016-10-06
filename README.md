@@ -10,6 +10,7 @@
 [![dependencies][next-update-dependencies-image] ][next-update-dependencies-url]
 [![devdependencies][next-update-devdependencies-image] ][next-update-devdependencies-url]
 [![semantic-release][semantic-image] ][semantic-url]
+[![Known Vulnerabilities](https://snyk.io/test/github/bahmutov/next-update/230d136b5c68dadb1fd5459619df8f7678d28429/badge.svg)](https://snyk.io/test/github/bahmutov/next-update/230d136b5c68dadb1fd5459619df8f7678d28429)
 
 [next-update-icon]: https://nodei.co/npm/next-update.svg?downloads=true
 [next-update-url]: https://npmjs.org/package/next-update
