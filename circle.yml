@@ -1,3 +1,6 @@
+machine:
+  node:
+    version: 6
 deployment:
   npm:
     branch: master
