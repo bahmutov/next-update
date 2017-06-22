@@ -11,7 +11,7 @@
   },
   "config": {
     "pre-git": {
-      "commit-msg": "validate-commit-msg",
+      "commit-msg": "simple",
       "pre-commit": [
         "npm run build",
         "npm test"
@@ -66,9 +66,10 @@
     "matchdep": "1.0.1",
     "mocha": "3.0.2",
     "mockery": "1.7.0",
-    "pre-git": "1.4.0",
+    "pre-git": "3.15.0",
     "publish": "0.6.0",
     "semantic-release": "4.3.5",
+    "simple-commit-message": "3.0.2",
     "stop-build": "1.0.1",
     "time-grunt": "1.4.0"
   },
@@ -99,7 +100,8 @@
     "verifyConditions": {
       "path": "condition-node-version",
       "node": "4"
-    }
+    },
+    "analyzeCommits": "simple-commit-message"
   },
   "repository": {
     "type": "git",
