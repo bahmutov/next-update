@@ -202,6 +202,7 @@ function testModuleVersions (options, results) {
 
 var logLine = (function formLine () {
   var n = process.stdout.isTTY ? process.stdout.columns : 40
+  n = n || 40
   verify.positiveNumber(n, 'expected to get terminal width, got ' + n)
   var k
   var str = ''
