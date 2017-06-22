@@ -115,7 +115,7 @@
     "install-for-tests": "cd test/test-next-updater && npm install",
     "issues": "git-issues",
     "limited": "gt --filter 'allow major' --output src/test/*.coffee",
-    "lint": "standard --verbose --fix src/*.js src/**/*.js",
+    "lint": "standard --verbose --fix src/*.js src/**/*.js bin/*.js",
     "mocha": "mocha test/*-spec.js",
     "posttest": "npm run mocha && npm run e2e",
     "prebuild": "npm run lint",
