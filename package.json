@@ -1,7 +1,7 @@
 {
   "name": "next-update",
   "description": "Tests if module's dependencies can be updated to the newer version without breaking the tests",
-  "version": "0.0.0-development",
+  "version": "0.0.0",
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "bin": {
     "next-update": "bin/next-update.js"
@@ -65,7 +65,7 @@
     "mockery": "1.7.0",
     "pre-git": "3.15.0",
     "publish": "0.6.0",
-    "semantic-release": "^6.3.6",
+    "semantic-release": "6.3.6",
     "simple-commit-message": "3.0.2",
     "standard": "10.0.2",
     "stop-build": "1.1.0",
