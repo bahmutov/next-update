@@ -1,7 +1,7 @@
-var nextUpdate = require('./next-update');
+var nextUpdate = require('./next-update')
 
-module.exports = function nextUpdateTopLevel(options) {
-  options = options || {};
+module.exports = function nextUpdateTopLevel (options) {
+  options = options || {}
   var opts = {
     names: options.module,
     testCommand: options.test,
@@ -11,10 +11,10 @@ module.exports = function nextUpdateTopLevel(options) {
     allow: options.allow || options.allowed,
     type: options.type,
     changedLog: options['changed-log']
-  };
+  }
 
-  var checkUpdates = nextUpdate.checkAllUpdates.bind(null, opts);
+  var checkUpdates = nextUpdate.checkAllUpdates.bind(null, opts)
 
   return nextUpdate.checkCurrentInstall(opts)
-    .then(checkUpdates);
-};
+    .then(checkUpdates)
+}

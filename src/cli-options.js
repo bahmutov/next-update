@@ -1,14 +1,14 @@
-'use strict';
+'use strict'
 
-var optimist = require('optimist');
-var pkg = require('../package.json');
-var la = require('lazy-ass');
-var is = require('check-more-types');
-var _ = require('lodash');
+var optimist = require('optimist')
+var pkg = require('../package.json')
+var la = require('lazy-ass')
+var is = require('check-more-types')
+var _ = require('lodash')
 
 var info = pkg.name + ' - ' + pkg.description + '\n' +
     '  version: ' + pkg.version + '\n' +
-    '  author: ' + JSON.stringify(pkg.author);
+    '  author: ' + JSON.stringify(pkg.author)
 
 var program = optimist
 .options('revert', {
@@ -89,21 +89,21 @@ var program = optimist
   description: 'print commit changes between working versions'
 })
 .usage(info)
-.argv;
+.argv
 
 if (program.version) {
-  console.log(info);
-  process.exit(0);
+  console.log(info)
+  process.exit(0)
 }
 
 if (program.help || program.h) {
-  optimist.showHelp();
-  process.exit(0);
+  optimist.showHelp()
+  process.exit(0)
 }
 
 if (is.string(program.module)) {
-  program.module = program.module.split(',').map(_.trim);
-  la(is.array(program.module), 'expected list of modules', program.module);
+  program.module = program.module.split(',').map(_.trim)
+  la(is.array(program.module), 'expected list of modules', program.module)
 }
 
-module.exports = program;
+module.exports = program

@@ -70,6 +70,7 @@
     "publish": "0.6.0",
     "semantic-release": "4.3.5",
     "simple-commit-message": "3.0.2",
+    "standard": "10.0.2",
     "stop-build": "1.0.1",
     "time-grunt": "1.4.0"
   },
@@ -117,8 +118,10 @@
     "install-for-tests": "cd test/test-next-updater && npm install",
     "issues": "git-issues",
     "limited": "gt --filter 'allow major' --output src/test/*.coffee",
+    "lint": "standard --verbose --fix src/*.js src/**/*.js",
     "mocha": "mocha test/*-spec.js",
     "posttest": "npm run mocha && npm run e2e",
+    "prebuild": "npm run lint",
     "pretest": "npm run build",
     "self-update": "node bin/next-update.js -k true",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
