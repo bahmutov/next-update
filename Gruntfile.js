@@ -13,15 +13,6 @@ module.exports = function (grunt) {
         }
       }
     },
-    jshint: {
-      options: {
-        jshintrc: '.jshintrc',
-        reporter: require('jshint-stylish')
-      },
-      all: {
-        src: [ '*.js' ]
-      }
-    },
     jsonlint: {
       all: {
         src: ['*.json']
@@ -75,7 +66,6 @@ module.exports = function (grunt) {
   plugins.forEach(grunt.loadNpmTasks);
 
   grunt.registerTask('pre-check', ['deps-ok', 'jsonlint',
-    'jshint', 'jshint-solid',
     'nice-package', 'complexity']);
   // if readme task crashes with error
   // TypeError: Cannot read property '1' of null
