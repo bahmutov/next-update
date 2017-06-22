@@ -63,7 +63,7 @@ var program = optimist
 })
 .option('keep', {
   boolean: true,
-  default: false,
+  default: true,
   alias: 'k',
   description: 'keep tested version if it is working'
 })
