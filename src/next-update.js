@@ -128,7 +128,8 @@ function checkAllUpdates (options) {
     keep: options.keep,
     allowed: options.allow || options.allowed,
     tldr: options.tldr,
-    type: options.type
+    type: options.type,
+    limit: options.limit
   })
 
   return isOnline()

@@ -34,6 +34,7 @@
     "debug": "2.6.8",
     "deps-ok": "1.2.0",
     "easy-table": "0.3.0",
+    "execa": "0.7.0",
     "is-online": "5.1.2",
     "lazy-ass": "1.5.0",
     "lodash": "3.10.1",
@@ -41,6 +42,7 @@
     "optimist": "0.6.1",
     "q": "2.0.3",
     "quote": "0.4.0",
+    "ramda": "0.24.1",
     "request": "2.74.0",
     "semver": "5.3.0",
     "update-notifier": "0.5.0"
@@ -67,7 +69,7 @@
     "publish": "0.6.0",
     "semantic-release": "6.3.6",
     "simple-commit-message": "3.0.2",
-    "snap-shot": "^2.17.0",
+    "snap-shot": "2.17.0",
     "standard": "10.0.2",
     "stop-build": "1.1.0",
     "time-grunt": "1.4.0"
@@ -79,6 +81,7 @@
     "bin",
     "index.js",
     "src",
+    "!src/*-spec.js",
     "!src/test"
   ],
   "homepage": "https://github.com/bahmutov/next-update",
@@ -117,7 +120,7 @@
     "issues": "git-issues",
     "limited": "gt --filter 'allow major' --output src/test/*.coffee",
     "lint": "standard --verbose --fix src/*.js src/**/*.js bin/*.js",
-    "mocha": "mocha test/*-spec.js",
+    "mocha": "mocha src/*-spec.js test/*-spec.js",
     "posttest": "npm run mocha && npm run e2e",
     "prebuild": "npm run lint",
     "pretest": "npm run build",

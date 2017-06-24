@@ -1,0 +1,23 @@
+exports['checks some versions of check-types 1'] = [
+  [
+    {
+      "name": "check-types",
+      "version": "0.7.0",
+      "from": "0.6.5",
+      "works": true
+    },
+    {
+      "name": "check-types",
+      "version": "0.7.1",
+      "from": "0.6.5",
+      "works": true
+    },
+    {
+      "name": "check-types",
+      "version": "0.7.2",
+      "from": "0.6.5",
+      "works": true
+    }
+  ]
+]
+

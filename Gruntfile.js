@@ -18,9 +18,6 @@ module.exports = function (grunt) {
         src: ['*.json']
       }
     },
-    complexity: {
-      all: grunt.file.readJSON('complexity.json')
-    },
     'nice-package': {
       all: {
         options: {
@@ -66,7 +63,7 @@ module.exports = function (grunt) {
   plugins.forEach(grunt.loadNpmTasks);
 
   grunt.registerTask('pre-check', ['deps-ok', 'jsonlint',
-    'nice-package', 'complexity']);
+    'nice-package']);
   // if readme task crashes with error
   // TypeError: Cannot read property '1' of null
   // this is because it cannot parse package version "0.0.0-semantic-release"
