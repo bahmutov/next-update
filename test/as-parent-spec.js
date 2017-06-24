@@ -16,7 +16,7 @@ function install () {
 }
 
 /* global describe, beforeEach, afterEach, it */
-describe.only('testing check-types', () => {
+describe('testing check-types', () => {
   beforeEach(function () {
     this.timeout(TWO_MINUTES)
     return chdir.to(testFolder)

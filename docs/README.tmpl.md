@@ -11,6 +11,8 @@ Node 4.
 
 {%= _.doc("./docs/use.md") %}
 
+{%= _.doc("./docs/api.md") %}
+
 {%= _.doc("./docs/dev.md") %}
 
 {%= _.doc("./docs/related.md") %}
