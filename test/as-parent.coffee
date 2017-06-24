@@ -14,18 +14,8 @@ nextUpdate = require '..'
 gt.test 'basics', ->
   gt.func nextUpdate, 'next update is a function'
 
-gt.async 'check latest only updating', ->
-  opts =
-    module: 'check-types'
-    latest: true
-  promise = nextUpdate(opts)
-  gt.ok q.isPromise(promise), 'next update returns a promise'
-  promise.then -> console.log 'everything is ok'
-  promise.catch -> gt.ok false, 'promise failed'
-  promise.finally -> gt.start()
-, TWO_MINUTES
-
 # [ [ { name: 'check-types', version: '1.1.1', works: false } ] ]
+# TODO use schem-shot
 gt.async 'results format', ->
   opts =
     module: 'check-types'
@@ -44,12 +34,3 @@ gt.async 'results format', ->
   promise.catch -> gt.ok false, 'promise failed'
   promise.finally -> gt.start()
 , TWO_MINUTES
-
-# gt.async 'check all', ->
-#   opts =
-#     module: 'check-types'
-#   promise = nextUpdate(opts)
-#   promise.then -> gt.ok true, 'everything is ok'
-#   promise.catch -> gt.ok false, 'promise failed'
-#   promise.finally -> gt.start()
-# , TWO_MINUTES

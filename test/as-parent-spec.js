@@ -3,6 +3,9 @@ const chdir = require('chdir-promise')
 const nextUpdate = require('..')
 const execa = require('execa')
 const snapShot = require('snap-shot')
+const _ = require('lodash')
+const is = require('check-more-types')
+const la = require('lazy-ass')
 const TWO_MINUTES = 120000
 
 const testFolder = path.join(__dirname, 'test-next-updater')
@@ -25,6 +28,23 @@ describe('testing check-types', () => {
   })
 
   afterEach(chdir.back)
+
+  it('checks latest check-types', function () {
+    this.timeout(TWO_MINUTES)
+    const opts = {
+      module: 'check-types',
+      latest: true
+    }
+    const removeVersions = (results) => results.map(r => {
+      la(is.semver(r.version), 'expected version', r)
+      r.version = 'valid'
+      return r
+    })
+    return snapShot(nextUpdate(opts)
+      .then(_.flatten)
+      .then(removeVersions)
+    )
+  })
 
   it('checks some versions of check-types', function () {
     this.timeout(TWO_MINUTES)

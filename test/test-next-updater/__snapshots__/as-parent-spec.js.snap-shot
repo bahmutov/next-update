@@ -21,3 +21,12 @@ exports['checks some versions of check-types 1'] = [
   ]
 ]
 
+exports['checks latest check-types 1'] = [
+  {
+    "name": "check-types",
+    "version": "valid",
+    "from": "0.6.5",
+    "works": false
+  }
+]
+
