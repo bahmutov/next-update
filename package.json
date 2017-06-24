@@ -101,7 +101,7 @@
   "release": {
     "verifyConditions": {
       "path": "condition-node-version",
-      "node": "4"
+      "node": "6"
     },
     "analyzeCommits": "simple-commit-message"
   },
