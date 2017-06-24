@@ -4,11 +4,10 @@ cache:
   directories:
     - node_modules
 notifications:
-  email: false
+  email: true
 node_js:
   - '8'
   - '6'
-  - '4'
 before_script:
   - npm prune
 script:

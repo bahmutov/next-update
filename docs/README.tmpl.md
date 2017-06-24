@@ -4,8 +4,8 @@
 
 {%= _.doc("./docs/badges.md") %}
 
-**Note** I no longer maintain Node 0.12 compatibility. Please switch to
-Node 4.
+**Note** I no longer maintain Node 0.12/4 compatibility. Please switch to
+Node 6.
 
 [![asciicast](https://asciinema.org/a/21645.png)](https://asciinema.org/a/21645)
 
