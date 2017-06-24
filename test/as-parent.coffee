@@ -45,11 +45,11 @@ gt.async 'results format', ->
   promise.finally -> gt.start()
 , TWO_MINUTES
 
-gt.async 'check all', ->
-  opts =
-    module: 'check-types'
-  promise = nextUpdate(opts)
-  promise.then -> gt.ok true, 'everything is ok'
-  promise.catch -> gt.ok false, 'promise failed'
-  promise.finally -> gt.start()
-, TWO_MINUTES
+# gt.async 'check all', ->
+#   opts =
+#     module: 'check-types'
+#   promise = nextUpdate(opts)
+#   promise.then -> gt.ok true, 'everything is ok'
+#   promise.catch -> gt.ok false, 'promise failed'
+#   promise.finally -> gt.start()
+# , TWO_MINUTES
