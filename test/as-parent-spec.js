@@ -7,15 +7,21 @@ const TWO_MINUTES = 120000
 
 const testFolder = path.join(__dirname, 'test-next-updater')
 
-describe('testing check-types', () => {
-  beforeEach(() => {
+function prune () {
+  return execa.shell('npm prune')
+}
+
+function install () {
+  return execa.shell('npm install')
+}
+
+/* global describe, beforeEach, afterEach, it */
+describe.only('testing check-types', () => {
+  beforeEach(function () {
+    this.timeout(TWO_MINUTES)
     return chdir.to(testFolder)
-      .then(() => {
-        return execa.shell('npm prune')
-      })
-      .then(() => {
-        return execa.shell('npm install')
-      })
+      .then(prune)
+      .then(install)
   })
 
   afterEach(chdir.back)
