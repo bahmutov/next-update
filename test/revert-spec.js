@@ -1,11 +1,7 @@
 const path = require('path')
 const fromFolder = path.join.bind(null, __dirname)
 const chdir = require('chdir-promise')
-const nextUpdate = require('..')
 const execa = require('execa')
-const snapShot = require('snap-shot')
-const _ = require('lodash')
-const is = require('check-more-types')
 const la = require('lazy-ass')
 const TWO_MINUTES = 120000
 

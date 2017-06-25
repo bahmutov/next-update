@@ -1,0 +1,31 @@
+{
+  "name": "test-next-updater",
+  "version": "0.0.1",
+  "description": "Simple NPM module with dependencies for testing",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo 'no test'",
+    "lodash-test": "node lodash-test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:bahmutov/test-next-updater.git"
+  },
+  "keywords": [
+    "test",
+    "versions",
+    "updater"
+  ],
+  "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "1.0.0"
+  },
+  "config": {
+    "next-update": {
+      "commands": {
+        "lodash": "npm run lodash-test"
+      }
+    }
+  }
+}

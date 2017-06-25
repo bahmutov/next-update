@@ -8,6 +8,9 @@ var quote = require('quote')
 var installModule = require('./module-install')
 var reportSuccess = require('./report').reportSuccess
 var reportFailure = require('./report').reportFailure
+const {getTestCommand} = require('./utils')
+const path = require('path')
+const debug = require('debug')('next-update')
 var stats = require('./stats')
 
 var cleanVersions = require('./registry').cleanVersions
@@ -106,8 +109,12 @@ function installEachTestRevert (listed, available, command, color, keep, tldr) {
   verify.object(listed, 'expected listed object')
   verify.array(available, 'expected array')
 
+  const packageFilename = path.resolve('./package.json')
+  const getCommand = _.partial(getTestCommand, packageFilename)
+
   var checkModulesFunctions = available.map(function (nameVersion) {
     var name = nameVersion.name
+    la(check.unemptyString(name), 'missing name', nameVersion)
     var currentVersion = listed[name].version
     la(check.string(currentVersion), 'cannot find current version for', name,
             'among current dependencies', listed)
@@ -120,10 +127,12 @@ function installEachTestRevert (listed, available, command, color, keep, tldr) {
     }
     var revertFunction = installModule.bind(null, installOptions)
 
+    const testCommand = getCommand(name) || command
+    debug('module %s should use test command "%s"', name, testCommand)
     var checkModuleFunction = testModuleVersions.bind(null, {
       moduleVersions: nameVersion,
       revertFunction: revertFunction,
-      command: command,
+      command: testCommand,
       color: color,
       currentVersion: currentVersion,
       keep: keep,

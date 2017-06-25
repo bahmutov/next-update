@@ -28,8 +28,21 @@ function getSkippedModules (packageFilename) {
   return []
 }
 
+function getTestCommand (packageFilename, moduleName) {
+  la(is.unemptyString(moduleName), 'missing module name')
+  const config = getConfig(packageFilename)
+  if (!config) {
+    return
+  }
+  if (!config.commands) {
+    return
+  }
+  return config.commands[moduleName]
+}
+
 module.exports = {
   name,
   getConfig,
-  getSkippedModules
+  getSkippedModules,
+  getTestCommand
 }

@@ -153,6 +153,29 @@ You can skip a list of modules by name using `config` property in the `package.j
 }
 ```
 
+## Custom test command per module
+
+Some modules are not really tested using the default `npm test` command or
+whatever is passed via `--test "..."` from CLI. For example a linter module
+should probably be tested using `npm run lint` command. You can set individual
+test commands for each module to override the default test command. In the
+`package.json` config object set "commands" object
+
+```json
+"config": {
+  "next-update": {
+    "commands": {
+      "git-issues": "npm run issues",
+      "standard": "npm run lint"
+    }
+  }
+}
+```
+
+Then when `git-issues` module is checked by itself, it will run
+`npm run issues` command; when module `standard` is tested by itself, the
+test will use `npm run lint` command.
+
 ## Misc
 
 * To see what has changed in the latest version of any module,
