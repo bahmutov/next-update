@@ -114,4 +114,10 @@ if (is.string(program.module)) {
   la(is.array(program.module), 'expected list of modules', program.module)
 }
 
+if (is.string(program.without)) {
+  program.without = program.without.split(',').map(_.trim)
+  la(is.array(program.without),
+    'expected list of modules to skip in --without', program.without)
+}
+
 module.exports = program
