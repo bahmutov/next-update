@@ -101,6 +101,8 @@ if (program.help || program.h) {
   process.exit(0)
 }
 
+program.allowWasSpecified = _.includes(process.argv, '--allow')
+
 if (is.string(program.module)) {
   program.module = program.module.split(',').map(_.trim)
   la(is.array(program.module), 'expected list of modules', program.module)

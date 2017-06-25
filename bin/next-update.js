@@ -38,7 +38,9 @@ if (program.available) {
   }).notify()
 
   const allow = program.allowed || program.allow
-  const latest = allow ? false : program.latest
+  const latest = program.allowWasSpecified ? false : program.latest
+  debug('allow was specified %j option "%s" latest %j',
+    program.allowWasSpecified, allow, latest)
 
   var opts = {
     names: program.module,
