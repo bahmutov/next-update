@@ -7,6 +7,8 @@ var path = require('path')
 var print = require('./print-modules-table')
 var nameVersionParser = require('./moduleName')
 var getKnownDependencies = require('./get-known-dependencies')
+const {getConfig} = require('./utils')
+
 require('console.table')
 var _ = require('lodash')
 
@@ -49,10 +51,7 @@ function printTable (options, nameVersionPairs) {
 }
 
 function getSkippedModules (packageFilename) {
-  var pkg = require(packageFilename)
-  var config = pkg &&
-        pkg.config &&
-        pkg.config['next-update']
+  const config = getConfig(packageFilename)
   if (config) {
     return config.skip ||
             config.skipped ||
