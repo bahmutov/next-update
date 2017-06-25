@@ -1,3 +1,4 @@
+const debug = require('debug')('next-update')
 var getDependenciesToCheck = require('./dependencies')
 var installModule = require('./module-install')
 var q = require('q')
@@ -9,12 +10,13 @@ function revert (moduleName) {
   }
 
   var toCheck = getDependenciesToCheck({}, moduleName)
-  var installPromises = toCheck.map(function (nameVersion) {
-    var name = nameVersion[0]
-    var version = nameVersion[1]
+  debug('need to check')
+  debug(toCheck)
+
+  var installPromises = toCheck.map(function (info) {
     return installModule.bind(null, {
-      name: name,
-      version: version,
+      name: info.name,
+      version: info.version,
       tldr: false
     })
   })

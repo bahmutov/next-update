@@ -1,3 +1,4 @@
+const la = require('lazy-ass')
 var check = require('check-more-types')
 var spawn = require('child_process').spawn
 var q = require('q')
@@ -7,7 +8,8 @@ var formInstallCommand = require('./report-install-command')
 // returns a promise
 function installModule (options, results) {
   check.verify.object(options, 'missing options')
-  check.verify.string(options.name, 'expected module name string')
+  la(check.unemptyString(options.name),
+    'expected module name string', options.name, 'all options', options)
   check.verify.string(options.version, 'expected version string')
 
   if (options.keep) {

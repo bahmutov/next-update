@@ -3,6 +3,7 @@
 var q = require('q')
 q.longStackSupport = true
 
+const debug = require('debug')('next-update')
 var nextUpdate = require('../src/next-update')
 var program = require('../src/cli-options')
 
@@ -17,6 +18,7 @@ if (program.available) {
     color: program.color
   }).done()
 } else if (program.revert) {
+  debug('reverting %s', program.module ? program.module : 'all modules')
   revert(program.module)
     .then(function () {
       console.log('done reverting')
