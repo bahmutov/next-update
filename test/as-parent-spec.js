@@ -22,17 +22,12 @@ function install () {
 describe('testing check-types', () => {
   beforeEach(function () {
     this.timeout(TWO_MINUTES)
-    return chdir.to(testFolder)
-      .then(prune)
-      .then(install)
+    return chdir.to(testFolder).then(prune).then(install)
   })
 
   afterEach(function () {
     this.timeout(TWO_MINUTES)
-    return chdir.to(testFolder)
-      .then(prune)
-      .then(install)
-      .then(chdir.back)
+    return chdir.to(testFolder).then(prune).then(install).then(chdir.back)
   })
 
   it('checks latest check-types', function () {
@@ -42,15 +37,13 @@ describe('testing check-types', () => {
       latest: true,
       keep: false
     }
-    const removeVersions = (results) => results.map(r => {
-      la(is.semver(r.version), 'expected version', r)
-      r.version = 'valid'
-      return r
-    })
-    return snapShot(nextUpdate(opts)
-      .then(_.flatten)
-      .then(removeVersions)
-    )
+    const removeVersions = results =>
+      results.map(r => {
+        la(is.semver(r.version), 'expected version', r)
+        r.version = 'valid'
+        return r
+      })
+    return snapShot(nextUpdate(opts).then(_.flatten).then(removeVersions))
   })
 
   it('checks some versions of check-types', function () {

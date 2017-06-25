@@ -16,21 +16,20 @@ function install () {
   return execa.shell('npm install')
 }
 
-const flatVersionSort = R.compose(
-  R.sortBy(R.prop('version')),
-  R.flatten
-)
+const flatVersionSort = R.compose(R.sortBy(R.prop('version')), R.flatten)
 
 it('sorts by version', () => {
   const results = [
-    [ { name: 'lodash', version: '1.0.1', from: '1.0.0', works: true },
-  { name: 'lodash', version: '1.1.0', from: '1.0.0', works: false },
-  { name: 'lodash', version: '1.1.1', from: '1.0.0', works: false },
-  { name: 'lodash', version: '1.2.0', from: '1.0.0', works: false },
-  { name: 'lodash', version: '1.2.1', from: '1.0.0', works: false },
-  { name: 'lodash', version: '1.3.0', from: '1.0.0', works: false },
-  { name: 'lodash', version: '1.3.1', from: '1.0.0', works: false },
-  { name: 'lodash', version: '1.0.2', from: '1.0.0', works: true } ]
+    [
+      { name: 'lodash', version: '1.0.1', from: '1.0.0', works: true },
+      { name: 'lodash', version: '1.1.0', from: '1.0.0', works: false },
+      { name: 'lodash', version: '1.1.1', from: '1.0.0', works: false },
+      { name: 'lodash', version: '1.2.0', from: '1.0.0', works: false },
+      { name: 'lodash', version: '1.2.1', from: '1.0.0', works: false },
+      { name: 'lodash', version: '1.3.0', from: '1.0.0', works: false },
+      { name: 'lodash', version: '1.3.1', from: '1.0.0', works: false },
+      { name: 'lodash', version: '1.0.2', from: '1.0.0', works: true }
+    ]
   ]
   snapShot(flatVersionSort(results))
 })
@@ -39,9 +38,7 @@ it('sorts by version', () => {
 describe('per-module configured command', () => {
   beforeEach(function () {
     this.timeout(TWO_MINUTES)
-    return chdir.to(testFolder)
-      .then(prune)
-      .then(install)
+    return chdir.to(testFolder).then(prune).then(install)
   })
 
   afterEach(chdir.back)
@@ -52,7 +49,6 @@ describe('per-module configured command', () => {
       module: 'lodash',
       allow: 'minor'
     }
-    return snapShot(nextUpdate(opts)
-      .then(flatVersionSort))
+    return snapShot(nextUpdate(opts).then(flatVersionSort))
   })
 })

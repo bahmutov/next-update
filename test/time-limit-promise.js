@@ -1,11 +1,13 @@
 // how to time limit a promise?
 
 var Q = require('q')
-var started = +(new Date())
+var started = +new Date()
 
 console.stamp = function stamp () {
-  var elapsed = +(new Date()) - started
-  var messageArgs = ['at %d ms:', elapsed].concat(Array.prototype.slice.call(arguments, 0))
+  var elapsed = +new Date() - started
+  var messageArgs = ['at %d ms:', elapsed].concat(
+    Array.prototype.slice.call(arguments, 0)
+  )
   console.log.apply(console, messageArgs)
 }
 
@@ -30,7 +32,4 @@ function longAction () {
   return deferred.promise
 }
 
-longAction()
-  .timeout(400, 'timed out')
-  .then(onOk, onError)
-  .done()
+longAction().timeout(400, 'timed out').then(onOk, onError).done()

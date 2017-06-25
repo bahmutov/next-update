@@ -18,19 +18,32 @@ describe('--revert', () => {
 
   it('--module check-types', function () {
     this.timeout(TWO_MINUTES)
-    return execa('node', [index, '--revert', '--module', 'check-types'])
-      .then(result => {
-        la(result.code === 0, 'error exit',
-          result.code, result.stdout, result.stderr)
-      })
+    return execa('node', [
+      index,
+      '--revert',
+      '--module',
+      'check-types'
+    ]).then(result => {
+      la(
+        result.code === 0,
+        'error exit',
+        result.code,
+        result.stdout,
+        result.stderr
+      )
+    })
   })
 
   it('--module all', function () {
     this.timeout(TWO_MINUTES)
-    return execa('node', [index, '--revert', '--module'])
-      .then(result => {
-        la(result.code === 0, 'error exit',
-          result.code, result.stdout, result.stderr)
-      })
+    return execa('node', [index, '--revert', '--module']).then(result => {
+      la(
+        result.code === 0,
+        'error exit',
+        result.code,
+        result.stdout,
+        result.stderr
+      )
+    })
   })
 })

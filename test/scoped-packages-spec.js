@@ -21,7 +21,8 @@ describe('scoped packages', function () {
 
   it('handles scoped package names', function () {
     this.timeout(pause)
-    return chdir.to(testFolder)
+    return chdir
+      .to(testFolder)
       .then(function () {
         return nextUpdate.available('@bahmutov/csv@1.1.0')
       })

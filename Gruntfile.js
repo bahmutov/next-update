@@ -1,6 +1,6 @@
-/*global module:false*/
+/* global module:false */
 module.exports = function (grunt) {
-  require('time-grunt')(grunt);
+  require('time-grunt')(grunt)
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     lineending: {
@@ -57,16 +57,15 @@ module.exports = function (grunt) {
         pushTo: 'origin'
       }
     }
-  });
+  })
 
-  var plugins = require('matchdep').filterDev('grunt-*');
-  plugins.forEach(grunt.loadNpmTasks);
+  var plugins = require('matchdep').filterDev('grunt-*')
+  plugins.forEach(grunt.loadNpmTasks)
 
-  grunt.registerTask('pre-check', ['deps-ok', 'jsonlint',
-    'nice-package']);
+  grunt.registerTask('pre-check', ['deps-ok', 'jsonlint', 'nice-package'])
   // if readme task crashes with error
   // TypeError: Cannot read property '1' of null
   // this is because it cannot parse package version "0.0.0-semantic-release"
-  grunt.registerTask('default', ['pre-check', 'lineending', 'readme']);
-  grunt.registerTask('release', ['bump-only:patch', 'readme', 'bump-commit']);
-};
+  grunt.registerTask('default', ['pre-check', 'lineending', 'readme'])
+  grunt.registerTask('release', ['bump-only:patch', 'readme', 'bump-commit'])
+}
