@@ -28,6 +28,12 @@ var program = optimist
   description: 'checks specific module(s), can include version name@version',
   default: null
 })
+.options('without', {
+  string: true,
+  alias: 'w',
+  description: 'skip checking this module(s)',
+  default: null
+})
 .option('latest', {
   boolean: true,
   alias: 'l',
