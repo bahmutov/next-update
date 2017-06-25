@@ -4,6 +4,7 @@ var semver = require('semver')
 var _ = require('lodash')
 const R = require('ramda')
 const debug = require('debug')('next-update')
+const {isPrerelease} = require('./utils')
 
 la(check.fn(semver.diff), 'semver missing diff method', semver)
 
@@ -105,7 +106,12 @@ function filterAllowedUpdates (current, available, options) {
     var versions = availableUpdate.versions
     la(check.array(versions), 'missing versions in update', availableUpdate)
 
-    var filteredVersions = versions.filter(_.partial(filterVersions, fromVersion))
+    const filterByUpgradeType = _.partial(filterVersions, fromVersion)
+    const notPrerelease = R.complement(isPrerelease)
+
+    var filteredVersions = versions
+      .filter(notPrerelease)
+      .filter(filterByUpgradeType)
     availableUpdate.versions = filteredVersions
     return availableUpdate.versions.length > 0
   }

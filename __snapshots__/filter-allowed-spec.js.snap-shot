@@ -96,3 +96,25 @@ exports['can custom filter 1'] = {
   ]
 }
 
+exports['detects prerelease 1'] = {
+  "name": "isPrerelease",
+  "behavior": [
+    {
+      "given": "3.0.0-alpha",
+      "expect": true
+    },
+    {
+      "given": "3.0.0",
+      "expect": false
+    },
+    {
+      "given": "0.1.0",
+      "expect": false
+    },
+    {
+      "given": "10.0.0-beta.2",
+      "expect": true
+    }
+  ]
+}
+
