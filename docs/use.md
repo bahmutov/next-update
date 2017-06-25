@@ -137,6 +137,10 @@ the target module. In general this tool does the following:
 
 ## Ignoring or skipping some modules
 
+**note** [prerelease](https://github.com/npm/node-semver#functions)
+versions like `1.2.0-alpha` are skipped by default. I believe `next-update` is
+meant to upgrade to *stable* versions.
+
 Some modules are hard to unit test, thus the automatic upgrades are not appropriate.
 For example [benv](https://npmjs.org/package/benv) upgrade brings a new
 [jsdom](https://npmjs.org/package/jsdom) version, which does not work on Node 0.12
