@@ -1,7 +1,14 @@
 const debug = require('debug')('next-update')
+const is = require('check-more-types')
+const la = require('lazy-ass')
 var getDependenciesToCheck = require('./dependencies')
 var installModule = require('./module-install')
 var q = require('q')
+
+const isRevertInfo = is.schema({
+  name: is.unemptyString,
+  version: is.unemptyString
+})
 
 // returns promise
 function revert (moduleName) {
@@ -14,6 +21,7 @@ function revert (moduleName) {
   debug(toCheck)
 
   var installPromises = toCheck.map(function (info) {
+    la(isRevertInfo(info), 'invalid revert info', info)
     return installModule.bind(null, {
       name: info.name,
       version: info.version,
