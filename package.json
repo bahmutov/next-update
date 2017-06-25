@@ -14,7 +14,8 @@
       "commit-msg": "simple",
       "pre-commit": [
         "npm run build",
-        "npm test"
+        "npm test",
+        "npm run e2e"
       ],
       "pre-push": [
         "npm run size"
@@ -66,7 +67,7 @@
     "mocha": "3.4.2",
     "mockery": "1.7.0",
     "pre-git": "3.15.0",
-    "prettier-standard": "^5.1.0",
+    "prettier-standard": "5.1.0",
     "publish": "0.6.0",
     "semantic-release": "6.3.6",
     "simple-commit-message": "3.0.2",
@@ -120,13 +121,13 @@
     "install-for-tests": "cd test/test-next-updater && npm install",
     "issues": "git-issues",
     "limited": "gt --filter 'allow major' --output src/test/*.coffee",
-    "pretty": "prettier-standard '*.js' 'test/*.js'",
-    "prelint": "npm run pretty",
     "lint": "standard --verbose --fix *.js src/*.js src/**/*.js bin/*.js test/*.js",
     "mocha": "mocha src/*-spec.js test/*-spec.js",
-    "posttest": "npm run mocha && npm run e2e",
+    "posttest": "npm run mocha",
     "prebuild": "npm run lint",
+    "prelint": "npm run pretty",
     "pretest": "npm run build",
+    "pretty": "prettier-standard '*.js' 'test/*.js'",
     "self-update": "node bin/next-update.js -k true",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";",

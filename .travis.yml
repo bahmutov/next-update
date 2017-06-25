@@ -12,6 +12,7 @@ before_script:
   - npm prune
 script:
   - npm test
+  - npm run e2e
   # - $(npm bin)/stop-build
 after_success:
   - npm run semantic-release
