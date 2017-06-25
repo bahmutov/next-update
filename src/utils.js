@@ -40,9 +40,15 @@ function getTestCommand (packageFilename, moduleName) {
   return config.commands[moduleName]
 }
 
+const stringify = (x) => JSON.stringify(x, null, 2)
+
+const errorObject = (x) => (new Error(stringify(x)))
+
 module.exports = {
   name,
   getConfig,
   getSkippedModules,
-  getTestCommand
+  getTestCommand,
+  stringify,
+  errorObject
 }

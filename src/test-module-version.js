@@ -174,6 +174,7 @@ function testModuleVersions (options, results) {
   })
   var checkAllPromise = checkPromises.reduce(q.when, q())
   if (options.keep) {
+    debug('keep working updates for %s', name)
     checkAllPromise = checkAllPromise.then(function (result) {
       verify.array(result, 'expected array of results', result)
       var lastSuccess = _.last(_.filter(result, { works: true }))
@@ -194,10 +195,16 @@ function testModuleVersions (options, results) {
     })
   } else {
     checkAllPromise = checkAllPromise
-            .then(restoreVersionFunc)
+            .then(restoreVersionFunc, (err) => {
+              console.error('Could not check all versions')
+              console.error(err)
+              throw err
+            })
   }
   checkAllPromise
         .then(function (result) {
+          debug('got result')
+          debug(result)
           check.verify.array(result, 'could not get result array')
           results.push(result)
           deferred.resolve(results)
@@ -290,6 +297,7 @@ function testModuleVersion (options, results) {
         }, function (error) {
           reportFailure(nameVersion + ' tests failed :(', options.color)
 
+          debug('sending stats results')
           stats.sendUpdateResult({
             name: options.name,
             from: options.currentVersion,
@@ -297,6 +305,7 @@ function testModuleVersion (options, results) {
             success: false
           })
 
+          debug('checking error code', error.code)
           verify.number(error.code, 'expected code in error ' +
                 JSON.stringify(error, null, 2))
 
@@ -324,6 +333,8 @@ function testPromise (options, command) {
   if (command) {
     verify.unemptyString(command, 'expected string command, not ' + command)
     testFunction = execTest.bind(null, options, command)
+  } else {
+    debug('missing test command')
   }
   return testFunction
 }

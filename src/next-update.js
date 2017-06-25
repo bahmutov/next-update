@@ -68,6 +68,7 @@ function checkCurrentInstall (options) {
   return cleanDependencies()
         .then(checkDependenciesInstalled)
         .then(function () {
+          log('running test command')
           return runTest(options, options.testCommand)()
         })
         .then(function () {

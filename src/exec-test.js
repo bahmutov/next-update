@@ -4,11 +4,14 @@ var spawn = require('child_process').spawn
 var q = require('q')
 var npmPath = require('./npm-test').npmPath
 var _ = require('lodash')
+const debug = require('debug')('next-update')
 
 // returns a promise
+// TODO switch to execa
 function test (options, testCommand) {
   options = options || {}
   var log = options.tldr ? _.noop : console.log.bind(console)
+  debug('exec-test "%s"', testCommand)
 
   verify.unemptyString(testCommand, 'missing test command string')
   log(' ', testCommand)
@@ -40,10 +43,10 @@ function test (options, testCommand) {
     console.error('test command: "' + testCommand + '"')
     console.error(err)
     testErrors += err.toString()
-    deferred.reject({
-      code: err.code,
-      errors: testErrors
-    })
+    const e = new Error('test command failed')
+    e.code = err.code
+    e.errors = testErrors
+    deferred.reject(e)
   })
 
   testProcess.on('exit', function (code) {
@@ -51,10 +54,10 @@ function test (options, testCommand) {
       console.error('testProcess test returned', code)
       console.error('test errors:\n' + testErrors)
       console.error(testOutput)
-      deferred.reject({
-        code: code,
-        errors: testErrors
-      })
+      const e = new Error('test exit code means error')
+      e.code = code
+      e.errors = testErrors
+      return deferred.reject(e)
     }
     deferred.resolve()
   })

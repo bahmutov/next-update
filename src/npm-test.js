@@ -61,14 +61,15 @@ function test (options) {
   var deferred = q.defer()
   npm.on('exit', function (code) {
     if (code) {
-      errorLog('npm test returned', code)
+      errorLog('npm test returned', code, '\n')
       errorLog('test output:\n' + testOutput)
       errorLog('test errors:\n' + testErrors)
 
-      deferred.reject({
-        code: code,
-        errors: testErrors
-      })
+      const e = new Error('npm test exit code means error')
+      e.code = code
+      e.errors = testErrors
+
+      deferred.reject(e)
     }
     deferred.resolve()
   })

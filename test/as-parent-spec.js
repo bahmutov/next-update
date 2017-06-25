@@ -39,7 +39,8 @@ describe('testing check-types', () => {
     this.timeout(TWO_MINUTES)
     const opts = {
       module: 'check-types',
-      latest: true
+      latest: true,
+      keep: false
     }
     const removeVersions = (results) => results.map(r => {
       la(is.semver(r.version), 'expected version', r)
@@ -64,6 +65,7 @@ describe('testing check-types', () => {
 
     const opts = {
       module: 'check-types',
+      keep: false,
       limit
     }
     return snapShot(nextUpdate(opts))
