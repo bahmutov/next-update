@@ -37,14 +37,17 @@ if (program.available) {
     version: pkg.version
   }).notify()
 
+  const allow = program.allowed || program.allow
+  const latest = allow ? false : program.latest
+
   var opts = {
     names: program.module,
-    latest: program.latest,
+    latest: latest,
     testCommand: program.test,
     all: program.all,
     color: program.color,
     keep: program.keep,
-    allow: program.allowed || program.allow,
+    allow: allow,
     type: program.type,
     tldr: program.tldr
   }
