@@ -27,7 +27,13 @@ describe('testing check-types', () => {
       .then(install)
   })
 
-  afterEach(chdir.back)
+  afterEach(function () {
+    this.timeout(TWO_MINUTES)
+    return chdir.to(testFolder)
+      .then(prune)
+      .then(install)
+      .then(chdir.back)
+  })
 
   it('checks latest check-types', function () {
     this.timeout(TWO_MINUTES)
