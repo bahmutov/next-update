@@ -109,6 +109,10 @@ function checkAllUpdates (options) {
     console.log('will check only latest versions because testing all')
   }
 
+  if (check.string(options.without)) {
+    options.without = [options.without]
+  }
+
   if (check.string(moduleName)) {
     moduleName = [moduleName]
   }

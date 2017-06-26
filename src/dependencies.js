@@ -8,6 +8,7 @@ var print = require('./print-modules-table')
 var nameVersionParser = require('./moduleName')
 var getKnownDependencies = require('./get-known-dependencies')
 const {getSkippedModules} = require('./utils')
+const pluralize = require('pluralize')
 
 require('console.table')
 var _ = require('lodash')
@@ -41,6 +42,7 @@ function printTable (options, nameVersionPairs) {
         ? nameVersionPairs
         : _.filter(nameVersionPairs, { type: allowedType })
 
+  // TODO just use Ramda project
   console.table(title, _.map(filtered, function (nameVersion) {
     return {
       module: nameVersion.name,
@@ -80,9 +82,14 @@ function normalizeModuleNames (moduleNames) {
 
 function getDependenciesToCheck (options, moduleNames) {
   check.verify.object(options, 'missing options')
-  debug('initial module names', moduleNames)
+  debug('get dependencies for options')
+  debug(options)
   moduleNames = normalizeModuleNames(moduleNames)
-  debug('normalized module names', moduleNames)
+  if (moduleNames) {
+    debug('normalized module names', moduleNames)
+  } else {
+    debug('no --module filter')
+  }
 
   var workingDirectory = process.cwd()
 
@@ -96,6 +103,16 @@ function getDependenciesToCheck (options, moduleNames) {
       console.log('ignoring the following modules', skipModules.join(', '))
     }
     nameVersionPairs = remove(nameVersionPairs, skipModules)
+  }
+  if (options.without) {
+    la(check.array(options.without),
+      'without should be an array', options.without)
+    if (check.unempty(options.without)) {
+      debug('checking without %s %s',
+        pluralize('module', options.without.length),
+        options.without.join(', '))
+      nameVersionPairs = remove(nameVersionPairs, options.without)
+    }
   }
   printTable(options, nameVersionPairs)
 

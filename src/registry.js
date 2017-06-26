@@ -3,6 +3,7 @@
 var la = require('lazy-ass')
 var check = require('check-more-types')
 var log = require('debug')('next-update')
+const R = require('ramda')
 
 var request = require('request')
 var verify = check.verify
@@ -225,7 +226,7 @@ function fetchVersions (nameVersion) {
         }
         log('extracting versions')
         var versions = extractVersions(info)
-        log('versions', versions)
+        log('%d versions', versions.length)
 
         if (!Array.isArray(versions)) {
           throw new Error('Could not get versions for ' + name +
@@ -235,8 +236,14 @@ function fetchVersions (nameVersion) {
 
         var validVersions = versions.filter(cleanVersionForName)
         var newerVersions = validVersions.filter(isLaterVersion)
-        log('valid versions', validVersions)
-        log('newer versions', newerVersions)
+        log('%d valid versions', validVersions.length)
+        if (validVersions.length) {
+          log('last version %s', R.last(validVersions))
+        }
+        if (newerVersions.length) {
+          log('%d newer versions', newerVersions.length)
+          log('from %s to %s', R.head(newerVersions), R.last(newerVersions))
+        }
 
         deferred.resolve({
           name: name,
@@ -269,10 +276,16 @@ function nextVersions (options, nameVersionPairs, checkLatestOnly) {
   var fetchAllPromise = q.all(fetchPromises)
         .timeout(MAX_CHECK_TIMEOUT, 'timed out waiting for NPM')
 
+  function logFetched (fetched) {
+    fetched.forEach(individual => {
+      log('%s - %d versions', individual.name, individual.versions.length)
+    })
+  }
+
   return fetchAllPromise.then(function (results) {
     check.verify.array(results, 'expected list of results')
     log('fetch all new version results')
-    log(results)
+    logFetched(results)
 
     var available = results.filter(function (nameNewVersions) {
       return nameNewVersions &&

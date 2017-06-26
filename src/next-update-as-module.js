@@ -13,7 +13,8 @@ module.exports = function nextUpdateTopLevel (options) {
     allow: options.allow || options.allowed,
     type: options.type,
     changedLog: options['changed-log'],
-    limit: is.maybe.fn(options.limit) ? options.limit : T
+    limit: is.maybe.fn(options.limit) ? options.limit : T,
+    without: options.without
   }
 
   const checkUpdates = nextUpdate.checkAllUpdates.bind(null, opts)

@@ -30,6 +30,17 @@ describe('testing check-types', () => {
     return chdir.to(testFolder).then(prune).then(install).then(chdir.back)
   })
 
+  it('skips without module', function () {
+    this.timeout(TWO_MINUTES)
+    const opts = {
+      without: 'check-types',
+      keep: false
+    }
+    return nextUpdate(opts).then(results => {
+      la(results === undefined, 'no results without a module to check', results)
+    })
+  })
+
   it('checks latest check-types', function () {
     this.timeout(TWO_MINUTES)
     const opts = {

@@ -51,7 +51,8 @@ if (program.available) {
     keep: program.keep,
     allow: allow,
     type: program.type,
-    tldr: program.tldr
+    tldr: program.tldr,
+    without: program.without
   }
 
   var checkCurrent = nextUpdate.checkCurrentInstall.bind(null, opts)
