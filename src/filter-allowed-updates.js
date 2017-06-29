@@ -109,9 +109,10 @@ function filterAllowedUpdates (current, available, options) {
     const filterByUpgradeType = _.partial(filterVersions, fromVersion)
     const notPrerelease = R.complement(isPrerelease)
 
-    var filteredVersions = versions
+    const filteredVersions = versions
       .filter(notPrerelease)
       .filter(filterByUpgradeType)
+
     availableUpdate.versions = filteredVersions
     return availableUpdate.versions.length > 0
   }
