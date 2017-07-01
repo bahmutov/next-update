@@ -165,6 +165,15 @@ the target module. In general this tool does the following:
     3. Installs back the current version.
 4. Reports results
 
+### Checking specific modules
+
+You can check one or more specific modules (whitelist) using CLI flag
+`--module` or `-m`
+
+```sh
+next-update --module foo,bar,baz
+```
+
 ### Ignoring or skipping some modules
 
 **note** [prerelease](https://github.com/npm/node-semver#functions)
