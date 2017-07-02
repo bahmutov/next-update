@@ -105,7 +105,7 @@ if (program.version) {
   process.exit(0)
 }
 
-if (program.help || program.h) {
+if (program.help || program.h || program['?']) {
   optimist.showHelp()
   process.exit(0)
 }
