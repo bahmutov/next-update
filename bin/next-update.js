@@ -14,17 +14,21 @@ var report = require('../src/report').report
 var revert = require('../src/revert')
 
 if (program.available) {
-  nextUpdate.available(program.module, {
-    color: program.color
-  }).done()
+  nextUpdate
+    .available(program.module, {
+      color: program.color
+    })
+    .done()
 } else if (program.revert) {
   debug('reverting %s', program.module ? program.module : 'all modules')
-  revert(program.module)
-    .then(function () {
+  revert(program.module).then(
+    function () {
       console.log('done reverting')
-    }, function (error) {
+    },
+    function (error) {
       console.error('error while reverting\n', error)
-    })
+    }
+  )
 } else {
   if (!program.tldr) {
     console.log(info)
@@ -39,8 +43,12 @@ if (program.available) {
 
   const allow = program.allowed || program.allow
   const latest = program.allowWasSpecified ? false : program.latest
-  debug('allow was specified %j option "%s" latest %j',
-    program.allowWasSpecified, allow, latest)
+  debug(
+    'allow was specified %j option "%s" latest %j',
+    program.allowWasSpecified,
+    allow,
+    latest
+  )
 
   var opts = {
     names: program.module,

@@ -128,7 +128,7 @@
     "prebuild": "npm run lint",
     "prelint": "npm run pretty",
     "pretest": "npm run build",
-    "pretty": "prettier-standard '*.js' 'test/*.js'",
+    "pretty": "prettier-standard 'bin/*.js' '*.js' 'test/*.js'",
     "self-update": "node bin/next-update.js -k true",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";",
