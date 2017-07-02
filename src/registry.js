@@ -262,11 +262,41 @@ function fetchVersions (nameVersion) {
 
 const verboseLog = (options) => options.tldr ? _.noop : console.log
 
+function logFetched (fetched) {
+  fetched.forEach(individual => {
+    log('%s - %d versions', individual.name, individual.versions.length)
+  })
+}
+
+const hasVersions = nameNewVersions =>
+  nameNewVersions &&
+    check.array(nameNewVersions.versions) &&
+    check.unempty(nameNewVersions)
+
+function filterFetchedVersions (checkLatestOnly, results) {
+  checkLatestOnly = Boolean(checkLatestOnly)
+  check.verify.array(results, 'expected list of results')
+  log('fetch all new version results')
+  logFetched(results)
+
+  let available = results.filter(hasVersions)
+  if (checkLatestOnly) {
+    available = available.map(function (nameVersions) {
+      if (nameVersions.versions.length > 1) {
+        nameVersions.versions = nameVersions.versions.slice(-1)
+      }
+      return nameVersions
+    })
+  } else {
+    verboseLog('checking ALL versions')
+  }
+  return available
+}
+
 // returns a promise with available new versions
 function nextVersions (options, nameVersionPairs, checkLatestOnly) {
   check.verify.object(options, 'expected object with options')
   check.verify.array(nameVersionPairs, 'expected array')
-  checkLatestOnly = !!checkLatestOnly
   nameVersionPairs = cleanVersions(nameVersionPairs)
 
   var MAX_CHECK_TIMEOUT = 10000
@@ -278,37 +308,10 @@ function nextVersions (options, nameVersionPairs, checkLatestOnly) {
   var fetchAllPromise = q.all(fetchPromises)
         .timeout(MAX_CHECK_TIMEOUT, 'timed out waiting for NPM')
 
-  function logFetched (fetched) {
-    fetched.forEach(individual => {
-      log('%s - %d versions', individual.name, individual.versions.length)
-    })
-  }
-
-  const hasVersions = nameNewVersions =>
-    nameNewVersions &&
-      check.array(nameNewVersions.versions) &&
-      check.unempty(nameNewVersions)
-
-  return fetchAllPromise.then(function (results) {
-    check.verify.array(results, 'expected list of results')
-    log('fetch all new version results')
-    logFetched(results)
-
-    let available = results.filter(hasVersions)
-    if (checkLatestOnly) {
-      available = available.map(function (nameVersions) {
-        if (nameVersions.versions.length > 1) {
-          nameVersions.versions = nameVersions.versions.slice(-1)
-        }
-        return nameVersions
-      })
-    } else {
-      verboseLog('checking ALL versions')
-    }
-    return available
-  }, function (error) {
-    return q.reject(error)
-  })
+  return fetchAllPromise.then(
+    _.partial(filterFetchedVersions, checkLatestOnly),
+    q.reject
+  )
 }
 
 module.exports = {
