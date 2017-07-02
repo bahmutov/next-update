@@ -5,9 +5,12 @@ var pkg = require('../package.json')
 var la = require('lazy-ass')
 var is = require('check-more-types')
 var _ = require('lodash')
+var path = require('path')
 
+var parentFolder = path.join(__dirname, '..')
 var info = pkg.name + ' - ' + pkg.description + '\n' +
     '  version: ' + pkg.version + '\n' +
+    '  folder: ' + parentFolder + '\n' +
     '  author: ' + JSON.stringify(pkg.author)
 
 var program = optimist
