@@ -260,6 +260,8 @@ function fetchVersions (nameVersion) {
   return deferred.promise
 }
 
+const verboseLog = (options) => options.tldr ? _.noop : console.log
+
 // returns a promise with available new versions
 function nextVersions (options, nameVersionPairs, checkLatestOnly) {
   check.verify.object(options, 'expected object with options')
@@ -269,9 +271,9 @@ function nextVersions (options, nameVersionPairs, checkLatestOnly) {
 
   var MAX_CHECK_TIMEOUT = 10000
 
-  if (!options.tldr) {
-    console.log('checking NPM registry')
-  }
+  const verbose = verboseLog(options)
+  verbose('checking NPM registry')
+
   var fetchPromises = nameVersionPairs.map(fetchVersions)
   var fetchAllPromise = q.all(fetchPromises)
         .timeout(MAX_CHECK_TIMEOUT, 'timed out waiting for NPM')
@@ -282,16 +284,17 @@ function nextVersions (options, nameVersionPairs, checkLatestOnly) {
     })
   }
 
+  const hasVersions = nameNewVersions =>
+    nameNewVersions &&
+      check.array(nameNewVersions.versions) &&
+      check.unempty(nameNewVersions)
+
   return fetchAllPromise.then(function (results) {
     check.verify.array(results, 'expected list of results')
     log('fetch all new version results')
     logFetched(results)
 
-    var available = results.filter(function (nameNewVersions) {
-      return nameNewVersions &&
-                check.array(nameNewVersions.versions) &&
-                nameNewVersions.versions.length
-    })
+    let available = results.filter(hasVersions)
     if (checkLatestOnly) {
       available = available.map(function (nameVersions) {
         if (nameVersions.versions.length > 1) {
@@ -300,7 +303,7 @@ function nextVersions (options, nameVersionPairs, checkLatestOnly) {
         return nameVersions
       })
     } else {
-      console.log('checking ALL versions')
+      verboseLog('checking ALL versions')
     }
     return available
   }, function (error) {
