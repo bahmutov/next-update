@@ -1,0 +1,45 @@
+exports['hasVersions 1'] = [
+  {
+    "name": "foo",
+    "versions": [
+      "1.0.0",
+      "1.0.1"
+    ]
+  },
+  {
+    "name": "baz",
+    "versions": [
+      "3.0.0-alpha"
+    ]
+  }
+]
+
+exports['filters out empty versions 1'] = [
+  {
+    "name": "foo",
+    "versions": [
+      "1.0.0",
+      "1.0.1"
+    ]
+  }
+]
+
+exports['filters latest versions 1'] = [
+  {
+    "name": "foo",
+    "versions": [
+      "1.0.1"
+    ]
+  }
+]
+
+exports['filters out alpha releases 1'] = [
+  {
+    "name": "foo",
+    "versions": [
+      "1.0.0",
+      "1.0.1"
+    ]
+  }
+]
+

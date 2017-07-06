@@ -12,10 +12,13 @@ var q = require('q')
 var localVersion = require('./local-module-version')
 var isUrl = require('npm-utils').isUrl
 var _ = require('lodash')
+const {isPrerelease} = require('./utils')
 
 var _registryUrl = require('npm-utils').registryUrl
 la(check.fn(_registryUrl), 'expected registry url function')
 var registryUrl = _.once(_registryUrl)
+
+const notPrerelease = R.complement(isPrerelease)
 
 function cleanVersion (version, name) {
   var originalVersion = version
@@ -271,15 +274,23 @@ function logFetched (fetched) {
 const hasVersions = nameNewVersions =>
   nameNewVersions &&
     check.array(nameNewVersions.versions) &&
-    check.unempty(nameNewVersions)
+    check.unempty(nameNewVersions.versions)
+
+const filterVersions = R.evolve({
+  versions: R.filter(notPrerelease)
+})
 
 function filterFetchedVersions (checkLatestOnly, results) {
+  la(arguments.length === 2, 'expected two arguments', arguments)
   checkLatestOnly = Boolean(checkLatestOnly)
   check.verify.array(results, 'expected list of results')
   log('fetch all new version results')
   logFetched(results)
 
-  let available = results.filter(hasVersions)
+  let available = results
+    .map(filterVersions)
+    .filter(hasVersions)
+
   if (checkLatestOnly) {
     available = available.map(function (nameVersions) {
       if (nameVersions.versions.length > 1) {
@@ -315,9 +326,11 @@ function nextVersions (options, nameVersionPairs, checkLatestOnly) {
 }
 
 module.exports = {
-  isUrl: isUrl,
-  cleanVersion: cleanVersion,
-  cleanVersions: cleanVersions,
-  fetchVersions: fetchVersions,
-  nextVersions: nextVersions
+  isUrl,
+  cleanVersion,
+  cleanVersions,
+  fetchVersions,
+  nextVersions,
+  filterFetchedVersions,
+  hasVersions
 }
