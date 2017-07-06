@@ -3,6 +3,8 @@ var request = require('request')
 var Q = require('q')
 var colors = require('cli-color')
 var colorAvailable = process.stdout.isTTY
+const pluralize = require('pluralize')
+const {oneLine} = require('common-tags')
 
 var nextUpdateStatsUrl = require('../package.json')['next-update-stats'] ||
     'http://next-update.herokuapp.com'
@@ -80,7 +82,7 @@ function colorProbability (probability, options) {
   return probabilityStr
 }
 
-function printStats (options, stats) {
+function formatStats (options, stats) {
   verify.object(stats, 'missing stats object')
   verify.unemptyString(stats.name, 'missing name')
   verify.unemptyString(stats.from, 'missing from version')
@@ -90,14 +92,23 @@ function printStats (options, stats) {
   var total = stats.success + stats.failure
   var probability = (total > 0 ? stats.success / total : 0)
   var probabilityStr = colorProbability(probability, options)
-  console.log('stats:', stats.name, stats.from, '->', stats.to,
-        'success probability', probabilityStr,
-        stats.success, 'success(es)', stats.failure, 'failure(s)')
+  return oneLine`
+    stats: ${stats.name} ${stats.from} -> ${stats.to}
+    success probability ${probabilityStr}
+    ${stats.success} ${pluralize('success', stats.success)}
+    ${stats.failure} ${pluralize('failure', stats.failure)}
+  `
+}
+
+function printStats (options, stats) {
+  const message = formatStats(options, stats)
+  console.log(message)
 }
 
 module.exports = {
   sendUpdateResult: sendUpdateResult,
   getSuccessStats: getSuccessStats,
+  formatStats: formatStats,
   printStats: printStats,
   colorProbability: colorProbability,
   url: nextUpdateStatsUrl

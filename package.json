@@ -30,6 +30,7 @@
     "chdir-promise": "0.4.0",
     "check-more-types": "2.24.0",
     "cli-color": "1.2.0",
+    "common-tags": "^1.4.0",
     "console.json": "0.2.1",
     "console.table": "0.8.0",
     "debug": "2.6.8",

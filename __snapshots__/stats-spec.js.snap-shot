@@ -1,0 +1,4 @@
+exports['formats stats message 1'] = "stats: foo 1.0.0 -> 2.0.0 success probability 50% 5 successes 5 failures"
+
+exports['formats stats message with singular failure 1'] = "stats: foo 1.0.0 -> 2.0.0 success probability 50% 1 success 1 failure"
+
