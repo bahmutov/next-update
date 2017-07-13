@@ -6,9 +6,20 @@ q.longStackSupport = true
 const debug = require('debug')('next-update')
 var nextUpdate = require('../src/next-update')
 var program = require('../src/cli-options')
+var join = require('path').join
 
-var pkg = require('../package.json')
-var info = pkg.name + '@' + pkg.version + ' - ' + pkg.description
+var parentFolder = join(__dirname, '..')
+var pkg = require(join(parentFolder, 'package.json'))
+var info =
+  pkg.name +
+  '@' +
+  pkg.version +
+  '\n' +
+  ' - ' +
+  pkg.description +
+  '\n' +
+  ' installed in folder ' +
+  parentFolder
 
 var report = require('../src/report').report
 var revert = require('../src/revert')
