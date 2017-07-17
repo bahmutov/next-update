@@ -56,15 +56,15 @@ in the folder with module *foo*. Here is the example output:
         0.2.6 PASS
         0.2.7 PASS
         0.2.8 PASS
+    
+    > next updates:
+    express 3.21.2 -> 4.15.3
+    async 3.21.2 -> 0.2.8
+    
+    > kept working updates
 
-
-Both *package.json* file and *node_modules* folder are left unchanged,
-and now you know that you can safely upgrade both libraries to later versions.
-
-#### It even tells you the install command ;)
-
-    Use the following command to install working versions
-    npm install --save lodash@2.1.0
+If your tests pass, the dependencies will be upgraded to the new working versions in
+*package.json* and the *node_modules* folder.
 
 This might not appear like a big deal for a single module that is using
 popular 3rd party libraries with stable apis only. *next-update* is most useful
@@ -89,30 +89,29 @@ grunt-bump            0.0.13     0.0.12        100%               4             
 
 ### Install
 
-You can install this tool globally
+You can install this tool globally:
 
-    npm install -g next-update  // installs module globally
-    next-update --help          // shows command line options
+    npm install -g next-update  // install module globally
+    next-update --help          // show command line options
 
-Then run inside any package folder
+Then run inside any package folder:
 
     /git/my-awesome-module
     $ next-update
 
-Or you can use this module as a devDependency and a script command
+Or you can use this module as a devDependency and a script command:
 
     npm install --save-dev next-update
 
 ```json
 {
     "scripts": {
-        "next-update": "next-update -k true --tldr"
+        "next-update": "next-update --tldr"
     }
 }
 ```
 
-This command will keep the successfuly version upgrades in the package.json file,
-but will not be very verbose when run.
+This command will use the `--tldr` flag, which causes it to be less verbose when run.
 
 ### Anonymous usage collection
 
@@ -231,7 +230,8 @@ like this `changed foo` (*foo* is package name)
     * install new versions of the desired modules using standard `npm i dependency@version --save`
 * You can use custom test command, for example `next-update -t "grunt test"`
     * `npm test` is used by default.
-* You can keep each working version in package.json by using `--keep` flag.
+* You can disable the behavior to automatically upgrade to new working versions by passing
+the `--keep false` option.
 
 
 
