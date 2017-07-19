@@ -1,0 +1,15 @@
+{
+  "name": "test-scoped-names",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "local-dependency": "file:./local-dependency"
+  }
+}
