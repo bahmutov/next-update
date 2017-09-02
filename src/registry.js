@@ -189,7 +189,7 @@ function fetchVersions (nameVersion) {
     var timer = setTimeout(rejectOnTimeout, MAX_WAIT_TIMEOUT)
 
     function onNPMversions (err, response) {
-      var body = response.body || null;
+      var body = response.body || null
       log('got response for', url)
       clearTimeout(timer)
 

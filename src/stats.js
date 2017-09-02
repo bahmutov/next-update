@@ -40,7 +40,7 @@ function getSuccessStats (options) {
   }
   var defer = Q.defer()
   phin(opts, function (err, response) {
-    var stats = response.body || null;
+    var stats = response.body || null
     if (err || response.statusCode !== 200) {
       if (response) {
         if (response.statusCode !== 404) {
