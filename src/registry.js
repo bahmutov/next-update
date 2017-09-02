@@ -5,7 +5,7 @@ var check = require('check-more-types')
 var log = require('debug')('next-update')
 const R = require('ramda')
 
-var request = require('request')
+var phin = require('phin')
 var verify = check.verify
 var semver = require('semver')
 var q = require('q')
@@ -185,10 +185,11 @@ function fetchVersions (nameVersion) {
         // TODO how to detect if the registry is not responding?
 
     log('getting url', url)
-    request.get(url, onNPMversions)
+    phin(url, onNPMversions)
     var timer = setTimeout(rejectOnTimeout, MAX_WAIT_TIMEOUT)
 
-    function onNPMversions (err, response, body) {
+    function onNPMversions (err, response) {
+      var body = response.body || null;
       log('got response for', url)
       clearTimeout(timer)
 

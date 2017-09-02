@@ -22,12 +22,19 @@ function install () {
 describe('testing check-types', () => {
   beforeEach(function () {
     this.timeout(TWO_MINUTES)
-    return chdir.to(testFolder).then(prune).then(install)
+    return chdir
+      .to(testFolder)
+      .then(prune)
+      .then(install)
   })
 
   afterEach(function () {
     this.timeout(TWO_MINUTES)
-    return chdir.to(testFolder).then(prune).then(install).then(chdir.back)
+    return chdir
+      .to(testFolder)
+      .then(prune)
+      .then(install)
+      .then(chdir.back)
   })
 
   it('skips without module', function () {
@@ -54,7 +61,11 @@ describe('testing check-types', () => {
         r.version = 'valid'
         return r
       })
-    return snapShot(nextUpdate(opts).then(_.flatten).then(removeVersions))
+    return snapShot(
+      nextUpdate(opts)
+        .then(_.flatten)
+        .then(removeVersions)
+    )
   })
 
   it('checks some versions of check-types', function () {

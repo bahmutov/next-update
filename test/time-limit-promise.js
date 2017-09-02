@@ -32,4 +32,7 @@ function longAction () {
   return deferred.promise
 }
 
-longAction().timeout(400, 'timed out').then(onOk, onError).done()
+longAction()
+  .timeout(400, 'timed out')
+  .then(onOk, onError)
+  .done()

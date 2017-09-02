@@ -38,7 +38,10 @@ it('sorts by version', () => {
 describe('per-module configured command', () => {
   beforeEach(function () {
     this.timeout(TWO_MINUTES)
-    return chdir.to(testFolder).then(prune).then(install)
+    return chdir
+      .to(testFolder)
+      .then(prune)
+      .then(install)
   })
 
   afterEach(chdir.back)

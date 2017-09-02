@@ -42,11 +42,11 @@
     "lodash": "3.10.1",
     "npm-utils": "1.7.1",
     "optimist": "0.6.1",
+    "phin": "2.2.94",
     "pluralize": "5.0.0",
     "q": "2.0.3",
     "quote": "0.4.0",
     "ramda": "0.24.1",
-    "request": "2.74.0",
     "semver": "5.3.0",
     "update-notifier": "0.5.0"
   },

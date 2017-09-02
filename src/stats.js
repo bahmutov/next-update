@@ -1,5 +1,5 @@
 var verify = require('check-more-types').verify
-var request = require('request')
+var phin = require('phin')
 var Q = require('q')
 var colors = require('cli-color')
 var colorAvailable = process.stdout.isTTY
@@ -19,11 +19,11 @@ function sendUpdateResult (options) {
 
   verify.webUrl(nextUpdateStatsUrl, 'missing next update stats server url')
   var sendOptions = {
-    uri: nextUpdateStatsUrl + '/update',
+    url: nextUpdateStatsUrl + '/update',
     method: 'POST',
-    json: options
+    data: JSON.stringify(options)
   }
-  request(sendOptions, function ignoreResponse () {})
+  phin(sendOptions)
 }
 
 function getSuccessStats (options) {
@@ -33,13 +33,14 @@ function getSuccessStats (options) {
 
   verify.webUrl(nextUpdateStatsUrl, 'missing next update stats server url')
   var opts = {
-    uri: nextUpdateStatsUrl + '/package/' + options.name + '/' + options.from +
+    url: nextUpdateStatsUrl + '/package/' + options.name + '/' + options.from +
             '/' + options.to,
     method: 'GET',
-    json: options
+    data: JSON.stringify(options)
   }
   var defer = Q.defer()
-  request(opts, function (err, response, stats) {
+  phin(opts, function (err, response) {
+    var stats = response.body || null;
     if (err || response.statusCode !== 200) {
       if (response) {
         if (response.statusCode !== 404) {
