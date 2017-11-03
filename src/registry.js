@@ -146,7 +146,6 @@ function isNotFound (str) {
 // https://github.com/jprichardson/npm-latest
 // returns a promise
 function fetchVersions (options, nameVersion) {
-  console.log('#### options ####', JSON.stringify(options, null, 2))
     // console.log(nameVersion);
     // TODO use check.schema
   check.verify.object(nameVersion, 'expected name, version object')

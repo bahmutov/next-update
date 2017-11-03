@@ -71,7 +71,8 @@ if (program.available) {
     allow: allow,
     type: program.type,
     tldr: program.tldr,
-    without: program.without
+    without: program.without,
+    registry: program.registry
   }
 
   var checkCurrent = nextUpdate.checkCurrentInstall.bind(null, opts)
