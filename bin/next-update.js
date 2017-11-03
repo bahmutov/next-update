@@ -61,6 +61,8 @@ if (program.available) {
     latest
   )
 
+  console.log('### timeout', program['check-version-timeout'])
+
   var opts = {
     names: program.module,
     latest: latest,
@@ -72,7 +74,8 @@ if (program.available) {
     type: program.type,
     tldr: program.tldr,
     without: program.without,
-    registry: program.registry
+    registry: program.registry,
+    checkVersionTimeout: program['check-version-timeout'] || 10000
   }
 
   var checkCurrent = nextUpdate.checkCurrentInstall.bind(null, opts)

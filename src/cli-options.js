@@ -102,6 +102,11 @@ var program = optimist
   default: false,
   description: 'use a custom registry url'
 })
+.options('check-version-timeout', {
+  number: true,
+  default: 10000,
+  description: 'define a custom timeout value for checking next versions'
+})
 .usage(info)
 .argv
 
@@ -112,6 +117,10 @@ if (program.version) {
 
 if (program.registry) {
   console.log('### use custom registry:', program.registry)
+}
+
+if (program['check-version-timeout']) {
+  console.log('check-version-timeout', program['check-version-timeout'])
 }
 
 if (program.help || program.h || program['?']) {

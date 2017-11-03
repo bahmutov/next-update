@@ -161,7 +161,7 @@ function fetchVersions (options, nameVersion) {
   }
 
     // console.log('fetching versions for', name, 'current version', version);
-  var MAX_WAIT_TIMEOUT = 25000
+  var MAX_WAIT_TIMEOUT = options.checkVersionTimeout || 25000
   var deferred = q.defer()
 
   function rejectOnTimeout () {
@@ -311,14 +311,13 @@ function nextVersions (options, nameVersionPairs, checkLatestOnly) {
   check.verify.array(nameVersionPairs, 'expected array')
   nameVersionPairs = cleanVersions(nameVersionPairs)
 
-  var MAX_CHECK_TIMEOUT = 10000
-
   const verbose = verboseLog(options)
   verbose('checking NPM registry')
+  var MAX_CHECK_TIMEOUT = options.checkVersionTimeout || 10000
 
   var fetchPromises = nameVersionPairs.map(fetchVersions.bind(null, options))
   var fetchAllPromise = q.all(fetchPromises)
-        .timeout(MAX_CHECK_TIMEOUT, 'timed out waiting for NPM')
+        .timeout(MAX_CHECK_TIMEOUT, 'timed out waiting for NPM after ' + MAX_CHECK_TIMEOUT + 'ms')
 
   return fetchAllPromise.then(
     _.partial(filterFetchedVersions, checkLatestOnly),
