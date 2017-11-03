@@ -97,12 +97,21 @@ var program = optimist
   alias: 'L',
   description: 'print commit changes between working versions'
 })
+.options('registry', {
+  string: true,
+  default: false,
+  description: 'use a custom registry url'
+})
 .usage(info)
 .argv
 
 if (program.version) {
   console.log(info)
   process.exit(0)
+}
+
+if (program.registry) {
+  console.log('### use custom registry:', program.registry)
 }
 
 if (program.help || program.h || program['?']) {

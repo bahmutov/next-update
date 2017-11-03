@@ -145,7 +145,8 @@ function isNotFound (str) {
 // fetching versions inspired by
 // https://github.com/jprichardson/npm-latest
 // returns a promise
-function fetchVersions (nameVersion) {
+function fetchVersions (options, nameVersion) {
+  console.log('#### options ####', JSON.stringify(options, null, 2))
     // console.log(nameVersion);
     // TODO use check.schema
   check.verify.object(nameVersion, 'expected name, version object')
@@ -180,8 +181,9 @@ function fetchVersions (nameVersion) {
     la(check.webUrl(npmUrl), 'need npm registry url, got', npmUrl)
 
     npmUrl = npmUrl.replace(/^https:/, 'http:').trim()
-    var url = npmUrl + escapeName(name)
+    var url = (options.registry || npmUrl) + escapeName(name)
 
+    console.log('### GET', url)
         // TODO how to detect if the registry is not responding?
 
     log('getting url', url)
@@ -315,7 +317,7 @@ function nextVersions (options, nameVersionPairs, checkLatestOnly) {
   const verbose = verboseLog(options)
   verbose('checking NPM registry')
 
-  var fetchPromises = nameVersionPairs.map(fetchVersions)
+  var fetchPromises = nameVersionPairs.map(fetchVersions.bind(null, options))
   var fetchAllPromise = q.all(fetchPromises)
         .timeout(MAX_CHECK_TIMEOUT, 'timed out waiting for NPM')
 
