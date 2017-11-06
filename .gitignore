@@ -3,6 +3,9 @@
 /cover
 /test/cover
 /src/test/npm-debug.log
+.idea/
+*.eml
+*.iml
 .DS_Store
 node_modules/
 npm-debug.log

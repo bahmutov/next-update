@@ -97,6 +97,16 @@ var program = optimist
   alias: 'L',
   description: 'print commit changes between working versions'
 })
+.options('registry', {
+  string: true,
+  default: false,
+  description: 'use a custom registry url'
+})
+.options('check-version-timeout', {
+  number: true,
+  default: 10000,
+  description: 'define a custom timeout value for checking next versions'
+})
 .usage(info)
 .argv
 

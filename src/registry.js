@@ -145,7 +145,7 @@ function isNotFound (str) {
 // fetching versions inspired by
 // https://github.com/jprichardson/npm-latest
 // returns a promise
-function fetchVersions (nameVersion) {
+function fetchVersions (options, nameVersion) {
     // console.log(nameVersion);
     // TODO use check.schema
   check.verify.object(nameVersion, 'expected name, version object')
@@ -161,7 +161,7 @@ function fetchVersions (nameVersion) {
   }
 
     // console.log('fetching versions for', name, 'current version', version);
-  var MAX_WAIT_TIMEOUT = 25000
+  var MAX_WAIT_TIMEOUT = options.checkVersionTimeout || 25000
   var deferred = q.defer()
 
   function rejectOnTimeout () {
@@ -180,7 +180,7 @@ function fetchVersions (nameVersion) {
     la(check.webUrl(npmUrl), 'need npm registry url, got', npmUrl)
 
     npmUrl = npmUrl.replace(/^https:/, 'http:').trim()
-    var url = npmUrl + escapeName(name)
+    var url = (options.registry || npmUrl) + escapeName(name)
 
         // TODO how to detect if the registry is not responding?
 
@@ -310,14 +310,13 @@ function nextVersions (options, nameVersionPairs, checkLatestOnly) {
   check.verify.array(nameVersionPairs, 'expected array')
   nameVersionPairs = cleanVersions(nameVersionPairs)
 
-  var MAX_CHECK_TIMEOUT = 10000
-
   const verbose = verboseLog(options)
   verbose('checking NPM registry')
+  var MAX_CHECK_TIMEOUT = options.checkVersionTimeout || 10000
 
-  var fetchPromises = nameVersionPairs.map(fetchVersions)
+  var fetchPromises = nameVersionPairs.map(fetchVersions.bind(null, options))
   var fetchAllPromise = q.all(fetchPromises)
-        .timeout(MAX_CHECK_TIMEOUT, 'timed out waiting for NPM')
+        .timeout(MAX_CHECK_TIMEOUT, 'timed out waiting for NPM after ' + MAX_CHECK_TIMEOUT + 'ms')
 
   return fetchAllPromise.then(
     _.partial(filterFetchedVersions, checkLatestOnly),

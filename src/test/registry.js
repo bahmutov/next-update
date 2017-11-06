@@ -12,11 +12,11 @@ function onError (error) {
 
 gt.test('basic of fetch', function () {
   gt.func(fetchVersions)
-  gt.arity(fetchVersions, 1)
+  gt.arity(fetchVersions, 2)
 })
 
 gt.async('fetch non existent module', 2, function () {
-  var promise = fetchVersions({
+  var promise = fetchVersions({}, {
     name: 'this-module-should-not-exist-at-all',
     version: '0.2.0'
   })
@@ -31,8 +31,8 @@ gt.async('fetch non existent module', 2, function () {
 
 gt.async('fetch gt later versions', function () {
   gt.func(fetchVersions)
-  gt.arity(fetchVersions, 1)
-  var promise = fetchVersions({ name: 'gt', version: '0.5.0' })
+  gt.arity(fetchVersions, 2)
+  var promise = fetchVersions({}, { name: 'gt', version: '0.5.0' })
   gt.func(promise.then, 'return object has then method')
   promise.then(function (results) {
     gt.object(results, 'returns an object')
@@ -44,8 +44,8 @@ gt.async('fetch gt later versions', function () {
 
 gt.async('fetch module later versions', function () {
   gt.func(fetchVersions)
-  gt.arity(fetchVersions, 1)
-  var promise = fetchVersions({ name: 'lodash', version: '0.7.0' })
+  gt.arity(fetchVersions, 2)
+  var promise = fetchVersions({}, { name: 'lodash', version: '0.7.0' })
   gt.func(promise.then, 'return object has then method')
   promise.then(function (results) {
     gt.object(results, 'returns an object')

@@ -71,7 +71,9 @@ if (program.available) {
     allow: allow,
     type: program.type,
     tldr: program.tldr,
-    without: program.without
+    without: program.without,
+    registry: program.registry,
+    checkVersionTimeout: program['check-version-timeout'] || 10000
   }
 
   var checkCurrent = nextUpdate.checkCurrentInstall.bind(null, opts)
