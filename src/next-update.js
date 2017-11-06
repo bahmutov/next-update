@@ -139,9 +139,9 @@ function checkAllUpdates (options) {
 
   return isOnline()
         .then(function (online) {
-          // if (!online) {
-          //   throw new Error('Need to be online to check new modules')
-          // }
+          if (!online) {
+            throw new Error('Need to be online to check new modules')
+          }
         }).then(function () {
           if (isSingleSpecificVersion(moduleName)) {
             var nv = nameVersionParser(moduleName[0])

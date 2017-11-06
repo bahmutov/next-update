@@ -61,8 +61,6 @@ if (program.available) {
     latest
   )
 
-  console.log('### timeout', program['check-version-timeout'])
-
   var opts = {
     names: program.module,
     latest: latest,

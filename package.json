@@ -127,7 +127,6 @@
     "limited": "gt --filter 'allow major' --output src/test/*.coffee",
     "lint": "standard --verbose --fix *.js src/*.js src/**/*.js bin/*.js test/*.js",
     "mocha": "mocha src/*-spec.js test/*-spec.js",
-    "next-update": "node bin/next-update.js --registry mutti",
     "posttest": "npm run mocha",
     "prebuild": "npm run lint",
     "prelint": "npm run pretty",

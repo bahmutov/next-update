@@ -182,7 +182,6 @@ function fetchVersions (options, nameVersion) {
     npmUrl = npmUrl.replace(/^https:/, 'http:').trim()
     var url = (options.registry || npmUrl) + escapeName(name)
 
-    console.log('### GET', url)
         // TODO how to detect if the registry is not responding?
 
     log('getting url', url)

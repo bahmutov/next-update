@@ -115,14 +115,6 @@ if (program.version) {
   process.exit(0)
 }
 
-if (program.registry) {
-  console.log('### use custom registry:', program.registry)
-}
-
-if (program['check-version-timeout']) {
-  console.log('check-version-timeout', program['check-version-timeout'])
-}
-
 if (program.help || program.h || program['?']) {
   optimist.showHelp()
   process.exit(0)
