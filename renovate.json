@@ -4,5 +4,5 @@
   "major": {
     "automerge": false
   },
-  "excludePackageNames": ["^grunt", "semantic-release"]
+  "excludePackageNames": ["^grunt", "semantic-release", "github-post-release"]
 }
