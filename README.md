@@ -9,6 +9,10 @@
 [![Coverage Status][next-update-coverage-image] ][next-update-coverage-url]
 [![semantic-release][semantic-image] ][semantic-url]
 [![Known Vulnerabilities](https://snyk.io/test/github/bahmutov/next-update/230d136b5c68dadb1fd5459619df8f7678d28429/badge.svg)](https://snyk.io/test/github/bahmutov/next-update/230d136b5c68dadb1fd5459619df8f7678d28429)
+[![renovate-app badge][renovate-badge]][renovate-app]
+
+[renovate-badge]: https://img.shields.io/badge/renovate-app-blue.svg
+[renovate-app]: https://renovateapp.com/
 
 [next-update-icon]: https://nodei.co/npm/next-update.svg?downloads=true
 [next-update-url]: https://npmjs.org/package/next-update
@@ -297,8 +301,8 @@ npm publish
 
 ### 3<sup>rd</sup> party libraries
 
-* [lazy-ass](https://github.com/bahmutov/lazy-ass) and 
-[check-more-types](https://github.com/kensho/check-more-types) are used to 
+* [lazy-ass](https://github.com/bahmutov/lazy-ass) and
+[check-more-types](https://github.com/kensho/check-more-types) are used to
 [defend against runtime errors](http://glebbahmutov.com/blog/lazy-and-async-assertions/).
 * [lo-dash](https://github.com/bestiejs/lodash) is used to deal with collections / iterators.
 * [check-types](https://github.com/philbooth/check-types.js) is used to verify arguments through out the code.
