@@ -36,7 +36,7 @@
     "debug": "2.6.8",
     "deps-ok": "1.2.0",
     "easy-table": "0.3.0",
-    "execa": "0.7.0",
+    "execa": "0.10.0",
     "is-online": "5.1.2",
     "lazy-ass": "1.5.0",
     "lodash": "3.10.1",
