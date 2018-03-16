@@ -68,7 +68,7 @@
     "matchdep": "1.0.1",
     "mocha": "3.4.2",
     "mockery": "1.7.0",
-    "pre-git": "3.15.0",
+    "pre-git": "3.17.1",
     "prettier-standard": "5.1.0",
     "publish": "0.6.0",
     "semantic-release": "6.3.6",
