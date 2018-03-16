@@ -27,7 +27,7 @@
   "contributors": [],
   "dependencies": {
     "changed-log": "0.13.0",
-    "chdir-promise": "0.4.0",
+    "chdir-promise": "0.6.2",
     "check-more-types": "2.24.0",
     "cli-color": "1.2.0",
     "common-tags": "1.4.0",
