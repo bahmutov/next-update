@@ -72,7 +72,7 @@
     "prettier-standard": "5.1.0",
     "publish": "0.6.0",
     "semantic-release": "6.3.6",
-    "simple-commit-message": "3.0.2",
+    "simple-commit-message": "3.3.2",
     "snap-shot": "2.17.0",
     "standard": "10.0.2",
     "stop-build": "1.1.0",
