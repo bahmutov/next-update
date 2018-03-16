@@ -32,7 +32,7 @@
     "cli-color": "1.2.0",
     "common-tags": "1.4.0",
     "console.json": "0.2.1",
-    "console.table": "0.8.0",
+    "console.table": "0.10.0",
     "debug": "2.6.8",
     "deps-ok": "1.2.0",
     "easy-table": "0.3.0",
