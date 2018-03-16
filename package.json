@@ -46,7 +46,7 @@
     "q": "2.0.3",
     "quote": "0.4.0",
     "ramda": "0.24.1",
-    "request": "2.74.0",
+    "request": "2.85.0",
     "semver": "5.3.0",
     "update-notifier": "0.5.0"
   },
