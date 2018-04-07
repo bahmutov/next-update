@@ -34,7 +34,7 @@
     "console.json": "0.2.1",
     "console.table": "0.8.0",
     "debug": "2.6.8",
-    "deps-ok": "1.2.0",
+    "deps-ok": "1.4.0",
     "easy-table": "0.3.0",
     "execa": "0.7.0",
     "is-online": "5.1.2",
